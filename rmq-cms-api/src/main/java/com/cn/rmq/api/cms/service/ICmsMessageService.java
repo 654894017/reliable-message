@@ -8,7 +8,6 @@ import com.cn.rmq.api.service.IBaseService;
 /**
  * 消息服务接口
  *
- * @author Chen Nan
  */
 public interface ICmsMessageService extends IBaseService<Message, String> {
 

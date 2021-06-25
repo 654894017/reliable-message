@@ -1,20 +1,16 @@
 package com.cn.rmq.api.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import java.io.Serializable;
 
-/**
- * <p>Title:</p>
- * <p>Description:</p>
- *
- */
-@Getter
-@Setter
-@ToString
+import lombok.Data;
+
+
+@Data
 public class RmqMessage implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -723806634354652620L;
     private String messageId;
     private String messageBody;
 }

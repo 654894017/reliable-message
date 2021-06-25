@@ -1,12 +1,8 @@
 package com.cn.rmq.cms.web;
 
-import cn.hutool.crypto.SecureUtil;
-import com.cn.rmq.api.cms.model.po.SysUser;
-import com.cn.rmq.api.cms.service.ISysUserService;
-import com.cn.rmq.api.model.Constants;
-import com.cn.rmq.api.model.dto.RspBase;
-import com.cn.rmq.cms.utils.CaptchaValidateUtil;
-import org.apache.dubbo.config.annotation.Reference;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -16,7 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
+import com.cn.rmq.api.cms.model.po.SysUser;
+import com.cn.rmq.api.cms.service.ISysUserService;
+import com.cn.rmq.api.model.Constants;
+import com.cn.rmq.api.model.dto.RspBase;
+import com.cn.rmq.cms.utils.CaptchaValidateUtil;
+
+import cn.hutool.crypto.SecureUtil;
 
 /**
  * <p>用户登录控制器</p>
@@ -27,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LoginController {
 
-    @Reference
+    @DubboReference
     private ISysUserService sysUserService;
 
     /**

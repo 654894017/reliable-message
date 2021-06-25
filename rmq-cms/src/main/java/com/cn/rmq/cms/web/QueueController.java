@@ -1,5 +1,18 @@
 package com.cn.rmq.cms.web;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.cn.rmq.api.cms.model.dto.DataGrid;
 import com.cn.rmq.api.cms.model.dto.queue.CmsQueueListDto;
 import com.cn.rmq.api.cms.model.po.SysUser;
@@ -10,12 +23,8 @@ import com.cn.rmq.api.model.dto.queue.QueueAddDto;
 import com.cn.rmq.api.model.dto.queue.QueueUpdateDto;
 import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.api.service.IQueueService;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * <p>队列管理制器</p>
@@ -26,11 +35,11 @@ import javax.validation.Valid;
 @Slf4j
 public class QueueController {
 
-    @Reference
+    @DubboReference
     private ICmsQueueService cmsQueueService;
-    @Reference
+    @DubboReference
     private IQueueService queueService;
-    @Reference
+    @DubboReference
     private IMessageService messageService;
 
     @GetMapping("/page")

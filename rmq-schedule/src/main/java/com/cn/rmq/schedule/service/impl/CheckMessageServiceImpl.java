@@ -1,10 +1,14 @@
 package com.cn.rmq.schedule.service.impl;
 
-import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.http.HttpException;
-import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
+
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cn.rmq.api.constant.MessageCheckStatusConstant;
 import com.cn.rmq.api.enums.MessageStatusEnum;
@@ -19,33 +23,24 @@ import com.cn.rmq.api.service.IRmqService;
 import com.cn.rmq.api.utils.DateFormatUtils;
 import com.cn.rmq.schedule.config.CheckTaskConfig;
 import com.github.pagehelper.Page;
+
+import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.http.HttpException;
+import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.ThreadPoolExecutor;
 
-/**
- * <p>Title:</p>
- * <p>Description:</p>
- *
- * @author Chen Nan
- * @date 2019/3/18.
- */
 @Slf4j
-@Service
+@DubboService
 public class CheckMessageServiceImpl implements ICheckMessageService {
 
-    @Reference
+    @DubboReference
     private IQueueService queueService;
-    @Reference
+    @DubboReference
     private IRmqService rmqService;
-    @Reference
+    @DubboReference
     private IMessageService messageService;
 
     @Autowired

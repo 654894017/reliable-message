@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class Queue implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1269691149397149422L;
+
     private String id;
 
     private String businessName;

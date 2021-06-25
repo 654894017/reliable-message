@@ -5,20 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * <p>Title:</p>
- * <p>Description:
- * 校验异常
- * </p>
- *
- * @author Chen Nan
- * @date 2019/3/2.
- */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class CheckException extends RuntimeException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6005969376941549930L;
     private int code = 1;
     private String msg;
 

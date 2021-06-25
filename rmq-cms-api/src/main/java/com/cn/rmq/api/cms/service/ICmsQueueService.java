@@ -8,7 +8,6 @@ import com.cn.rmq.api.service.IBaseService;
 /**
  * 消费队列服务接口
  *
- * @author Chen Nan
  */
 public interface ICmsQueueService extends IBaseService<Queue, String> {
 

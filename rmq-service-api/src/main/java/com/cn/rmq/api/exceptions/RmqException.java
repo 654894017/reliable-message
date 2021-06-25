@@ -5,20 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * <p>Title:</p>
- * <p>Description:
- * 消息异常
- * </p>
- *
- * @author Chen Nan
- * @date 2019/3/2.
- */
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class RmqException extends RuntimeException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 911418878965576268L;
     private int code = 1;
     private String msg;
 
@@ -33,7 +29,6 @@ public class RmqException extends RuntimeException {
      */
     public RmqException(String message, Throwable cause) {
         super(message, cause);
-        // TODO Auto-generated constructor stub
     }
     
     

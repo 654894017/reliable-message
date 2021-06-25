@@ -1,6 +1,12 @@
 package com.cn.rmq.service.impl;
 
-import cn.hutool.core.util.IdUtil;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.cn.rmq.api.cms.model.dto.DataGrid;
 import com.cn.rmq.api.cms.model.dto.system.SysRoleDTO;
 import com.cn.rmq.api.cms.model.po.RoleResource;
@@ -12,20 +18,14 @@ import com.cn.rmq.dal.mapper.SysRoleMapper;
 import com.cn.rmq.dal.mapper.UserRoleMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+import cn.hutool.core.util.IdUtil;
 
 /**
  * <p>角色服务实现类</p>
  *
- * @author Chen Nan
- * @date 2019/3/11.
  */
-@Service(timeout = Constants.SERVICE_TIMEOUT)
+@DubboService(timeout = Constants.SERVICE_TIMEOUT)
 public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole, String>
         implements ISysRoleService {
 
@@ -45,7 +45,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole, 
         List<SysRoleDTO> list = sysRoleMapper.selectByConditionPage(model);
         DataGrid dataGrid = new DataGrid();
         dataGrid.setRows(list);
-        dataGrid.setTotal((int) ((Page) list).getTotal());
+        dataGrid.setTotal((int) ((Page<SysRoleDTO>) list).getTotal());
         return dataGrid;
     }
 

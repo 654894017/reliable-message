@@ -1,5 +1,11 @@
 package com.cn.rmq.service.impl;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.annotation.DubboService;
+
 import com.cn.rmq.api.cms.model.dto.DataGrid;
 import com.cn.rmq.api.cms.model.dto.message.CmsMessageListDto;
 import com.cn.rmq.api.cms.model.vo.message.CmsMessageVo;
@@ -12,12 +18,8 @@ import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.dal.mapper.MessageMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.config.annotation.Service;
 
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 消息服务实现
@@ -25,12 +27,12 @@ import java.util.List;
  * @author Chen Nan
  * @date 2019/3/11.
  */
-@Service(timeout = Constants.SERVICE_TIMEOUT)
+@DubboService(timeout = Constants.SERVICE_TIMEOUT)
 @Slf4j
 public class CmsMessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, String>
         implements ICmsMessageService {
 
-    @Reference
+    @DubboReference
     private IMessageService messageService;
 
     @Override

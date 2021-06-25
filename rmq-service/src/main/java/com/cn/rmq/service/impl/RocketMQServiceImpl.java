@@ -4,7 +4,7 @@ import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author xianping_lu
  *
  */
-@Service(timeout = Constants.SERVICE_TIMEOUT)
+@DubboService(timeout = Constants.SERVICE_TIMEOUT)
 @Slf4j
 public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message, String> implements IRmqService {
 

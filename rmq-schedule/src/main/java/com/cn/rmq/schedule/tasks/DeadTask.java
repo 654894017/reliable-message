@@ -3,6 +3,8 @@ package com.cn.rmq.schedule.tasks;
 import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.schedule.config.RecoverTaskConfig;
 import lombok.extern.slf4j.Slf4j;
+
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class DeadTask {
 
-    @Reference
+    @DubboReference
     private IMessageService messageService;
 
     @Autowired

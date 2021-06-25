@@ -1,7 +1,23 @@
 package com.cn.rmq.cms.web;
 
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.crypto.SecureUtil;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.cn.rmq.api.cms.model.dto.DataGrid;
 import com.cn.rmq.api.cms.model.dto.system.SysResourceDTO;
 import com.cn.rmq.api.cms.model.dto.system.SysUserDTO;
@@ -10,18 +26,10 @@ import com.cn.rmq.api.cms.model.po.UserRole;
 import com.cn.rmq.api.cms.service.ISysUserService;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.dto.RspBase;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.crypto.SecureUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * <p>系统用户控制器</p>
@@ -33,7 +41,7 @@ import java.util.List;
 public class SysUserController {
     private static final String[] IGNORES = {"sysUserId", "createTime"};
 
-    @Reference
+    @DubboReference
     private ISysUserService sysUserService;
 
     /**

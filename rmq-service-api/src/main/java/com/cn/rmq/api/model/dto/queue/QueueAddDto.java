@@ -6,15 +6,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-/**
- * <p>Title:</p>
- * <p>Description:</p>
- *
- * @author Chen Nan
- * @date 2019/3/16.
- */
+
 @Data
 public class QueueAddDto implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1284433227488306392L;
+
     @NotBlank
     private String businessName;
 

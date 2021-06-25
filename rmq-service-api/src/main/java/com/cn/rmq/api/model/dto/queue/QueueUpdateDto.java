@@ -1,21 +1,20 @@
 package com.cn.rmq.api.model.dto.queue;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
-/**
- * <p>Title:</p>
- * <p>Description:</p>
- *
- * @author Chen Nan
- * @date 2019/3/16.
- */
+import lombok.Data;
+
+
 @Data
 public class QueueUpdateDto implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7357756131942314109L;
+
     @NotBlank
     private String id;
 

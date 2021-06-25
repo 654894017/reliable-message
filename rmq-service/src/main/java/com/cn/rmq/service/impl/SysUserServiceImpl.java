@@ -1,6 +1,13 @@
 package com.cn.rmq.service.impl;
 
-import cn.hutool.core.util.IdUtil;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.cn.rmq.api.cms.model.dto.DataGrid;
 import com.cn.rmq.api.cms.model.dto.system.SysResourceDTO;
 import com.cn.rmq.api.cms.model.dto.system.SysUserDTO;
@@ -13,13 +20,8 @@ import com.cn.rmq.dal.mapper.SysUserMapper;
 import com.cn.rmq.dal.mapper.UserRoleMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+import cn.hutool.core.util.IdUtil;
 
 /**
  * 系统用户服务实现类
@@ -27,9 +29,8 @@ import java.util.List;
  * @author Chen Nan
  * @date 2019/3/11.
  */
-@Service(timeout = Constants.SERVICE_TIMEOUT)
-public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser, String>
-        implements ISysUserService {
+@DubboService(timeout = Constants.SERVICE_TIMEOUT)
+public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser, String> implements ISysUserService {
 
     @Autowired
     private SysUserMapper sysUserMapper;
@@ -120,7 +121,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser, 
         List<SysUserDTO> list = mapper.selectByConditionPage(model);
         DataGrid dataGrid = new DataGrid();
         dataGrid.setRows(list);
-        dataGrid.setTotal((int) ((Page) list).getTotal());
+        dataGrid.setTotal((int) ((Page<SysUserDTO>) list).getTotal());
         return dataGrid;
     }
 

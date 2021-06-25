@@ -1,5 +1,10 @@
 package com.cn.rmq.service.impl;
 
+import java.util.List;
+
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.cn.rmq.api.cms.model.dto.DataGrid;
 import com.cn.rmq.api.cms.model.dto.system.SysResourceDTO;
 import com.cn.rmq.api.cms.model.po.SysResource;
@@ -9,10 +14,6 @@ import com.cn.rmq.dal.mapper.RoleResourceMapper;
 import com.cn.rmq.dal.mapper.SysResourceMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import org.apache.dubbo.config.annotation.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 /**
  * <p>资源服务实现类</p>
@@ -20,7 +21,7 @@ import java.util.List;
  * @author Chen Nan
  * @date 2019/3/11.
  */
-@Service(timeout = Constants.SERVICE_TIMEOUT)
+@DubboService(timeout = Constants.SERVICE_TIMEOUT)
 public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, SysResource, String>
         implements ISysResourceService {
 
@@ -39,7 +40,7 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, S
         List<SysResourceDTO> list = mapper.selectByConditionPage(model);
         DataGrid dataGrid = new DataGrid();
         dataGrid.setRows(list);
-        dataGrid.setTotal((int) ((Page) list).getTotal());
+        dataGrid.setTotal((int) ((Page<SysResourceDTO>) list).getTotal());
         return dataGrid;
     }
 

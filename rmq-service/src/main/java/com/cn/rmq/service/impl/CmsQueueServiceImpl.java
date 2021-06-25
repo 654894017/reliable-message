@@ -1,5 +1,9 @@
 package com.cn.rmq.service.impl;
 
+import java.util.List;
+
+import org.apache.dubbo.config.annotation.DubboService;
+
 import com.cn.rmq.api.cms.model.dto.DataGrid;
 import com.cn.rmq.api.cms.model.dto.queue.CmsQueueListDto;
 import com.cn.rmq.api.cms.model.vo.queue.CmsQueueVo;
@@ -9,10 +13,6 @@ import com.cn.rmq.api.model.po.Queue;
 import com.cn.rmq.dal.mapper.QueueMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Service;
-
-import java.util.List;
 
 /**
  * 队列服务实现
@@ -20,8 +20,7 @@ import java.util.List;
  * @author Chen Nan
  * @date 2019/3/11.
  */
-@Service(timeout = Constants.SERVICE_TIMEOUT)
-@Slf4j
+@DubboService(timeout = Constants.SERVICE_TIMEOUT)
 public class CmsQueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String>
         implements ICmsQueueService {
 

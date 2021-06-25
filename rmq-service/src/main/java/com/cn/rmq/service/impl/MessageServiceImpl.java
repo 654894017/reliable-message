@@ -3,7 +3,7 @@ package com.cn.rmq.service.impl;
 import java.nio.charset.Charset;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Chen Nan
  * @date 2019/3/11.
  */
-@Service
+@DubboService
 @Slf4j
 public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, String> implements IMessageService {
 

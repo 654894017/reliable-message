@@ -1,5 +1,12 @@
 package com.cn.rmq.api.constant;
-
+/**
+ * 
+ * 消息check返回状态码
+ * 
+ * 
+ * @author xianping_lu
+ *
+ */
 public interface MessageCheckStatusConstant {
     /**
      * 业务处理失败，需要RMQ重新发起重试

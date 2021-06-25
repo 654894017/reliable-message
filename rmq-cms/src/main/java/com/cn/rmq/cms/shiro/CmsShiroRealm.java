@@ -1,41 +1,49 @@
 package com.cn.rmq.cms.shiro;
 
-import com.cn.rmq.api.cms.model.po.SysResource;
-import com.cn.rmq.api.cms.model.po.SysRole;
-import com.cn.rmq.api.cms.model.po.SysUser;
-import com.cn.rmq.api.cms.service.ISysResourceService;
-import com.cn.rmq.api.cms.service.ISysRoleService;
-import com.cn.rmq.api.cms.service.ISysUserService;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.shiro.authc.*;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import com.cn.rmq.api.cms.model.po.SysResource;
+import com.cn.rmq.api.cms.model.po.SysRole;
+import com.cn.rmq.api.cms.model.po.SysUser;
+import com.cn.rmq.api.cms.service.ISysResourceService;
+import com.cn.rmq.api.cms.service.ISysRoleService;
+import com.cn.rmq.api.cms.service.ISysUserService;
 
 /**
- * <p>ShiroRealm 实现类</p>
+ * <p>
+ * ShiroRealm 实现类
+ * </p>
  *
  */
 @Component
-
 public class CmsShiroRealm extends AuthorizingRealm {
 
-    @Reference
+    @DubboReference
     private ISysUserService sysUserService;
-    @Reference
+    @DubboReference
     private ISysRoleService sysRoleService;
-    @Reference
+    @DubboReference
     private ISysResourceService sysResourceService;
 
     /**
-     * <p>获取用户权限信息</p>
+     * <p>
+     * 获取用户权限信息
+     * </p>
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
@@ -47,7 +55,7 @@ public class CmsShiroRealm extends AuthorizingRealm {
             return null;
         }
 
-        //权限信息对象info,用来存放查出的用户的所有的角色（role）及资源（resource）
+        // 权限信息对象info,用来存放查出的用户的所有的角色（role）及资源（resource）
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         List<SysRole> roles = sysRoleService.selectByUserId(users.get(0).getSysUserId());
         if (null == roles || roles.size() == 0) {
@@ -71,7 +79,9 @@ public class CmsShiroRealm extends AuthorizingRealm {
     }
 
     /**
-     * <p>获取用户登录认证信息</p>
+     * <p>
+     * 获取用户登录认证信息
+     * </p>
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {

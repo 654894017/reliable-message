@@ -1,31 +1,20 @@
 package com.cn.rmq.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.dal.mapper.BaseMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-import java.util.Map;
+import cn.hutool.core.bean.BeanUtil;
 
-/**
- * <p>Title: BaseServiceImpl</p>
- * <p>Description: 基本服务实现类</p>
- * <p>
- * M mapper
- * T 对象类型
- * PK 主键类型
- *
- * @author Chen Nan
- */
-@Slf4j
+
 public abstract class BaseServiceImpl<M extends BaseMapper, T, PK> {
-    /**
-     * 持久层对象
-     */
+
     @Autowired
     protected M mapper;
 

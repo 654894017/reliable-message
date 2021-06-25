@@ -4,13 +4,12 @@ import com.cn.rmq.api.model.Constants;
 
 import java.io.Serializable;
 
-/**
- * <p>Title: RspBase</p>
- * <p>Description: Http操作结果对象</p>
- * @author Chen Nan
- * @date 2019/3/11.
- */
+
 public class RspBase implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6074702512219977309L;
     private int code;
     private String msg = Constants.MSG_SUCCESS;
     private Object data;

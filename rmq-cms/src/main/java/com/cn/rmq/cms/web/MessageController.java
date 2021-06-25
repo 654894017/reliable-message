@@ -1,5 +1,15 @@
 package com.cn.rmq.cms.web;
 
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.BeanUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.cn.rmq.api.cms.model.dto.DataGrid;
 import com.cn.rmq.api.cms.model.dto.message.CmsMessageListDto;
 import com.cn.rmq.api.cms.model.vo.message.CmsMessageVo;
@@ -8,10 +18,8 @@ import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.dto.RspBase;
 import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.service.IMessageService;
+
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.BeanUtils;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>消息管理制器</p>
@@ -22,9 +30,9 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class MessageController {
 
-    @Reference
+    @DubboReference
     private ICmsMessageService cmsMessageService;
-    @Reference
+    @DubboReference
     private IMessageService messageService;
 
     @GetMapping("/page")

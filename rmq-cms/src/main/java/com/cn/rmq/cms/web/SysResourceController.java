@@ -1,6 +1,22 @@
 package com.cn.rmq.cms.web;
 
-import cn.hutool.core.util.IdUtil;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.cn.rmq.api.cms.enums.SysResourceTypeEnum;
 import com.cn.rmq.api.cms.model.dto.DataGrid;
 import com.cn.rmq.api.cms.model.dto.system.SysResourceDTO;
@@ -9,18 +25,9 @@ import com.cn.rmq.api.cms.model.po.SysUser;
 import com.cn.rmq.api.cms.service.ISysResourceService;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.dto.RspBase;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
+import cn.hutool.core.util.IdUtil;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * <p>资源控制器</p>
@@ -33,7 +40,7 @@ public class SysResourceController {
 
     private static final String[] IGNORES = {"resourceId", "createTime"};
 
-    @Reference
+    @DubboReference
     private ISysResourceService sysResourceService;
 
     /**

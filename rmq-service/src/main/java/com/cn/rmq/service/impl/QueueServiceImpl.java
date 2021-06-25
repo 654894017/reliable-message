@@ -2,8 +2,8 @@ package com.cn.rmq.service.impl;
 
 import java.time.LocalDateTime;
 
-import org.apache.dubbo.config.annotation.Reference;
-import org.apache.dubbo.config.annotation.Service;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
 
 import com.cn.rmq.api.cms.service.ICmsMessageService;
@@ -16,7 +16,6 @@ import com.cn.rmq.api.service.IQueueService;
 import com.cn.rmq.dal.mapper.QueueMapper;
 
 import cn.hutool.core.util.IdUtil;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 队列服务实现
@@ -24,12 +23,11 @@ import lombok.extern.slf4j.Slf4j;
  * @author Chen Nan
  * @date 2019/3/11.
  */
-@Service(timeout = Constants.SERVICE_TIMEOUT)
-@Slf4j
+@DubboService(timeout = Constants.SERVICE_TIMEOUT)
 public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String>
         implements IQueueService {
 
-    @Reference
+    @DubboReference
     private ICmsMessageService cmsMessageService;
 
     @Override

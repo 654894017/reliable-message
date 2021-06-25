@@ -1,10 +1,12 @@
 package com.cn.rmq.schedule.tasks;
 
-import com.cn.rmq.api.schedule.service.IRecoverMessageService;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import com.cn.rmq.api.schedule.service.IRecoverMessageService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * <p>Description:
@@ -18,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class RecoverTask {
 
-    @Reference
+    @DubboReference
     private IRecoverMessageService recoverMessageService;
 
     @Scheduled(cron = "0 0/1 * * * ? ")
