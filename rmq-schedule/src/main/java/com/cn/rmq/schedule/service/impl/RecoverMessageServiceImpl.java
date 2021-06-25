@@ -29,17 +29,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @DubboService
 public class RecoverMessageServiceImpl implements IRecoverMessageService {
-
     @DubboReference
     private IMessageService messageService;
     @DubboReference
     private IRmqService rmqService;
-
     @Autowired
     private ThreadPoolExecutor recoverExecutor;
     @Autowired
     private RecoverTaskConfig config;
-
     @Override
     public void recoverSendingMessage() {
         int maxResendTimes = config.getInterval().size() - 1;
@@ -48,7 +45,6 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
         }
         awaitComplete();
     }
-
     /**
      * 按重发次数从高到低，分批次重发消息
      *
@@ -109,10 +105,8 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
      */
     private ScheduleMessageDto createCondition(int resendTimes) {
         ScheduleMessageDto condition = new ScheduleMessageDto();
-
         // 计算时间
         LocalDateTime endTime = LocalDateTime.now().minusMinutes(getRecoverInterval(resendTimes));
-
         // 多长时间未确认
         condition.setCreateEndTime(DateFormatUtils.formatDateTime(endTime));
         // 消息状态为待确认

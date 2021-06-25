@@ -25,12 +25,10 @@ import com.cn.rmq.schedule.config.CheckTaskConfig;
 import com.github.pagehelper.Page;
 
 import cn.hutool.core.thread.ThreadUtil;
-import cn.hutool.http.HttpException;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
-
 
 @Slf4j
 @DubboService
@@ -42,7 +40,6 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
     private IRmqService rmqService;
     @DubboReference
     private IMessageService messageService;
-
     @Autowired
     private ThreadPoolExecutor checkExecutor;
     @Autowired
@@ -55,7 +52,6 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         for (Queue queue : queueList) {
             checkQueueWaitingMessage(queue);
         }
-        awaitComplete();
     }
 
     /**
@@ -73,7 +69,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         boolean countFlag = true;
         int totalPage = 0;
 
-        for (int pageNum = 1; ; pageNum++) {
+        for (int pageNum = 1;; pageNum++) {
             // 分页查询消息
             Page<Message> page = getPage(condition, pageNum, pageSize, countFlag);
             List<Message> messageList = page.getResult();
@@ -85,6 +81,13 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
                 } catch (RejectedExecutionException e) {
                     log.error("【CheckTask】Thread pool exhaustion:" + e.getMessage());
                 }
+            }
+
+            while (true) {
+                if (checkExecutor.getActiveCount() == 0) {
+                    break;
+                }
+                ThreadUtil.sleep(10);
             }
 
             if (countFlag) {
@@ -129,8 +132,6 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
                 String msg = jsonObject.getStr(Constants.KEY_MSG);
                 log.error("【CheckTask】check fail, messageId={}, code={}, msg={}", message.getId(), code, msg);
             }
-        } catch (HttpException e) {
-            log.error("【CheckTask】HttpException, messageId=" + message.getId() + ", error:", e);
         } catch (Exception e) {
             log.error("【CheckTask】Exception, messageId=" + message.getId() + ", error:", e);
         }
@@ -142,11 +143,10 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
      * @param queue 队列信息
      */
     private ScheduleMessageDto createCondition(Queue queue) {
-        ScheduleMessageDto condition = new ScheduleMessageDto();
 
+        ScheduleMessageDto condition = new ScheduleMessageDto();
         // 计算时间
         LocalDateTime endTime = LocalDateTime.now().minus(queue.getCheckDuration().longValue(), ChronoUnit.MILLIS);
-
         // 多长时间未确认
         condition.setCreateEndTime(DateFormatUtils.formatDateTime(endTime));
         // 消息状态为待确认
@@ -173,28 +173,5 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         condition.setPageSize(pageSize);
         condition.setCount(countFlag);
         return messageService.listPage(condition);
-    }
-
-    /**
-     * 等待所有线程执行完成
-     */
-    private void awaitComplete() {
-        try {
-            log.info("【CheckTask】start wait all thread complete");
-            int checkInterval = 1000;
-            int maxCheckCount = config.getWaitCompleteTimeout() / checkInterval;
-            int count = 0;
-            while (count < maxCheckCount) {
-                log.info("【CheckTask】activeThreadCount=" + checkExecutor.getActiveCount());
-                if (0 == checkExecutor.getActiveCount()) {
-                    break;
-                }
-                ThreadUtil.sleep(checkInterval);
-                count++;
-            }
-            log.info("【CheckTask】all thread completed");
-        } catch (Exception e) {
-            log.error("【CheckTask】WaitComplete Exception:", e);
-        }
     }
 }

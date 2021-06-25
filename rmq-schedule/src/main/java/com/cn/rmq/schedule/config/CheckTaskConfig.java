@@ -32,7 +32,7 @@ public class CheckTaskConfig {
     /**
      * 缓存队列大小
      */
-    private Integer queueCapacity = 10;
+    private Integer queueCapacity = 5000;
     /**
      * 等待所有线程执行完成的超时时间（单位：毫秒），
      * 因为确认超时时间最长为5秒，因此此处超时时间建议设置大于5秒，则足够所有线程完成。

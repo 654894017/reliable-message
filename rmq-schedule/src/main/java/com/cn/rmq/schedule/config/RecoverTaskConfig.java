@@ -30,11 +30,11 @@ public class RecoverTaskConfig {
     /**
      * 线程运行的空闲时间
      */
-    private Integer keepAliveTime = 60000;
+    private Integer keepAliveTime = 5000;
     /**
      * 缓存队列大小
      */
-    private Integer queueCapacity = 10;
+    private Integer queueCapacity = Integer.MAX_VALUE;
     /**
      * 等待所有线程执行完成的超时时间（单位：毫秒）
      *
