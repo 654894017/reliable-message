@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cn.rmq.dal.mapper.QueueMapper">
+
+    <resultMap id="CmsQueueVo" type="com.cn.rmq.api.cms.model.vo.queue.CmsQueueVo"  extends="BaseResultMap">
+    </resultMap>
+
+    <sql id="condition">
+        <if test="id != null and id != ''">
+            AND id = #{id,jdbcType=CHAR}
+        </if>
+        <if test="consumerQueue != null and consumerQueue != ''">
+            AND consumer_queue = #{consumerQueue,jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <select id="get" parameterType="Queue" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_queue
+        WHERE 1=1
+        <include refid="condition"/>
+        limit 1
+    </select>
+
+    <select id="list" parameterType="Queue" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_queue
+        WHERE 1=1
+        <include refid="condition"/>
+    </select>
+
+    <select id="count" parameterType="Queue" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM t_queue
+        WHERE 1=1
+        <include refid="condition"/>
+    </select>
+
+    <select id="cmsListPage" parameterType="com.cn.rmq.api.cms.model.dto.queue.CmsQueueListDto"
+            resultMap="CmsQueueVo">
+        SELECT <include refid="Base_Column_List" />
+        FROM t_queue
+        WHERE 1=1
+        <if test="id != null and id != ''">
+            AND id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="businessName != null and businessName != ''">
+            AND business_name LIKE CONCAT ('%', #{businessName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="consumerQueue != null and consumerQueue != ''">
+            AND consumer_queue LIKE CONCAT (#{consumerQueue,jdbcType=VARCHAR},'%')
+        </if>
+        <choose>
+            <when test="createStartTime != null and createEndTime != null">
+                AND create_time >= #{createStartTime,jdbcType=VARCHAR}
+                AND create_time &lt;= #{createEndTime,jdbcType=VARCHAR}
+            </when>
+            <when test="createStartTime != null and createEndTime == null">
+                AND create_time >= #{createStartTime,jdbcType=VARCHAR}
+                AND create_time &lt;= NOW()
+            </when>
+            <when test="createStartTime == null and createEndTime != null">
+                AND create_time &lt;= #{createEndTime,jdbcType=VARCHAR}
+            </when>
+        </choose>
+        ORDER BY create_time DESC
+    </select>
+</mapper>
