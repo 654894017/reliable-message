@@ -64,7 +64,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         ScheduleMessageDto condition = createCondition(queue);
         log.info("【CheckTask】message list condition={}", condition);
 
-        int pageSize = config.getCorePoolSize();
+        int pageSize = config.getPageSize();
         // 计数标识，首页需要获取消息总数
         boolean countFlag = true;
         int totalPage = 0;

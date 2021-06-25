@@ -1,8 +1,9 @@
 package com.cn.rmq.schedule.config;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import lombok.Data;
 
 /**
  * <p>Title:</p>
@@ -17,6 +18,10 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "schedule.check")
 @Data
 public class CheckTaskConfig {
+    /**
+     * 分页大小
+     */
+    private Integer pageSize =  1000;
     /**
      * 线程池最小线程数
      */

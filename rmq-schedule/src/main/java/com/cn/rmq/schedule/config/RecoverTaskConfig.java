@@ -1,10 +1,11 @@
 package com.cn.rmq.schedule.config;
 
-import lombok.Data;
+import java.util.List;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import lombok.Data;
 
 /**
  * <p>Title:</p>
@@ -19,6 +20,12 @@ import java.util.List;
 @ConfigurationProperties(prefix = "schedule.recover")
 @Data
 public class RecoverTaskConfig {
+    
+    /**
+     * 分页大小
+     */
+    private Integer pageSize =  1000;
+    
     /**
      * 线程池最小线程数
      */

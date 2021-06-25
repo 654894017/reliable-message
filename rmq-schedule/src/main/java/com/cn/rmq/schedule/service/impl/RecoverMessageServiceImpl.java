@@ -25,7 +25,6 @@ import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
 @DubboService
 public class RecoverMessageServiceImpl implements IRecoverMessageService {
@@ -37,14 +36,15 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
     private ThreadPoolExecutor recoverExecutor;
     @Autowired
     private RecoverTaskConfig config;
+
     @Override
     public void recoverSendingMessage() {
         int maxResendTimes = config.getInterval().size() - 1;
         for (int resendTimes = maxResendTimes; resendTimes >= 0; --resendTimes) {
             recoverSendingMessage(resendTimes);
         }
-        awaitComplete();
     }
+
     /**
      * 按重发次数从高到低，分批次重发消息
      *
@@ -55,12 +55,12 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
         ScheduleMessageDto condition = createCondition(resendTimes);
         log.info("【RecoverTask】message list condition={}", condition);
 
-        int pageSize = config.getCorePoolSize();
+        int pageSize = config.getPageSize();
         // 计数标识，首页需要获取消息总数
         boolean countFlag = true;
         int totalPage = 0;
 
-        for (int pageNum = 1; ; pageNum++) {
+        for (int pageNum = 1;; pageNum++) {
             // 分页查询消息
             Page<Message> page = getPage(condition, pageNum, pageSize, countFlag);
             List<Message> messageList = page.getResult();
@@ -74,10 +74,18 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
                 }
             }
 
+            while (true) {
+                if (recoverExecutor.getActiveCount() == 0) {
+                    break;
+                }
+                ThreadUtil.sleep(10);
+            }
+
             if (countFlag) {
                 countFlag = false;
                 totalPage = page.getPages();
             }
+            
             if (pageNum >= totalPage) {
                 break;
             }
@@ -152,26 +160,4 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
         return messageService.listPage(condition);
     }
 
-    /**
-     * 等待所有线程执行完成
-     */
-    private void awaitComplete() {
-        try {
-            log.info("【RecoverTask】start wait all thread complete");
-            int checkInterval = 1000;
-            int maxCheckCount = config.getWaitCompleteTimeout() / checkInterval;
-            int count = 0;
-            while (count < maxCheckCount) {
-                log.info("【RecoverTask】activeThreadCount=" + recoverExecutor.getActiveCount());
-                if (0 == recoverExecutor.getActiveCount()) {
-                    break;
-                }
-                ThreadUtil.sleep(checkInterval);
-                count++;
-            }
-            log.info("【RecoverTask】all thread completed");
-        } catch (Exception e) {
-            log.error("【RecoverTask】WaitComplete Exception:", e);
-        }
-    }
 }
