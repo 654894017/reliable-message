@@ -25,9 +25,6 @@ import cn.hutool.core.util.IdUtil;
 
 /**
  * 系统用户服务实现类
- *
- * @author Chen Nan
- * @date 2019/3/11.
  */
 @DubboService(timeout = Constants.SERVICE_TIMEOUT)
 public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser, String> implements ISysUserService {

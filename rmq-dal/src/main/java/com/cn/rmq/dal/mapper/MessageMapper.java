@@ -6,9 +6,7 @@ import com.cn.rmq.api.admin.model.dto.message.AdminMessageListDto;
 import com.cn.rmq.api.admin.model.vo.message.AdminMessageVo;
 import com.cn.rmq.api.model.po.Message;
 
-/**
- * @author Chen Nan
- */
+
 public interface MessageMapper extends BaseMapper<Message, String> {
 
     /**
@@ -32,5 +30,5 @@ public interface MessageMapper extends BaseMapper<Message, String> {
      * @param req 请求参数
      * @return 消息列表
      */
-    List<AdminMessageVo> cmsListPage(AdminMessageListDto req);
+    List<AdminMessageVo> adminListPage(AdminMessageListDto req);
 }

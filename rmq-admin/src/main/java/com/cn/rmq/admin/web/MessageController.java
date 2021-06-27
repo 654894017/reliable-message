@@ -22,23 +22,25 @@ import com.cn.rmq.api.service.IMessageService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * <p>消息管理制器</p>
+ * 消息管理制器
+ * 
+ * @author xianping_lu
  *
  */
+@Slf4j
 @RestController
 @RequestMapping(value = "/message")
-@Slf4j
 public class MessageController {
 
     @DubboReference
-    private IAdminMessageService cmsMessageService;
+    private IAdminMessageService adminMessageService;
     @DubboReference
     private IMessageService messageService;
 
     @GetMapping("/page")
     public Object page(@ModelAttribute AdminMessageListDto req) {
         log.info("【message-page】start：" + req);
-        DataGrid rsp = cmsMessageService.listPage(req);
+        DataGrid rsp = adminMessageService.listPage(req);
         log.info("【message-page】success");
         return rsp;
     }
@@ -46,7 +48,7 @@ public class MessageController {
     @GetMapping("/{id}")
     public Object get(@PathVariable("id") String id) {
         log.info("【message-get】start：" + id);
-        Message message = cmsMessageService.selectByPrimaryKey(id);
+        Message message = adminMessageService.selectByPrimaryKey(id);
         RspBase rspBase = new RspBase();
         if (message != null) {
             AdminMessageVo messageVo = new AdminMessageVo();
@@ -63,7 +65,7 @@ public class MessageController {
     @DeleteMapping("/{id}")
     public Object delete(@PathVariable("id") String id) {
         log.info("【message-delete】start：" + id);
-        cmsMessageService.deleteByPrimaryKey(id);
+        adminMessageService.deleteByPrimaryKey(id);
         RspBase rspBase = new RspBase();
         log.info("【message-delete】success：" + id);
         return rspBase;

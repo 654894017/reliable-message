@@ -77,7 +77,7 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
         Message updateBean = new Message();
         updateBean.setId(messageId);
         updateBean.setUpdateTime(LocalDateTime.now());
-
+        updateBean.setConfirmTime(LocalDateTime.now());
         // 发送MQ消息
         RmqMessage rmqMessage = new RmqMessage();
         rmqMessage.setMessageId(messageId);
@@ -90,18 +90,15 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
             SendResult result = defaultMQProducer.send(rmessage);
             if (result.getSendStatus().equals(SendStatus.SEND_OK)) {
                 updateBean.setStatus(MessageStatusEnum.SENDING.getValue());
-                updateBean.setConfirmTime(LocalDateTime.now());
-                mapper.updateByPrimaryKeySelective(updateBean);
             } else {
                 log.error("send message to rocketmq failed, rocketmq return status code: {}", result.getSendStatus());
                 updateBean.setStatus(MessageStatusEnum.SEND_FAILED.getValue());
-                mapper.updateByPrimaryKeySelective(updateBean);
             }
         } catch (MQClientException | RemotingException | MQBrokerException | InterruptedException e) {
             log.error("send message to rocketmq failed ", e);
             updateBean.setStatus(MessageStatusEnum.SEND_FAILED.getValue());
-            mapper.updateByPrimaryKeySelective(updateBean);
         }
+        mapper.updateByPrimaryKeySelective(updateBean);
     }
 
     @Override

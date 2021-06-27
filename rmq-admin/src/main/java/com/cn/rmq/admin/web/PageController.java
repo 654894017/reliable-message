@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * <p>页面控制器</p>
+ * 页面控制器
+ * 
+ * @author xianping_lu
  *
  */
 @Controller

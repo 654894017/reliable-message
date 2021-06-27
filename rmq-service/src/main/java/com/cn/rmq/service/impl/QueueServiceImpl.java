@@ -19,13 +19,12 @@ import cn.hutool.core.util.IdUtil;
 
 /**
  * 队列服务实现
+ * 
+ * @author xianping_lu
  *
- * @author Chen Nan
- * @date 2019/3/11.
  */
 @DubboService(timeout = Constants.SERVICE_TIMEOUT)
-public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String>
-        implements IQueueService {
+public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String> implements IQueueService {
 
     @DubboReference
     private IAdminMessageService cmsMessageService;
@@ -72,7 +71,6 @@ public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String
         if (queue == null) {
             throw new CheckException("queue not exist");
         }
-
         return cmsMessageService.resendAllDeadMessageByQueueName(queue.getConsumerQueue());
     }
 }

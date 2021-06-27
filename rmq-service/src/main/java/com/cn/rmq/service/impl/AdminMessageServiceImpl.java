@@ -36,7 +36,7 @@ public class AdminMessageServiceImpl extends BaseServiceImpl<MessageMapper, Mess
     @Override
     public DataGrid listPage(AdminMessageListDto req) {
         Page<Object> pageInfo = PageHelper.startPage(req.getPage(), req.getRows());
-        List<AdminMessageVo> list = mapper.cmsListPage(req);
+        List<AdminMessageVo> list = mapper.adminListPage(req);
 
         DataGrid dataGrid = new DataGrid();
         dataGrid.setRows(list);

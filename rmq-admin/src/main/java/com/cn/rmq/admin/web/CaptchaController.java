@@ -15,20 +15,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * <p>验证码控制器</p>
+ * 验证码控制器
+ * 
+ * @author xianping_lu
  *
  */
 @Controller
 public class CaptchaController {
 
-    /**
-     * <p>生成的图片验证码 保存在session中的validateCode中</p>
-     */
     @RequestMapping(value = "login/captcha", method = RequestMethod.GET)
-    public void captcha(HttpSession session,
-                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void captcha(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         ICaptcha captcha = CaptchaUtil.createCircleCaptcha(110, 30, 4, 5);
-
         // 禁止图像缓存
         response.setHeader("Cache-Control", "no-store");
         response.setHeader("Pragma", "no-cache");

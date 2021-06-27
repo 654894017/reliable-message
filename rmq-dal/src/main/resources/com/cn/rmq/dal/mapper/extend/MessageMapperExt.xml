@@ -72,7 +72,7 @@
         </if>
     </select>
 
-    <select id="cmsListPage" parameterType="com.cn.rmq.api.admin.model.dto.message.AdminMessageListDto"
+    <select id="adminListPage" parameterType="com.cn.rmq.api.admin.model.dto.message.AdminMessageListDto"
             resultMap="AdminMessageVo">
         SELECT <include refid="Base_Column_List" />
         FROM t_message

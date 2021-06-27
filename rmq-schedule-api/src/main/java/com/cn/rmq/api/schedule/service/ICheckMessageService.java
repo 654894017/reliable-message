@@ -1,13 +1,10 @@
 package com.cn.rmq.api.schedule.service;
 
 /**
- * <p>Title:</p>
- * <p>Description:
  * 消息确认子系统服务接口
- * </p>
+ * 
+ * @author xianping_lu
  *
- * @author Chen Nan
- * @date 2019/3/18.
  */
 public interface ICheckMessageService {
     /**

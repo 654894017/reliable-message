@@ -24,9 +24,11 @@ public class AdminMessageVo implements Serializable {
     private Short resendTimes;
 
     private Byte alreadyDead;
+    
     private String alreadyDeadName;
 
     private Byte status;
+    
     private String statusName;
 
     private LocalDateTime createTime;

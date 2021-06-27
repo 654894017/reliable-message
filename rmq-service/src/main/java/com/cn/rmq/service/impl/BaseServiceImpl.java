@@ -12,7 +12,7 @@ import com.github.pagehelper.PageHelper;
 
 import cn.hutool.core.bean.BeanUtil;
 
-
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public abstract class BaseServiceImpl<M extends BaseMapper, T, PK> {
 
     @Autowired
@@ -21,7 +21,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper, T, PK> {
     public int deleteByPrimaryKey(PK id) {
         return mapper.deleteByPrimaryKey(id);
     }
-
+    
     public int delete(T record) {
         return mapper.delete(record);
     }

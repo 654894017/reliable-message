@@ -1,11 +1,10 @@
 package com.cn.rmq.api.enums;
 
 /**
- * <p>Title:</p>
- * <p>Description:消息状态常量</p>
+ * 消息状态常量
+ * 
+ * @author xianping_lu
  *
- * @author Chen Nan
- * @date 2019/3/11.
  */
 public enum MessageStatusEnum {
     /**
@@ -21,15 +20,15 @@ public enum MessageStatusEnum {
     /**
      * 发送成功
      */
-    SEND_SUCCESS((byte)2),
-    
+    // SEND_SUCCESS((byte)3),
+
     /**
      * 发送失败
+     * 
      * @param args
      */
-    SEND_FAILED((byte)3);
-    
-    
+    SEND_FAILED((byte) 2);
+
     private byte value;
 
     MessageStatusEnum(byte value) {
@@ -40,14 +39,16 @@ public enum MessageStatusEnum {
         return value;
     }
 
-    public static String format(byte value){
-        switch (value){
-            case 0:
-                return "待确认";
-            case 1:
-                return "发送中";
-            default:
-                return "";
+    public static String format(byte value) {
+        switch (value) {
+        case 0:
+            return "待确认";
+        case 1:
+            return "发送中";
+        case 2:
+            return "发送失败";
+        default:
+            return "";
         }
     }
 }

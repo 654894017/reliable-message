@@ -1,22 +1,20 @@
 package com.cn.rmq.api.schedule.model.dto;
 
-import cn.hutool.json.JSONUtil;
 import com.cn.rmq.api.model.po.Message;
+
+import cn.hutool.json.JSONUtil;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- * <p>Title:</p>
- * <p>Description:</p>
- *
- * @author Chen Nan
- * @date 2019/3/18.
- */
 @EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 public class ScheduleMessageDto extends Message {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2783490154261815300L;
     /**
      * 创建时间止
      */

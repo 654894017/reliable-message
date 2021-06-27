@@ -26,7 +26,7 @@ public class AdminQueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, S
     @Override
     public DataGrid listPage(AdminQueueListDto req) {
         Page<Object> pageInfo = PageHelper.startPage(req.getPage(), req.getRows());
-        List<AdminQueueVo> list = mapper.cmsListPage(req);
+        List<AdminQueueVo> list = mapper.adminListPage(req);
 
         DataGrid dataGrid = new DataGrid();
         dataGrid.setRows(list);
