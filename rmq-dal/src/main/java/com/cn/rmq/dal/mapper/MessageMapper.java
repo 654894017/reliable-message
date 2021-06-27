@@ -1,10 +1,10 @@
 package com.cn.rmq.dal.mapper;
 
-import com.cn.rmq.api.cms.model.dto.message.CmsMessageListDto;
-import com.cn.rmq.api.cms.model.vo.message.CmsMessageVo;
-import com.cn.rmq.api.model.po.Message;
-
 import java.util.List;
+
+import com.cn.rmq.api.admin.model.dto.message.AdminMessageListDto;
+import com.cn.rmq.api.admin.model.vo.message.AdminMessageVo;
+import com.cn.rmq.api.model.po.Message;
 
 /**
  * @author Chen Nan
@@ -32,5 +32,5 @@ public interface MessageMapper extends BaseMapper<Message, String> {
      * @param req 请求参数
      * @return 消息列表
      */
-    List<CmsMessageVo> cmsListPage(CmsMessageListDto req);
+    List<AdminMessageVo> cmsListPage(AdminMessageListDto req);
 }

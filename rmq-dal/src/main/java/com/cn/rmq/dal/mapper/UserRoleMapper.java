@@ -1,8 +1,8 @@
 package com.cn.rmq.dal.mapper;
 
-import com.cn.rmq.api.cms.model.po.UserRole;
-
 import java.util.List;
+
+import com.cn.rmq.api.admin.model.po.UserRole;
 
 /**
  * <p>用户角色关联表操作接口</p>

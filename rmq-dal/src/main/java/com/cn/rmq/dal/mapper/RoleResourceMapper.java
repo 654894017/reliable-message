@@ -1,8 +1,8 @@
 package com.cn.rmq.dal.mapper;
 
-import com.cn.rmq.api.cms.model.po.RoleResource;
-
 import java.util.List;
+
+import com.cn.rmq.api.admin.model.po.RoleResource;
 
 /**
  * <p>角色资源数据库操作接口</p>

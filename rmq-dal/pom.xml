@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>com.cn.rmq</groupId>
-            <artifactId>rmq-cms-api</artifactId>
+            <artifactId>rmq-admin-api</artifactId>
         </dependency>
     </dependencies>
 

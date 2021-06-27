@@ -73,7 +73,7 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
                     log.error("【RecoverTask】Thread pool exhaustion:" + e.getMessage());
                 }
             }
-
+            // 线程池中无任务结束等待
             while (true) {
                 if (recoverExecutor.getActiveCount() == 0) {
                     break;

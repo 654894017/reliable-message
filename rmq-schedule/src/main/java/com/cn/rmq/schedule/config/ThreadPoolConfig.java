@@ -8,11 +8,10 @@ import org.springframework.context.annotation.Configuration;
 import java.util.concurrent.*;
 
 /**
- * <p>Title:</p>
- * <p>Description:</p>
+ * 线程配置
+ * 
+ * @author xianping_lu
  *
- * @author Chen Nan
- * @date 2019/3/22.
  */
 @Configuration
 public class ThreadPoolConfig {
@@ -21,6 +20,36 @@ public class ThreadPoolConfig {
     @Autowired
     private RecoverTaskConfig recoverTaskConfig;
 
+    public static void main(String[] args) {
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNamePrefix("check-pool-").build();
+        ThreadPoolExecutor executor =  new ThreadPoolExecutor(5,
+                100,
+                5000,
+                TimeUnit.MILLISECONDS,
+                new LinkedBlockingDeque<>(1024),
+                namedThreadFactory);
+        
+        for(int i=0;i<500;i++) {
+            executor.submit(()->{
+                System.out.println(1);
+            });
+        }
+        
+        while(true) {
+            System.out.println(executor.getActiveCount());
+            System.out.println(executor.getQueue().size());
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+       
+        
+    }
+    
     @Bean
     public ThreadPoolExecutor checkExecutor() {
         // 为线程池起名

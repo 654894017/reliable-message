@@ -5,10 +5,10 @@ import java.util.List;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.cn.rmq.api.cms.model.dto.DataGrid;
-import com.cn.rmq.api.cms.model.dto.system.SysResourceDTO;
-import com.cn.rmq.api.cms.model.po.SysResource;
-import com.cn.rmq.api.cms.service.ISysResourceService;
+import com.cn.rmq.api.admin.model.dto.DataGrid;
+import com.cn.rmq.api.admin.model.dto.system.SysResourceDTO;
+import com.cn.rmq.api.admin.model.po.SysResource;
+import com.cn.rmq.api.admin.service.ISysResourceService;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.dal.mapper.RoleResourceMapper;
 import com.cn.rmq.dal.mapper.SysResourceMapper;
@@ -16,15 +16,12 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 
 /**
- * <p>资源服务实现类</p>
+ * 资源服务实现类
+ * @author xianping_lu
  *
- * @author Chen Nan
- * @date 2019/3/11.
  */
 @DubboService(timeout = Constants.SERVICE_TIMEOUT)
-public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, SysResource, String>
-        implements ISysResourceService {
-
+public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, SysResource, String> implements ISysResourceService {
 
     @Autowired
     private SysResourceMapper sysResourceMapper;
@@ -153,6 +150,5 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, S
     public List<SysResource> selectByImsUserId(String imsUserId) {
         return sysResourceMapper.selectByImsUserId(imsUserId);
     }
-
 
 }

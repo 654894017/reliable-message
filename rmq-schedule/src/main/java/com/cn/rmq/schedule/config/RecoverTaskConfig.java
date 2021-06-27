@@ -8,13 +8,10 @@ import org.springframework.stereotype.Component;
 import lombok.Data;
 
 /**
- * <p>Title:</p>
- * <p>Description:
  * 消息恢复定时任务配置
- * </p>
+ * 
+ * @author xianping_lu
  *
- * @author Chen Nan
- * @date 2019/3/18.
  */
 @Component
 @ConfigurationProperties(prefix = "schedule.recover")

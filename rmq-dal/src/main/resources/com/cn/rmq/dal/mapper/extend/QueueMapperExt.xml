@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cn.rmq.dal.mapper.QueueMapper">
 
-    <resultMap id="CmsQueueVo" type="com.cn.rmq.api.cms.model.vo.queue.CmsQueueVo"  extends="BaseResultMap">
+    <resultMap id="AdminQueueVo" type="com.cn.rmq.api.admin.model.vo.queue.AdminQueueVo"  extends="BaseResultMap">
     </resultMap>
 
     <sql id="condition">
@@ -36,8 +36,8 @@
         <include refid="condition"/>
     </select>
 
-    <select id="cmsListPage" parameterType="com.cn.rmq.api.cms.model.dto.queue.CmsQueueListDto"
-            resultMap="CmsQueueVo">
+    <select id="cmsListPage" parameterType="com.cn.rmq.api.admin.model.dto.queue.AdminQueueListDto"
+            resultMap="AdminQueueVo">
         SELECT <include refid="Base_Column_List" />
         FROM t_queue
         WHERE 1=1

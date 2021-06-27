@@ -1,10 +1,11 @@
 package com.cn.rmq.dal.mapper;
 
-import com.cn.rmq.api.cms.model.dto.system.SysResourceDTO;
-import com.cn.rmq.api.cms.model.po.SysResource;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import com.cn.rmq.api.admin.model.dto.system.SysResourceDTO;
+import com.cn.rmq.api.admin.model.po.SysResource;
 
 public interface SysResourceMapper extends BaseMapper<SysResource,String>{
     /**

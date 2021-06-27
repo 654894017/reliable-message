@@ -8,12 +8,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.cn.rmq.api.cms.model.dto.DataGrid;
-import com.cn.rmq.api.cms.model.dto.system.SysResourceDTO;
-import com.cn.rmq.api.cms.model.dto.system.SysUserDTO;
-import com.cn.rmq.api.cms.model.po.SysUser;
-import com.cn.rmq.api.cms.model.po.UserRole;
-import com.cn.rmq.api.cms.service.ISysUserService;
+import com.cn.rmq.api.admin.model.dto.DataGrid;
+import com.cn.rmq.api.admin.model.dto.system.SysResourceDTO;
+import com.cn.rmq.api.admin.model.dto.system.SysUserDTO;
+import com.cn.rmq.api.admin.model.po.SysUser;
+import com.cn.rmq.api.admin.model.po.UserRole;
+import com.cn.rmq.api.admin.service.ISysUserService;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.dal.mapper.SysResourceMapper;
 import com.cn.rmq.dal.mapper.SysUserMapper;

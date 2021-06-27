@@ -1,10 +1,11 @@
 package com.cn.rmq.dal.mapper;
 
-import com.cn.rmq.api.cms.model.dto.system.SysRoleDTO;
-import com.cn.rmq.api.cms.model.po.SysRole;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import com.cn.rmq.api.admin.model.dto.system.SysRoleDTO;
+import com.cn.rmq.api.admin.model.po.SysRole;
 
 public interface SysRoleMapper extends BaseMapper<SysRole, String> {
     /**

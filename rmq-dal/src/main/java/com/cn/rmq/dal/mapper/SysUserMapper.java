@@ -1,10 +1,11 @@
 package com.cn.rmq.dal.mapper;
 
-import com.cn.rmq.api.cms.model.dto.system.SysUserDTO;
-import com.cn.rmq.api.cms.model.po.SysUser;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import com.cn.rmq.api.admin.model.dto.system.SysUserDTO;
+import com.cn.rmq.api.admin.model.po.SysUser;
 
 public interface SysUserMapper extends BaseMapper<SysUser, String> {
     /**

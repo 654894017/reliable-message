@@ -6,7 +6,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
 
-import com.cn.rmq.api.cms.service.ICmsMessageService;
+import com.cn.rmq.api.admin.service.IAdminMessageService;
 import com.cn.rmq.api.exceptions.CheckException;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.dto.queue.QueueAddDto;
@@ -28,7 +28,7 @@ public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String
         implements IQueueService {
 
     @DubboReference
-    private ICmsMessageService cmsMessageService;
+    private IAdminMessageService cmsMessageService;
 
     @Override
     public void add(QueueAddDto req) {

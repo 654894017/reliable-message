@@ -9,12 +9,10 @@ import com.cn.rmq.api.schedule.service.IRecoverMessageService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * <p>Description:
  * 消息恢复子系统定时任务
- * </p>
+ * 
+ * @author xianping_lu
  *
- * @author Chen Nan
- * @date 2019/3/18.
  */
 @Component
 @Slf4j

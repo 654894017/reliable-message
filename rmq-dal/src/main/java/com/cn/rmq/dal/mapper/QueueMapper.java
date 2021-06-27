@@ -1,10 +1,10 @@
 package com.cn.rmq.dal.mapper;
 
-import com.cn.rmq.api.cms.model.dto.queue.CmsQueueListDto;
-import com.cn.rmq.api.cms.model.vo.queue.CmsQueueVo;
-import com.cn.rmq.api.model.po.Queue;
-
 import java.util.List;
+
+import com.cn.rmq.api.admin.model.dto.queue.AdminQueueListDto;
+import com.cn.rmq.api.admin.model.vo.queue.AdminQueueVo;
+import com.cn.rmq.api.model.po.Queue;
 
 /**
  * @author Chen Nan
@@ -17,5 +17,5 @@ public interface QueueMapper extends BaseMapper<Queue, String> {
      * @param req 请求参数
      * @return 消息列表
      */
-    List<CmsQueueVo> cmsListPage(CmsQueueListDto req);
+    List<AdminQueueVo> cmsListPage(AdminQueueListDto req);
 }
