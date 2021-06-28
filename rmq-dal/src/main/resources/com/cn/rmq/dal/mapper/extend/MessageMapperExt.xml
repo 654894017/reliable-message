@@ -30,6 +30,16 @@
         WHERE id = #{messageId,jdbcType=CHAR}
     </update>
 
+	 <update id="updateMessageStatus" >
+        UPDATE t_message
+        SET 
+        update_time = NOW(),
+        confirm_time = NOW(),
+        status = #{status}
+        WHERE 
+          id  = #{messageId}  AND consumer_queue = #{queue}
+    </update>
+
     <update id="updateMessageDead" parameterType="java.lang.Short">
         UPDATE t_message
         SET already_dead = 1,

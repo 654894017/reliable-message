@@ -38,5 +38,8 @@ public interface MessageMapper extends BaseMapper<Message, String> {
 
     int deleteMessage(@Param("queue") String queue,@Param("messageId") String messageId);
     
+    int updateMessageStatus(@Param("queue") String queue,@Param("messageId") String messageId, @Param("status")int status);
+    
+    
     
 }

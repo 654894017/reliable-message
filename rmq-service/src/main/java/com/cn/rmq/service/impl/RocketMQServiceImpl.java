@@ -19,6 +19,7 @@ import com.cn.rmq.api.exceptions.CheckException;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.RmqMessage;
 import com.cn.rmq.api.model.po.Message;
+import com.cn.rmq.api.model.vo.AdminMessageVo;
 import com.cn.rmq.api.service.IRmqService;
 import com.cn.rmq.dal.mapper.MessageMapper;
 
@@ -62,13 +63,13 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
     }
 
     @Override
-    public void confirmAndSendMessage(String messageId) {
+    public void confirmAndSendMessage(String queue, String messageId) {
         if (StringUtils.isBlank(messageId)) {
             throw new CheckException("messageId is empty");
         }
 
         // 获取消息
-        Message message = mapper.selectByPrimaryKey(messageId);
+        AdminMessageVo message = mapper.getMessage(queue, messageId);
         if (message == null) {
             throw new CheckException("message not exist");
         }
@@ -98,11 +99,12 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
             log.error("send message to rocketmq failed ", e);
             updateBean.setStatus(MessageStatusEnum.SEND_FAILED.getValue());
         }
-        mapper.updateByPrimaryKeySelective(updateBean);
+
+        mapper.updateMessageStatus(queue, messageId, updateBean.getStatus());
     }
 
     @Override
-    public void deleteMessageById(String messageId) {
-        mapper.deleteByPrimaryKey(messageId);
+    public void deleteMessage(String queue, String messageId) {
+        mapper.deleteMessage(queue, messageId);
     }
 }

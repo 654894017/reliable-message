@@ -18,13 +18,32 @@
         $('#message_searchform').form('clear'); // 清空数据
         $('#message_datagrid').datagrid('load', {}); // 重新加载
     }
+
+   $.ajax({
+        type: "GET",
+        cache: false,
+        dataType: "json",
+        timeout: 15000,
+        url: "queue/page?page=1&rows=1000",
+        success: function (retObj, textStatus, XMLHttpRequest) {
+            $('#consumerQueue').combobox({
+			    valueField:'consumerQueue',
+			    textField:'businessName',
+			    required:true,
+			    data : retObj.rows
+			});
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+       		$.messager.alert('错误提示', '加载数据异常', 'error');
+        }
+    });
 </script>
 
 <form id="message_searchform" class="field-form" style="margin-top:5px;margin-bottom: 0px;">
     <table>
         <tr>
         	 <td>消费队列</td>
-            <td><input name="consumerQueue" class="easyui-validatebox" data-options="required: true"/></td>
+            <td><input id="consumerQueue" name="consumerQueue"/></td>
             <td>消息ID</td>
             <td><input name="id" class="easyui-validatebox"/></td>
             <td>消息状态</td>

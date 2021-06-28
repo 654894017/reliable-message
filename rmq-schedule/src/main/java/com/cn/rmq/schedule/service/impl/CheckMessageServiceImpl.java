@@ -82,7 +82,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
                     log.error("【CheckTask】Thread pool exhaustion:" + e.getMessage());
                 }
             }
-            //线程池中无任务结束等待
+            // 线程池中无任务结束等待
             while (true) {
                 if (checkExecutor.getActiveCount() == 0) {
                     break;
@@ -121,7 +121,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
                 if (data == MessageCheckStatusConstant.SUCCESS_NOFITY) {
                     // data=1，该消息需要发送
                     log.info("【CheckTask】message confirm, messageId={}", message.getId());
-                    rmqService.confirmAndSendMessage(message.getId());
+                    rmqService.confirmAndSendMessage(queue.getConsumerQueue(), message.getId());
                 } else {
                     // data!=1，该消息不需要发送，直接删除
                     log.info("【CheckTask】message delete, messageId={}, data={}", message.getId(), data);

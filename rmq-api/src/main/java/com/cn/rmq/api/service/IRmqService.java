@@ -19,11 +19,12 @@ public interface IRmqService {
      *
      * @param messageId 消息 ID
      */
-    void confirmAndSendMessage(String messageId);
+    void confirmAndSendMessage(String queue,String messageId);
 
     /**
-     * 根据消息ID删除消息
-     * @param messageId 消息ID
+     * 删除消息
+     * @param queue
+     * @param messageId
      */
-    void deleteMessageById(String messageId);
+    void deleteMessage(String queue, String messageId);
 }
