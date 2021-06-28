@@ -44,8 +44,8 @@
         UPDATE t_message
         SET already_dead = 1,
         update_time = NOW()
-        WHERE 1=1
-        AND already_dead = 0
+        WHERE 
+        already_dead = 0
         AND resend_times >= #{resendTimes,jdbcType=SMALLINT}
     </update>
 

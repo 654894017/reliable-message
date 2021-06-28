@@ -4,14 +4,6 @@
 
 **RMQ**（reliable-message-queue）是**基于可靠消息的最终一致性**的分布式事务解决方案。
 
-如果感觉有帮助，帮忙点个star！
-
-# [中文文档](https://www.showdoc.cc/rmq "中文文档")
-- 中文文档地址：[https://www.showdoc.cc/rmq](https://www.showdoc.cc/rmq "https://www.showdoc.cc/rmq")
-
-##### RMQ对接示例：
-- [https://gitee.com/NuLiing/reliable-message-samples](https://gitee.com/NuLiing/reliable-message-samples "https://gitee.com/NuLiing/reliable-message-samples")
-- [https://github.com/a327919006/reliable-message-samples](https://github.com/a327919006/reliable-message-samples "https://github.com/a327919006/reliable-message-samples")
 
 ## 框架定位
 - RMQ本身不生产消息队列，只是消息的搬运工。
@@ -33,8 +25,6 @@
 | rmq-dal | 数据库访问层： sql语句|
 
 ------------
-## 业务系统对接RMQ
-详细对接说明请查看《[快速入门](https://www.showdoc.cc/rmq?page_id=1815635527586509 "快速入门")》和《[对接示例说明](https://www.showdoc.cc/rmq?page_id=1820953552972418 "对接示例说明")》
 
 
 #### 在业务代码中引入RMQ的Dubbo服务
@@ -88,10 +78,3 @@ public void handleMsg(RmqMessage msg) {
 ```
 
 ------------
-
-#### 更多分布式事务框架
-
-| 框架 | 描述 | 状态 |
-| --- | --- | --- |
-| [cn-rmq](https://gitee.com/NuLiing/reliable-message "cn-rmq") | 基于可靠消息的最终一致性方案 | 已发布 |
-| [cn-ben](https://gitee.com/NuLiing/cn-ben "cn-ben") | 最大努力通知方案 | 已发布 |

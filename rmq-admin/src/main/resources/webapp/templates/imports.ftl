@@ -3,8 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
 <!-- EasyUI依赖 -->
-<link rel="stylesheet" type="text/css" href="${basePath}external/easyui-1.4.5/themes/default/easyui.css"/>
-<link rel="stylesheet" type="text/css" href="${basePath}external/easyui-1.4.5/themes/default/layout.css"/>
+<link rel="stylesheet" type="text/css" href="${basePath}external/easyui-1.4.5/themes/bootstrap/easyui.css"/>
+<link rel="stylesheet" type="text/css" href="${basePath}external/easyui-1.4.5/themes/bootstrap/layout.css"/>
 <link rel="stylesheet" type="text/css" href="${basePath}external/easyui-1.4.5/themes/icon.css"/>
 <script type="text/javascript" src="${basePath}external/easyui-1.4.5/jquery.min.js"></script>
 <script type="text/javascript" src="${basePath}external/easyui-1.4.5/jquery.easyui.min.js"></script>

@@ -5,7 +5,7 @@
 </#if>
 <html>
 <head>
-    <title>消息管理平台</title>
+    <title>RMQ消息管理平台</title>
     <#include "imports.ftl"/>
 </head>
 <body class="easyui-layout">
@@ -20,19 +20,23 @@
                 <a onclick="logout(); return false;" style="cursor:pointer;">安全退出</a>
             </div>
             <div class="header-brand">
-                <a>消息管理系统</a>
+                <a>RMQ消息管理系统</a>
             </div>
         </div>
     </div>
 </div>
 <div id="index_west" data-options="region:'west',split:true" title="菜单" style="width:200px">
     <#include "index-menu.ftl"/>
-
 </div>
 <div id="index_center" data-options="region:'center'">
     <div id="center_tabs_layout" class="easyui-tabs" data-options="border:false,fit:true"
          style="width: auto; height: auto"/>
 </div>
+</div>
+<div id="index_south" data-options="region:'south'" style="height: 27px;overflow: hidden;">
+	<div class="panel-header panel-header-noborder" style="text-align: center;font-size:12px;">
+	版权所有 @<a href="mailto:654894017@qq.com">654894017</a>
+	</div>
 </div>
 </body>
 <script type="text/javascript">
