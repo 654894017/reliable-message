@@ -1,4 +1,4 @@
-package com.cn.rmq.api.admin.model.vo.queue;
+package com.cn.rmq.api.model.vo;
 
 import lombok.Getter;
 import lombok.Setter;

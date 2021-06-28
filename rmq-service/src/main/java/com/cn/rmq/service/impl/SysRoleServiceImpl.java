@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.cn.rmq.api.admin.model.dto.DataGrid;
+import com.cn.rmq.api.DataGrid;
 import com.cn.rmq.api.admin.model.dto.system.SysRoleDTO;
 import com.cn.rmq.api.admin.model.po.RoleResource;
 import com.cn.rmq.api.admin.model.po.SysRole;

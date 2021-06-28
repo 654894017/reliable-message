@@ -4,7 +4,7 @@
             border: false,
             fit: true,
             striped: true,
-            url: 'message/page',
+            //url: 'message/page',
             method: 'get',
             pagination: true,//显示分页
             fitColumns: true,//自动计算列的宽度
@@ -77,11 +77,11 @@
                     width: 30,
                     formatter: function (value, row, index) {
                         var operators = "<span style='color: blue'>";
-                        operators += "<a href='javascript:void(0)' onclick=\"messageDelete(\'" + row.id + "\')\">删除</a>";
+                        operators += "<a href='javascript:void(0)' onclick=\"messageDelete(\'" + row.consumerQueue + "\',\'" + row.id + "\')\">删除</a>";
 
                         if (row.status === 1) {
                             operators += " | ";
-                            operators += "<a href='javascript:void(0)' onclick=\"messageResend(\'" + row.id + "\')\">重发</a>"
+                            operators += "<a href='javascript:void(0)' onclick=\"messageResend(\'" + row.consumerQueue + "\',\'" + row.id + "\')\">重发</a>"
                         }
                         operators += "</span>";
                         return operators;
@@ -106,7 +106,7 @@
     /**
      * 删除消息
      */
-    function messageDelete(id) {
+    function messageDelete(queue,id) {
         $.messager.confirm('确认', '您是否要删除当前的记录？', function (ret) {
             if (ret) {
                 parent.$.messager.progress({
@@ -114,7 +114,7 @@
                     interval: 100
                 });
                 $.ajax({
-                    url: 'message/' + id,
+                    url: 'message/' +queue+'/'+ id,
                     data: {
                         _method: "DELETE"
                     },
@@ -142,7 +142,7 @@
     /**
      * 重发消息
      */
-    function messageResend(id) {
+    function messageResend(queue,id) {
         $.messager.confirm('确认', '您是否要重发当前消息？', function (ret) {
             if (ret) {
                 parent.$.messager.progress({
@@ -150,7 +150,7 @@
                     interval: 100
                 });
                 $.ajax({
-                    url: 'message/' + id + "/resend",
+                    url: 'message/' +queue+'/'+ id + "/resend",
                     type: "POST",//默认以get提交，使用get提交如果有中文后台会出现乱码
                     dataType: 'json',
                     success: function (rsp) {
@@ -176,6 +176,7 @@
      * 详情页
      */
     function message_showDetail(rowData) {
+    	console.info(rowData);
         var dig = $('<div  />').dialog({
             href: 'page/message/detail',
             width: 850,
@@ -196,7 +197,7 @@
             },
             onLoad: function () {
                 //必须在窗体打开之前加载数据
-                getMessageDetail(rowData.id);
+                getMessageDetail(rowData.consumerQueue,rowData.id);
             }
         });
     }
@@ -204,13 +205,13 @@
     /**
      * 获取消息详情
      */
-    function getMessageDetail(messageId) {
+    function getMessageDetail(queue,messageId) {
         $.ajax({
             type: "GET",
             cache: false,
             dataType: "json",
             timeout: 15000,
-            url: "message/" + messageId,
+            url: "message/"+queue+"/"+messageId,
             success: function (retObj, textStatus, XMLHttpRequest) {
                 if (0 === retObj.code) {
                     $('#message_detail_form').form('load', retObj.data);
@@ -225,11 +226,11 @@
 
 </script>
 
-<div class="easyui-layout" data-options="fit:true,border:false">
-    <div data-options="region:'north',title:'查询条件',border:false" style="height: 130px;">
+<div class="easyui-layout" data-options="fit:true" style="margin:1px;">
+    <div data-options="region:'north',title:'查询条件'" style="height: 130px;">
          <#include "search.ftl"/>
     </div>
-    <div data-options="region:'center',border:false">
+    <div data-options="region:'center'">
         <div id="message_datagrid"></div>
     </div>
 </div>

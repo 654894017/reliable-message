@@ -2,9 +2,11 @@ package com.cn.rmq.dal.mapper;
 
 import java.util.List;
 
-import com.cn.rmq.api.admin.model.dto.message.AdminMessageListDto;
-import com.cn.rmq.api.admin.model.vo.message.AdminMessageVo;
+import org.apache.ibatis.annotations.Param;
+
+import com.cn.rmq.api.model.dto.message.AdminMessageListDto;
 import com.cn.rmq.api.model.po.Message;
+import com.cn.rmq.api.model.vo.AdminMessageVo;
 
 
 public interface MessageMapper extends BaseMapper<Message, String> {
@@ -31,4 +33,10 @@ public interface MessageMapper extends BaseMapper<Message, String> {
      * @return 消息列表
      */
     List<AdminMessageVo> adminListPage(AdminMessageListDto req);
+    
+    AdminMessageVo getMessage(@Param("queue") String queue,@Param("messageId") String messageId);
+
+    int deleteMessage(@Param("queue") String queue,@Param("messageId") String messageId);
+    
+    
 }

@@ -4,7 +4,11 @@
      * 查询
      */
     function searchMessage() {
-        $('#message_datagrid').datagrid('load', serializeObject($('#message_searchform')));
+        var searchform = $('#message_searchform');
+        if (searchform.form('validate')) {
+      		$('#message_datagrid').datagrid({url: 'message/page'});
+        	$('#message_datagrid').datagrid('load', serializeObject($('#message_searchform')));
+        }
     }
 
     /**
@@ -19,10 +23,10 @@
 <form id="message_searchform" class="field-form" style="margin-top:5px;margin-bottom: 0px;">
     <table>
         <tr>
+        	 <td>消费队列</td>
+            <td><input name="consumerQueue" class="easyui-validatebox" data-options="required: true"/></td>
             <td>消息ID</td>
             <td><input name="id" class="easyui-validatebox"/></td>
-            <td>消费队列</td>
-            <td><input name="consumerQueue" class="easyui-validatebox"/></td>
             <td>消息状态</td>
             <td>
                 <select name="status" class="easyui-combobox" style="width: 165px;"
@@ -51,10 +55,8 @@
             </td>
         </tr>
         <tr>
-            <td style="text-align:right" colspan="3">
-                <a onclick="searchMessage()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
-            </td>
-            <td style="text-align:left" colspan="3">
+            <td style="text-align:right" colspan="6">
+            	 <a onclick="searchMessage()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
                 <a onclick="clearSearchMessageForm()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">重置</a>
             </td>
         </tr>

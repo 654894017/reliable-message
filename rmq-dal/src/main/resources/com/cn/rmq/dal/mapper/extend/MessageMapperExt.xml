@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cn.rmq.dal.mapper.MessageMapper">
 
-    <resultMap id="AdminMessageVo" type="com.cn.rmq.api.admin.model.vo.message.AdminMessageVo" extends="ResultMapWithBLOBs">
+    <resultMap id="AdminMessageVo" type="com.cn.rmq.api.model.vo.AdminMessageVo" extends="ResultMapWithBLOBs">
     </resultMap>
 
     <sql id="condition">
@@ -45,6 +45,19 @@
         WHERE 1=1
         <include refid="condition"/>
     </select>
+	<delete id="deleteMessage">
+		delete from t_message
+		where consumer_queue = #{queue} and id  = #{messageId}
+	</delete>
+	
+	<select id ="getMessage"  resultMap="AdminMessageVo">
+		select 
+	   <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+		 from t_message 
+		where consumer_queue = #{queue} and id  = #{messageId}
+	</select>
 
     <select id="list" parameterType="Message" resultMap="ResultMapWithBLOBs">
         SELECT
@@ -72,7 +85,7 @@
         </if>
     </select>
 
-    <select id="adminListPage" parameterType="com.cn.rmq.api.admin.model.dto.message.AdminMessageListDto"
+    <select id="adminListPage" parameterType="com.cn.rmq.api.model.dto.message.AdminMessageListDto"
             resultMap="AdminMessageVo">
         SELECT <include refid="Base_Column_List" />
         FROM t_message

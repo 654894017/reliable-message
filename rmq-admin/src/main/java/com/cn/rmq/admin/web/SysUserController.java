@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cn.rmq.api.admin.model.dto.DataGrid;
+import com.cn.rmq.api.DataGrid;
 import com.cn.rmq.api.admin.model.dto.system.SysResourceDTO;
 import com.cn.rmq.api.admin.model.dto.system.SysUserDTO;
 import com.cn.rmq.api.admin.model.po.SysUser;

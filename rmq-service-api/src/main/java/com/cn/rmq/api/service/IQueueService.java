@@ -1,5 +1,7 @@
 package com.cn.rmq.api.service;
 
+import com.cn.rmq.api.DataGrid;
+import com.cn.rmq.api.model.dto.queue.AdminQueueListDto;
 import com.cn.rmq.api.model.dto.queue.QueueAddDto;
 import com.cn.rmq.api.model.dto.queue.QueueUpdateDto;
 import com.cn.rmq.api.model.po.Queue;
@@ -29,4 +31,13 @@ public interface IQueueService extends IBaseService<Queue, String> {
      * @return 重发消息数量
      */
     int resendDead(String id);
+    
+
+    /**
+     * 分页查询
+     *
+     * @param req 查询条件
+     * @return 数据列表
+     */
+    DataGrid listPage(AdminQueueListDto req);
 }

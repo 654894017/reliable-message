@@ -1,19 +1,25 @@
 package com.cn.rmq.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
 
-import com.cn.rmq.api.admin.service.IAdminMessageService;
+import com.cn.rmq.api.DataGrid;
 import com.cn.rmq.api.exceptions.CheckException;
 import com.cn.rmq.api.model.Constants;
+import com.cn.rmq.api.model.dto.queue.AdminQueueListDto;
 import com.cn.rmq.api.model.dto.queue.QueueAddDto;
 import com.cn.rmq.api.model.dto.queue.QueueUpdateDto;
 import com.cn.rmq.api.model.po.Queue;
+import com.cn.rmq.api.model.vo.AdminQueueVo;
+import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.api.service.IQueueService;
 import com.cn.rmq.dal.mapper.QueueMapper;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 
 import cn.hutool.core.util.IdUtil;
 
@@ -27,7 +33,19 @@ import cn.hutool.core.util.IdUtil;
 public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String> implements IQueueService {
 
     @DubboReference
-    private IAdminMessageService cmsMessageService;
+    private IMessageService messageService;
+    
+    @Override
+    public DataGrid listPage(AdminQueueListDto req) {
+        Page<Object> pageInfo = PageHelper.startPage(req.getPage(), req.getRows());
+        List<AdminQueueVo> list = mapper.adminListPage(req);
+
+        DataGrid dataGrid = new DataGrid();
+        dataGrid.setRows(list);
+        dataGrid.setTotal(pageInfo.getTotal());
+        return dataGrid;
+    }
+    
 
     @Override
     public void add(QueueAddDto req) {
@@ -71,6 +89,6 @@ public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String
         if (queue == null) {
             throw new CheckException("queue not exist");
         }
-        return cmsMessageService.resendAllDeadMessageByQueueName(queue.getConsumerQueue());
+        return messageService.resendAllDeadMessageByQueueName(queue.getConsumerQueue());
     }
 }

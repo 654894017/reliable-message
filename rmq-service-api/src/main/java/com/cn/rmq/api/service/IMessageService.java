@@ -1,6 +1,9 @@
 package com.cn.rmq.api.service;
 
+import com.cn.rmq.api.DataGrid;
+import com.cn.rmq.api.model.dto.message.AdminMessageListDto;
 import com.cn.rmq.api.model.po.Message;
+import com.cn.rmq.api.model.vo.AdminMessageVo;
 
 /**
  * 消息服务接口
@@ -21,7 +24,7 @@ public interface IMessageService extends IBaseService<Message, String> {
      *
      * @param messageId 消息ID
      */
-    void resendMessageById(String messageId);
+    void resendMessage(String queue,String messageId);
 
     /**
      * 标记所有重发次数超过限制的消息为已死亡
@@ -29,5 +32,25 @@ public interface IMessageService extends IBaseService<Message, String> {
      * @param resendTimes 最大重发次数限制
      * @return 处理记录数量
      */
-    int updateMessageDead(Short resendTimes);
+    int updateMessageDead(Short resendTimes);    
+    
+    /**
+     * 分页查询
+     *
+     * @param req 查询条件
+     * @return 数据列表
+     */
+    DataGrid listPage(AdminMessageListDto req);
+
+    /**
+     * 重发某个消息队列中的全部已死亡的消息
+     *
+     * @param consumerQueue 消费队列
+     * @return 重发的消息数量
+     */
+    int resendAllDeadMessageByQueueName(String consumerQueue);
+
+    AdminMessageVo get(String queue, String messageId);
+
+    int delete(String queue, String messageId);
 }

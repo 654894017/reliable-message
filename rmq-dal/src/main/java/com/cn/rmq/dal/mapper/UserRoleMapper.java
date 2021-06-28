@@ -8,6 +8,7 @@ import com.cn.rmq.api.admin.model.po.UserRole;
  * <p>用户角色关联表操作接口</p>
  *
  */
+
 public interface UserRoleMapper extends BaseMapper<UserRole, String> {
 
     /**

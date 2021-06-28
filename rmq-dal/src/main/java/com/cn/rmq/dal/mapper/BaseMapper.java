@@ -2,14 +2,7 @@ package com.cn.rmq.dal.mapper;
 
 import java.util.List;
 
-/**
- * <p>Title: BaseMapper</p>
- * <p>Description: 基本mapper接口</p>
- *
- * @param <T>  记录数据类型
- * @param <PK> 记录主键类型
- * @author ChenNan
- */
+
 public interface BaseMapper<T, PK> {
 
     /**

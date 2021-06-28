@@ -1,16 +1,17 @@
-package com.cn.rmq.api.admin.model.vo.message;
-
-import com.cn.rmq.api.enums.AlreadyDeadEnum;
-import com.cn.rmq.api.enums.MessageStatusEnum;
-import lombok.Getter;
-import lombok.Setter;
+package com.cn.rmq.api.model.vo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.cn.rmq.api.enums.AlreadyDeadEnum;
+import com.cn.rmq.api.enums.MessageStatusEnum;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
+@SuppressWarnings("unused")
 public class AdminMessageVo implements Serializable {
     /**
      * 
@@ -24,11 +25,11 @@ public class AdminMessageVo implements Serializable {
     private Short resendTimes;
 
     private Byte alreadyDead;
-    
+
     private String alreadyDeadName;
 
     private Byte status;
-    
+
     private String statusName;
 
     private LocalDateTime createTime;

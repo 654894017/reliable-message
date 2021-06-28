@@ -1,11 +1,11 @@
 package com.cn.rmq.api.admin.service;
 
-import com.cn.rmq.api.admin.model.dto.DataGrid;
+import java.util.List;
+
+import com.cn.rmq.api.DataGrid;
 import com.cn.rmq.api.admin.model.dto.system.SysResourceDTO;
 import com.cn.rmq.api.admin.model.po.SysResource;
 import com.cn.rmq.api.service.IBaseService;
-
-import java.util.List;
 
 /**
  * <p>资源服务接口</p>

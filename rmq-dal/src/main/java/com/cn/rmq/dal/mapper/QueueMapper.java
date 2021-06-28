@@ -2,9 +2,9 @@ package com.cn.rmq.dal.mapper;
 
 import java.util.List;
 
-import com.cn.rmq.api.admin.model.dto.queue.AdminQueueListDto;
-import com.cn.rmq.api.admin.model.vo.queue.AdminQueueVo;
+import com.cn.rmq.api.model.dto.queue.AdminQueueListDto;
 import com.cn.rmq.api.model.po.Queue;
+import com.cn.rmq.api.model.vo.AdminQueueVo;
 
 
 public interface QueueMapper extends BaseMapper<Queue, String> {

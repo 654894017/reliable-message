@@ -51,12 +51,12 @@
         </rollingPolicy>
     </appender>
 
-    <root level="debug">
+    <root level="INFO">
         <appender-ref ref="consoleLog" />
         <appender-ref ref="fileInfoLog" />
         <appender-ref ref="fileErrorLog" />
     </root>
 
-    <logger name="com.cn.rmq.dal.mapper" level="DEBUG"/>
+    <logger name="com.cn.rmq.dal.mapper" level="INFO"/>
 
 </configuration>

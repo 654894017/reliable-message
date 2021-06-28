@@ -1,12 +1,12 @@
 package com.cn.rmq.api.admin.service;
 
-import com.cn.rmq.api.admin.model.dto.DataGrid;
+import java.util.List;
+
+import com.cn.rmq.api.DataGrid;
 import com.cn.rmq.api.admin.model.dto.system.SysRoleDTO;
 import com.cn.rmq.api.admin.model.po.RoleResource;
 import com.cn.rmq.api.admin.model.po.SysRole;
 import com.cn.rmq.api.service.IBaseService;
-
-import java.util.List;
 
 /**
  * <p>角色服务接口</p>

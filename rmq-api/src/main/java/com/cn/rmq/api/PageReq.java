@@ -1,4 +1,4 @@
-package com.cn.rmq.api.admin.model.dto;
+package com.cn.rmq.api;
 
 import lombok.Getter;
 import lombok.Setter;

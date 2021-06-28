@@ -9,11 +9,6 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     hikari:
       connection-test-query: SELECT 1
-  # ActiveMQ连接配置
-  activemq:
-    broker-url: tcp://127.0.0.1:61616
-    user: admin
-    password: admin
 
 # Dubbo配置
 dubbo:

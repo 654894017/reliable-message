@@ -30,7 +30,7 @@
 
 <div class="login-block fn-clear">
     <div class="login-box fn-right">
-        <p class="logo">CMS</p>
+        <p class="logo">消息管理平台</p>
         <div class="login-form">
             <div class="gray-bar fn-clear">
                 <label >账户</label>

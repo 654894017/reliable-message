@@ -1,8 +1,8 @@
-package com.cn.rmq.api.admin.model.dto.queue;
+package com.cn.rmq.api.model.dto.queue;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.cn.rmq.api.admin.model.dto.PageReq;
+import com.cn.rmq.api.PageReq;
 
 import cn.hutool.json.JSONUtil;
 import lombok.Getter;

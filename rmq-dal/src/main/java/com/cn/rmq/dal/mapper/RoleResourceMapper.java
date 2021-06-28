@@ -8,6 +8,7 @@ import com.cn.rmq.api.admin.model.po.RoleResource;
  * <p>角色资源数据库操作接口</p>
  *
  */
+
 public interface RoleResourceMapper extends BaseMapper<RoleResource, String> {
 
     /**

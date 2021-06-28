@@ -5,7 +5,7 @@
 </#if>
 <html>
 <head>
-    <title>CMS</title>
+    <title>消息管理平台</title>
     <#include "imports.ftl"/>
 </head>
 <body class="easyui-layout">
@@ -20,7 +20,7 @@
                 <a onclick="logout(); return false;" style="cursor:pointer;">安全退出</a>
             </div>
             <div class="header-brand">
-                <a>CMS</a>
+                <a>消息管理系统</a>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
     <#include "index-menu.ftl"/>
 
 </div>
-<div id="index_center" data-options="region:'center', border:false">
+<div id="index_center" data-options="region:'center'">
     <div id="center_tabs_layout" class="easyui-tabs" data-options="border:false,fit:true"
          style="width: auto; height: auto"/>
 </div>

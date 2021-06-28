@@ -1,4 +1,4 @@
-package com.cn.rmq.api.admin.model.dto;
+package com.cn.rmq.api;
 
 import java.io.Serializable;
 import java.util.ArrayList;

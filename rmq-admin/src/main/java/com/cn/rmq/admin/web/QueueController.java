@@ -13,15 +13,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cn.rmq.api.admin.model.dto.DataGrid;
-import com.cn.rmq.api.admin.model.dto.queue.AdminQueueListDto;
+import com.cn.rmq.api.DataGrid;
 import com.cn.rmq.api.admin.model.po.SysUser;
-import com.cn.rmq.api.admin.service.IAdminQueueService;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.dto.RspBase;
+import com.cn.rmq.api.model.dto.queue.AdminQueueListDto;
 import com.cn.rmq.api.model.dto.queue.QueueAddDto;
 import com.cn.rmq.api.model.dto.queue.QueueUpdateDto;
-import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.api.service.IQueueService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -36,16 +34,12 @@ import lombok.extern.slf4j.Slf4j;
 public class QueueController {
 
     @DubboReference
-    private IAdminQueueService cmsQueueService;
-    @DubboReference
     private IQueueService queueService;
-    @DubboReference
-    private IMessageService messageService;
 
     @GetMapping("/page")
     public Object page(@ModelAttribute AdminQueueListDto req) {
         log.info("【queue-page】start：" + req);
-        DataGrid rsp = cmsQueueService.listPage(req);
+        DataGrid rsp = queueService.listPage(req);
         log.info("【queue-page】success");
         return rsp;
     }
@@ -74,7 +68,7 @@ public class QueueController {
     @DeleteMapping("/{id}")
     public Object delete(@PathVariable("id") String id) {
         log.info("【queue-delete】start：" + id);
-        cmsQueueService.deleteByPrimaryKey(id);
+        queueService.deleteByPrimaryKey(id);
         log.info("【queue-delete】success：" + id);
         return new RspBase();
     }
