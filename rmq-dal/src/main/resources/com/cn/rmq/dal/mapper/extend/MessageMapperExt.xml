@@ -78,7 +78,7 @@
         WHERE 1=1
         <include refid="condition"/>
     </select>
-
+   
     <select id="listByCondition" resultMap="ResultMapWithBLOBs">
         SELECT
         <include refid="Base_Column_List" />
