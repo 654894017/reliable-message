@@ -1,10 +1,10 @@
 package com.cn.rmq.api.model;
 
 /**
- * <p>Title: Constants</p>
- * <p>Description: 常量类</p>
+ * 常量类
+ * 
+ * @author xianpinglu
  *
- * @author Chen Nan
  */
 public class Constants {
 
