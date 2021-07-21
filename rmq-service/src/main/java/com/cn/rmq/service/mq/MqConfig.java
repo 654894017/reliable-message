@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MqConfig {
 
-    @Value("${spring.rmq.mq.rocketmq.name-serv}")
+    @Value("${spring.rmq.rocketmq.name-serv}")
     private String nameServ;
-    @Value("${spring.rmq.mq.rocketmq.producer-group}")
+    @Value("${spring.rmq.rocketmq.producer-group}")
     private String producerGroup;
 
     @Bean

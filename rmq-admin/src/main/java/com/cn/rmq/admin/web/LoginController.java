@@ -20,12 +20,7 @@ import com.cn.rmq.api.model.dto.RspBase;
 
 import cn.hutool.crypto.SecureUtil;
 
-/**
- * <p>用户登录控制器</p>
- *
- * @author Chen Nan
- * @date 2019/3/11.
- */
+
 @Controller
 public class LoginController {
 
