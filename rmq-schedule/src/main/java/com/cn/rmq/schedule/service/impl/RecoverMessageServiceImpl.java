@@ -2,6 +2,7 @@ package com.cn.rmq.schedule.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -16,22 +17,28 @@ import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.schedule.model.dto.ScheduleMessageDto;
 import com.cn.rmq.api.schedule.service.IRecoverMessageService;
 import com.cn.rmq.api.service.IMessageService;
-import com.cn.rmq.api.service.IRmqService;
 import com.cn.rmq.api.utils.DateFormatUtils;
 import com.cn.rmq.schedule.config.RecoverTaskConfig;
 import com.github.pagehelper.Page;
 
-import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * 消息重复服务
+ * 
+ * (重发发送失败的消息)
+ * 
+ * @author xianpinglu
+ *
+ */
 @Slf4j
 @DubboService
 public class RecoverMessageServiceImpl implements IRecoverMessageService {
+
     @DubboReference
     private IMessageService messageService;
-    @DubboReference
-    private IRmqService rmqService;
     @Autowired
     private ThreadPoolExecutor recoverExecutor;
     @Autowired
@@ -65,27 +72,35 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
             Page<Message> page = getPage(condition, pageNum, pageSize, countFlag);
             List<Message> messageList = page.getResult();
 
+            CountDownLatch latch = new CountDownLatch(messageList.size());
             // 多线程处理消息
             for (Message message : messageList) {
                 try {
-                    recoverExecutor.execute(() -> recoverMessage(message));
+                    recoverExecutor.execute(() -> {
+                        try {
+                            recoverMessage(message);
+                        } catch (Exception e) {
+                            log.error("【RecoverTask】Exception, messageId=" + message.getId() + ", error:", e);
+                        } finally {
+                            latch.countDown();
+                        }
+                    });
                 } catch (RejectedExecutionException e) {
                     log.error("【RecoverTask】Thread pool exhaustion:" + e.getMessage());
                 }
             }
-            // 线程池中无任务结束等待
-            while (true) {
-                if (recoverExecutor.getActiveCount() == 0) {
-                    break;
-                }
-                ThreadUtil.sleep(10);
+
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                log.error("await thread pool excucte recover task failed", e);
             }
 
             if (countFlag) {
                 countFlag = false;
                 totalPage = page.getPages();
             }
-            
+
             if (pageNum >= totalPage) {
                 break;
             }
@@ -98,12 +113,10 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
      * @param message 消息信息
      */
     private void recoverMessage(Message message) {
-        try {
-            log.info("【RecoverTask】message={}", JSONUtil.toJsonStr(message));
-            messageService.resendMessage(message);
-        } catch (Exception e) {
-            log.error("【RecoverTask】Exception, messageId=" + message.getId() + ", error:", e);
-        }
+        log.info("【RecoverTask】message={}", JSONUtil.toJsonStr(message));
+        messageService.resendMessage(message);
+        log.info("【RecoverTask】resend message successed, message={}", JSONUtil.toJsonStr(message));
+
     }
 
     /**
@@ -122,7 +135,7 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
         // 消息未死亡
         condition.setAlreadyDead(AlreadyDeadEnum.NO.getValue());
         // 重发次数
-        condition.setResendTimes((short) resendTimes);
+        condition.setResendTimes((short)resendTimes);
         // 排序字段
         condition.setOrderBy(Constants.ORDER_BY_CONFIRM_TIME);
 

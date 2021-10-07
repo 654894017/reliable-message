@@ -117,12 +117,14 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
 
         String body = JSONObject.toJSONString(rmqMessage);
         org.apache.rocketmq.common.message.Message rmessage = //
-                new org.apache.rocketmq.common.message.Message(message.getConsumerQueue(), body.getBytes(Charset.forName("UTF-8")));
+            new org.apache.rocketmq.common.message.Message(message.getConsumerQueue(),
+                body.getBytes(Charset.forName("UTF-8")));
 
         try {
             SendResult result = defaultMQProducer.send(rmessage);
             if (!result.getSendStatus().equals(SendStatus.SEND_OK)) {
-                throw new RmqException("send message to rocketmq failed, rocketmq return status code: " + result.getSendStatus());
+                throw new RmqException(
+                    "send message to rocketmq failed, rocketmq return status code: " + result.getSendStatus());
             }
         } catch (MQClientException | RemotingException | MQBrokerException | InterruptedException e) {
             throw new RmqException("send message to rocketmq failed ", e);
@@ -152,16 +154,17 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         rmqMessage.setMessageId(message.getId());
         rmqMessage.setMessageBody(message.getMessageBody());
         String body = JSONObject.toJSONString(rmqMessage);
-        org.apache.rocketmq.common.message.Message rmessage = //
-                new org.apache.rocketmq.common.message.Message(message.getConsumerQueue(), body.getBytes(Charset.forName("UTF-8")));
+        org.apache.rocketmq.common.message.Message rmessage = new org.apache.rocketmq.common.message.Message(
+            message.getConsumerQueue(), body.getBytes(Charset.forName("UTF-8")));
 
         try {
             SendResult result = defaultMQProducer.send(rmessage);
             if (!result.getSendStatus().equals(SendStatus.SEND_OK)) {
-                throw new RmqException("send message to rocketmq failed, rocketmq return status code: " + result.getSendStatus());
+                throw new RmqException(
+                    "send message to rocketmq failed, rocketmq return status code: " + result.getSendStatus());
             }
         } catch (MQClientException | RemotingException | MQBrokerException | InterruptedException e) {
-            throw new RmqException("send message to rocketmq failed ", e);
+            throw new RmqException("send message to mq failed ", e);
         }
         log.info("【resendMessageById】success, messageId={}", messageId);
     }

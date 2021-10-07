@@ -3,15 +3,7 @@ package com.cn.rmq.api.utils;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * <p>Title:DateFormatUtils</p>
- * <p>Description:
- * 时间格式工具类
- * </p>
- *
- * @author Chen Nan
- * @date 2019/3/18.
- */
+
 public class DateFormatUtils {
     private DateFormatUtils() {
         throw new RuntimeException("DateFormatUtils.class can't be instantiated");

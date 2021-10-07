@@ -31,7 +31,7 @@ import com.cn.rmq.api.admin.service.ISysUserService;
  *
  */
 @Component
-public class CmsShiroRealm extends AuthorizingRealm {
+public class AdminShiroRealm extends AuthorizingRealm {
 
     @DubboReference
     private ISysUserService sysUserService;

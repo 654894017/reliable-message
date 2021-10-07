@@ -53,7 +53,8 @@ CREATE TABLE `t_queue` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_user` varchar(32) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_consumerqueue` (`consumer_queue`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `t_queue` */

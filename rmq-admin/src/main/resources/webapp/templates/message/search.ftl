@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
     /**
      * 查询
@@ -75,7 +74,7 @@
         </tr>
         <tr>
             <td style="text-align:right" colspan="6">
-            	 <a onclick="searchMessage()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+          		<a onclick="searchMessage()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
                 <a onclick="clearSearchMessageForm()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">重置</a>
             </td>
         </tr>

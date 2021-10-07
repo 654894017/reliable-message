@@ -8,7 +8,7 @@ import com.cn.rmq.api.model.vo.AdminMessageVo;
 /**
  * 消息服务接口
  *
- * @author Chen Nan
+ * @author xianping_lu
  */
 public interface IMessageService extends IBaseService<Message, String> {
 

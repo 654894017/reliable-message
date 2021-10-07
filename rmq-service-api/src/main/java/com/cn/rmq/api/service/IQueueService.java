@@ -9,7 +9,7 @@ import com.cn.rmq.api.model.po.Queue;
 /**
  * 消费队列服务接口
  *
- * @author Chen Nan
+ * @author xianping_lu
  */
 public interface IQueueService extends IBaseService<Queue, String> {
 

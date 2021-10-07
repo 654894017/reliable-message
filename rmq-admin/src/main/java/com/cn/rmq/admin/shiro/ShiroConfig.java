@@ -20,12 +20,12 @@ import java.util.Map;
 public class ShiroConfig {
 
     @Bean
-    public DefaultWebSecurityManager defaultWebSecurityManager(CmsShiroRealm cmsShiroRealm) {
+    public DefaultWebSecurityManager defaultWebSecurityManager(AdminShiroRealm cmsShiroRealm) {
         return new DefaultWebSecurityManager(cmsShiroRealm);
     }
 
     @Bean
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(CmsShiroRealm cmsShiroRealm){
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(AdminShiroRealm cmsShiroRealm){
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(defaultWebSecurityManager(cmsShiroRealm));
         shiroFilter.setLoginUrl("/login");
@@ -47,7 +47,7 @@ public class ShiroConfig {
     }
 
     @Bean
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(CmsShiroRealm cmsShiroRealm) {
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(AdminShiroRealm cmsShiroRealm) {
         AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
         advisor.setSecurityManager(defaultWebSecurityManager(cmsShiroRealm));
         return advisor;

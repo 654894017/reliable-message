@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DuplicateKeyException;
 
 import com.cn.rmq.api.DataGrid;
 import com.cn.rmq.api.exceptions.CheckException;
@@ -34,10 +35,11 @@ public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String
 
     @DubboReference
     private IMessageService messageService;
-    
+
     @Override
     public DataGrid listPage(AdminQueueListDto req) {
-        Page<Object> pageInfo = PageHelper.startPage(req.getPage(), req.getRows());
+        
+        Page<AdminQueueVo> pageInfo = PageHelper.startPage(req.getPage(), req.getRows());
         List<AdminQueueVo> list = mapper.adminListPage(req);
 
         DataGrid dataGrid = new DataGrid();
@@ -45,42 +47,37 @@ public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String
         dataGrid.setTotal(pageInfo.getTotal());
         return dataGrid;
     }
-    
 
     @Override
     public void add(QueueAddDto req) {
         Queue queue = new Queue();
         queue.setConsumerQueue(req.getConsumerQueue());
-        int count = mapper.count(queue);
-        if (count > 0) {
-            throw new CheckException("consumerQueue:" + req.getConsumerQueue() + " is exist");
-        }
-
         BeanUtils.copyProperties(req, queue);
         queue.setId(IdUtil.simpleUUID());
         queue.setCreateTime(LocalDateTime.now());
         queue.setUpdateTime(LocalDateTime.now());
-        mapper.insertSelective(queue);
+        try {
+            mapper.insertSelective(queue);
+        } catch (DuplicateKeyException e) {
+            throw new CheckException("consumerQueue:" + req.getConsumerQueue() + " is exist");
+        }
     }
 
     @Override
     public void update(QueueUpdateDto req) {
+        
         Queue queue = mapper.selectByPrimaryKey(req.getId());
         if (queue == null) {
             throw new CheckException("queue not exist");
         }
 
-        // 校验消费队列是否重复
-        Queue checkCondition = new Queue();
-        checkCondition.setConsumerQueue(req.getConsumerQueue());
-        Queue check = mapper.get(checkCondition);
-        if (check != null && !check.getId().equals(queue.getId())) {
-            throw new CheckException("consumerQueue:" + req.getConsumerQueue() + " is exist");
-        }
-
         BeanUtils.copyProperties(req, queue);
         queue.setUpdateTime(LocalDateTime.now());
-        mapper.updateByPrimaryKeySelective(queue);
+        try {
+            mapper.updateByPrimaryKeySelective(queue);
+        } catch (DuplicateKeyException e) {
+            throw new CheckException("consumerQueue:" + req.getConsumerQueue() + " is exist");
+        }
     }
 
     @Override

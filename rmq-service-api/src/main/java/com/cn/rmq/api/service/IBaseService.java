@@ -4,14 +4,7 @@ import com.github.pagehelper.Page;
 
 import java.util.List;
 
-/**
- * <p>Title: IBaseService</p>
- * <p>Description: 基本服务接口</p>
- *
- * @param <T>  记录数据类型
- * @param <PK> 记录主键类型
- * @author Chen Nan
- */
+
 public interface IBaseService<T, PK> {
 
     /**

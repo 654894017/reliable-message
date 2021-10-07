@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-
 /**
- * <p>Title: ControllerExceptionHandler</p>
- * <p>Description: 控制器异常处理</p>
+ * 控制器异常处理
+ * 
+ * @author xianpinglu
  *
  */
 @SuppressWarnings("unchecked")
@@ -41,7 +41,7 @@ public class ControllerExceptionHandler {
         RspBase retBean = new RspBase();
 
         if (e instanceof BindException) {
-            BindException exs = (BindException) e;
+            BindException exs = (BindException)e;
             log.error("【参数校验异常】:" + e);
 
             List<FieldError> errors = exs.getFieldErrors();
@@ -51,7 +51,7 @@ public class ControllerExceptionHandler {
                 retBean.code(1).msg(error.getField() + error.getDefaultMessage());
             }
         } else if (e instanceof MethodArgumentNotValidException) {
-            MethodArgumentNotValidException exs = (MethodArgumentNotValidException) e;
+            MethodArgumentNotValidException exs = (MethodArgumentNotValidException)e;
             log.error("【参数校验异常】:" + e);
 
             List<FieldError> errors = exs.getBindingResult().getFieldErrors();
@@ -61,11 +61,11 @@ public class ControllerExceptionHandler {
                 retBean.code(1).msg(error.getField() + error.getDefaultMessage());
             }
         } else if (ExceptionUtil.isCausedBy(e, CheckException.class)) {
-            CheckException exception = (CheckException) ExceptionUtil.getCausedBy(e, CheckException.class);
+            CheckException exception = (CheckException)ExceptionUtil.getCausedBy(e, CheckException.class);
             log.error("【校验异常】:" + exception.getMsg());
             retBean.code(exception.getCode()).msg(exception.getMsg());
         } else if (ExceptionUtil.isCausedBy(e, RmqException.class)) {
-            RmqException exception = (RmqException) ExceptionUtil.getCausedBy(e, RmqException.class);
+            RmqException exception = (RmqException)ExceptionUtil.getCausedBy(e, RmqException.class);
             log.error("【RMQ异常】:" + exception.getMsg(), e);
             retBean.code(exception.getCode()).msg(exception.getMsg());
         } else {

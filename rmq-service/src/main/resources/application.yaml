@@ -1,8 +1,6 @@
 spring:
   profiles:
     active: @profileActive@
-
-
 mybatis:
   typeAliasesPackage: com.cn.rmq.api.model.po, com.cn.rmq.api.admin.model.po
   mapperLocations: classpath:com/cn/rmq/dal/mapper/**/*.xml

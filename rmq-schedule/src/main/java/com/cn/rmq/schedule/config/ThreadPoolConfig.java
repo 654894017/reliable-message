@@ -26,7 +26,7 @@ public class ThreadPoolConfig {
                 100,
                 5000,
                 TimeUnit.MILLISECONDS,
-                new LinkedBlockingDeque<>(1024),
+                new LinkedBlockingQueue<>(1024),
                 namedThreadFactory);
         
         for(int i=0;i<500;i++) {

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.fastjson.JSONObject;
 import com.cn.rmq.api.enums.MessageStatusEnum;
 import com.cn.rmq.api.exceptions.CheckException;
+import com.cn.rmq.api.exceptions.RmqException;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.RmqMessage;
 import com.cn.rmq.api.model.po.Message;
@@ -32,8 +33,8 @@ import lombok.extern.slf4j.Slf4j;
  * @author xianping_lu
  *
  */
-@DubboService(timeout = Constants.SERVICE_TIMEOUT)
 @Slf4j
+@DubboService(timeout = Constants.SERVICE_TIMEOUT)
 public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message, String> implements IRmqService {
 
     @Autowired
@@ -71,14 +72,14 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
         // 获取消息
         AdminMessageVo message = mapper.getMessage(queue, messageId);
         if (message == null) {
-            throw new CheckException("message not exist");
+            throw new CheckException("message not exist, queue :" + queue + ", message id : " + messageId);
         }
 
         // 更新消息状态为发送中
-        Message updateBean = new Message();
-        updateBean.setId(messageId);
-        updateBean.setUpdateTime(LocalDateTime.now());
-        updateBean.setConfirmTime(LocalDateTime.now());
+        Message update = new Message();
+        update.setId(messageId);
+        update.setUpdateTime(LocalDateTime.now());
+        update.setConfirmTime(LocalDateTime.now());
         // 发送MQ消息
         RmqMessage rmqMessage = new RmqMessage();
         rmqMessage.setMessageId(messageId);
@@ -86,21 +87,26 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
 
         String body = JSONObject.toJSONString(rmqMessage);
         org.apache.rocketmq.common.message.Message rmessage = //
-                new org.apache.rocketmq.common.message.Message(message.getConsumerQueue(), body.getBytes(Charset.forName("UTF-8")));
+            new org.apache.rocketmq.common.message.Message(message.getConsumerQueue(),
+                body.getBytes(Charset.forName("UTF-8")));
         try {
             SendResult result = defaultMQProducer.send(rmessage);
             if (result.getSendStatus().equals(SendStatus.SEND_OK)) {
-                updateBean.setStatus(MessageStatusEnum.SENDING.getValue());
+                update.setStatus(MessageStatusEnum.SENDING.getValue());
+                mapper.updateMessageStatus(queue, messageId, update.getStatus());
             } else {
                 log.error("send message to rocketmq failed, rocketmq return status code: {}", result.getSendStatus());
-                updateBean.setStatus(MessageStatusEnum.SEND_FAILED.getValue());
+                update.setStatus(MessageStatusEnum.SEND_FAILED.getValue());
+                mapper.updateMessageStatus(queue, messageId, update.getStatus());
+                throw new RmqException(
+                    "send message to rocketmq failed, rocketmq return status code: " + result.getSendStatus());
             }
         } catch (MQClientException | RemotingException | MQBrokerException | InterruptedException e) {
             log.error("send message to rocketmq failed ", e);
-            updateBean.setStatus(MessageStatusEnum.SEND_FAILED.getValue());
+            update.setStatus(MessageStatusEnum.SEND_FAILED.getValue());
+            mapper.updateMessageStatus(queue, messageId, update.getStatus());
+            throw new RmqException("send message to rocketmq failed", e);
         }
-
-        mapper.updateMessageStatus(queue, messageId, updateBean.getStatus());
     }
 
     @Override

@@ -1,15 +1,3 @@
-<#--<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-<%@ page import="cn.techfish.vanke.api.model.po.SysUser" %>
-<%@ page import="cn.techfish.vanke.api.model.Constants" %>
-
-<%
-    String userId = "";
-    SysUser user = (SysUser) session.getAttribute(Constants.SESSION_USER);
-    if (null != user) {
-        userId = user.getSysUserId();
-    }
-%>-->
 <#assign basePath=request.contextPath + "/" />
 
 <#if Session["session_user"]?exists>

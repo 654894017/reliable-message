@@ -3,6 +3,7 @@ package com.cn.rmq.schedule.service.impl;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -24,12 +25,18 @@ import com.cn.rmq.api.utils.DateFormatUtils;
 import com.cn.rmq.schedule.config.CheckTaskConfig;
 import com.github.pagehelper.Page;
 
-import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
-
+/**
+ * 
+ * 
+ * 消息回查服务
+ * 
+ * @author xianpinglu
+ *
+ */
 @Slf4j
 @DubboService
 public class CheckMessageServiceImpl implements ICheckMessageService {
@@ -74,20 +81,28 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
             Page<Message> page = getPage(condition, pageNum, pageSize, countFlag);
             List<Message> messageList = page.getResult();
 
+            CountDownLatch latch = new CountDownLatch(messageList.size());
             // 多线程处理消息
             for (Message message : messageList) {
                 try {
-                    checkExecutor.execute(() -> checkMessage(queue, message));
+                    checkExecutor.execute(() -> {
+                        try {
+                            checkMessage(queue, message);
+                        } catch (Exception e) {
+                            log.error("【CheckTask】Exception, messageId=" + message.getId() + ", error:", e);
+                        } finally {
+                            latch.countDown();
+                        }
+                    });
                 } catch (RejectedExecutionException e) {
                     log.error("【CheckTask】Thread pool exhaustion:" + e.getMessage());
                 }
             }
-            // 线程池中无任务结束等待
-            while (true) {
-                if (checkExecutor.getActiveCount() == 0) {
-                    break;
-                }
-                ThreadUtil.sleep(10);
+
+            try {
+                latch.await();
+            } catch (InterruptedException e) {
+                log.error("await thread pool excucte check task failed", e);
             }
 
             if (countFlag) {
@@ -106,34 +121,30 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
      * @param message 消息信息
      */
     private void checkMessage(Queue queue, Message message) {
-        try {
-            log.info("【CheckTask】message={}", JSONUtil.toJsonStr(message));
-            // 调用业务方http接口确认消息是否需要发送
-            String checkRsp = HttpUtil.post(queue.getCheckUrl(), message.getMessageBody(), queue.getCheckTimeout());
-            log.info("【CheckTask】check success, messageId={}, checkRsp={}", message.getId(), checkRsp);
+        log.info("【CheckTask】message={}", JSONUtil.toJsonStr(message));
+        // 调用业务方http接口确认消息是否需要发送
+        String checkRsp = HttpUtil.post(queue.getCheckUrl(), message.getMessageBody(), queue.getCheckTimeout());
+        log.info("【CheckTask】check success, messageId={}, checkRsp={}", message.getId(), checkRsp);
 
-            // 解析业务方返回结果
-            JSONObject jsonObject = JSONUtil.parseObj(checkRsp);
-            Integer code = jsonObject.getInt(Constants.KEY_CODE);
-            if (code.equals(Constants.CODE_SUCCESS)) {
-                // code=CODE_SUCCESS，业务方处理正常
-                Integer data = jsonObject.getInt(Constants.KEY_DATA);
-                if (data == MessageCheckStatusConstant.SUCCESS_NOFITY) {
-                    // data=1，该消息需要发送
-                    log.info("【CheckTask】message confirm, messageId={}", message.getId());
-                    rmqService.confirmAndSendMessage(queue.getConsumerQueue(), message.getId());
-                } else {
-                    // data!=1，该消息不需要发送，直接删除
-                    log.info("【CheckTask】message delete, messageId={}, data={}", message.getId(), data);
-                    messageService.deleteByPrimaryKey(message.getId());
-                }
+        // 解析业务方返回结果
+        JSONObject jsonObject = JSONUtil.parseObj(checkRsp);
+        Integer code = jsonObject.getInt(Constants.KEY_CODE);
+        if (code.equals(Constants.CODE_SUCCESS)) {
+            // code=CODE_SUCCESS，业务方处理正常
+            Integer data = jsonObject.getInt(Constants.KEY_DATA);
+            if (data == MessageCheckStatusConstant.SUCCESS_NOFITY) {
+                // data=1，该消息需要发送
+                log.info("【CheckTask】message confirm, messageId={}", message.getId());
+                rmqService.confirmAndSendMessage(queue.getConsumerQueue(), message.getId());
             } else {
-                // 业务方处理异常，记录日志
-                String msg = jsonObject.getStr(Constants.KEY_MSG);
-                log.error("【CheckTask】check fail, messageId={}, code={}, msg={}", message.getId(), code, msg);
+                // data!=1，该消息不需要发送，直接删除
+                log.info("【CheckTask】message delete, messageId={}, data={}", message.getId(), data);
+                messageService.deleteByPrimaryKey(message.getId());
             }
-        } catch (Exception e) {
-            log.error("【CheckTask】Exception, messageId=" + message.getId() + ", error:", e);
+        } else {
+            // 业务方处理异常，记录日志
+            String msg = jsonObject.getStr(Constants.KEY_MSG);
+            log.error("【CheckTask】check fail, messageId={}, code={}, msg={}", message.getId(), code, msg);
         }
     }
 
