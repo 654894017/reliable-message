@@ -20,7 +20,7 @@ import com.cn.rmq.api.schedule.model.dto.ScheduleMessageDto;
 import com.cn.rmq.api.schedule.service.ICheckMessageService;
 import com.cn.rmq.api.service.IMessageService;
 import com.cn.rmq.api.service.IQueueService;
-import com.cn.rmq.api.service.IRmqService;
+import com.cn.rmq.api.service.IReliableMessageService;
 import com.cn.rmq.api.utils.DateFormatUtils;
 import com.cn.rmq.schedule.config.CheckTaskConfig;
 import com.github.pagehelper.Page;
@@ -44,7 +44,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
     @DubboReference
     private IQueueService queueService;
     @DubboReference
-    private IRmqService rmqService;
+    private IReliableMessageService reliableMessageService;
     @DubboReference
     private IMessageService messageService;
     @Autowired
@@ -135,7 +135,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
             if (data == MessageCheckStatusConstant.SUCCESS_NOFITY) {
                 // data=1，该消息需要发送
                 log.info("【CheckTask】message confirm, messageId={}", message.getId());
-                rmqService.confirmAndSendMessage(queue.getConsumerQueue(), message.getId());
+                reliableMessageService.confirmAndSendMessage(queue.getConsumerQueue(), message.getId());
             } else {
                 // data!=1，该消息不需要发送，直接删除
                 log.info("【CheckTask】message delete, messageId={}, data={}", message.getId(), data);

@@ -21,7 +21,7 @@ import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.RmqMessage;
 import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.model.vo.AdminMessageVo;
-import com.cn.rmq.api.service.IRmqService;
+import com.cn.rmq.api.service.IReliableMessageService;
 import com.cn.rmq.dal.mapper.MessageMapper;
 
 import cn.hutool.core.util.IdUtil;
@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @DubboService(timeout = Constants.SERVICE_TIMEOUT)
-public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message, String> implements IRmqService {
+public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message, String> implements IReliableMessageService {
 
     @Autowired
     private DefaultMQProducer defaultMQProducer;
@@ -92,19 +92,16 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
         try {
             SendResult result = defaultMQProducer.send(rmessage);
             if (result.getSendStatus().equals(SendStatus.SEND_OK)) {
-                update.setStatus(MessageStatusEnum.SENDING.getValue());
-                mapper.updateMessageStatus(queue, messageId, update.getStatus());
+                mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SENDING.getValue());
             } else {
                 log.error("send message to rocketmq failed, rocketmq return status code: {}", result.getSendStatus());
-                update.setStatus(MessageStatusEnum.SEND_FAILED.getValue());
-                mapper.updateMessageStatus(queue, messageId, update.getStatus());
+                mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SEND_FAILED.getValue());
                 throw new RmqException(
                     "send message to rocketmq failed, rocketmq return status code: " + result.getSendStatus());
             }
         } catch (MQClientException | RemotingException | MQBrokerException | InterruptedException e) {
             log.error("send message to rocketmq failed ", e);
-            update.setStatus(MessageStatusEnum.SEND_FAILED.getValue());
-            mapper.updateMessageStatus(queue, messageId, update.getStatus());
+            mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SEND_FAILED.getValue());
             throw new RmqException("send message to rocketmq failed", e);
         }
     }

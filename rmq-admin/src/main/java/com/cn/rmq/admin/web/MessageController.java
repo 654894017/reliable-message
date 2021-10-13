@@ -63,7 +63,7 @@ public class MessageController {
         return rspBase;
     }
 
-    @PostMapping("{queue}/{id}/resend")
+    @PostMapping("/{queue}/{id}/resend")
     public Object resend(@PathVariable("queue") String queue, @PathVariable("id") String id) {
         log.info("【message-resend】start：" + id);
         messageService.resendMessage(queue,id);

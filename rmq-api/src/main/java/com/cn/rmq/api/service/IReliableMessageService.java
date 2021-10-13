@@ -4,7 +4,7 @@ package com.cn.rmq.api.service;
  * 消息服务接口
  *
  */
-public interface IRmqService {
+public interface IReliableMessageService {
     /**
      * 创建预发送消息
      *
