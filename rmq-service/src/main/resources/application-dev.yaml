@@ -1,8 +1,8 @@
 spring:   
-   rmq:
-    rocketmq:
-     name-serv: localhost:9876
-     producer-group: test
+   rmq: rocketmq
+   rocketmq:
+    name-serv: localhost:9876
+    producer-group: rmq-group
 dubbo:
   application:
     name: ${artifactId}

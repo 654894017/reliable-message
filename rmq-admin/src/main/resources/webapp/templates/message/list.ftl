@@ -227,10 +227,10 @@
 </script>
 
 <div class="easyui-layout" data-options="fit:true" style="margin:1px;">
-    <div data-options="region:'north',title:'查询条件'" style="height: 130px;">
+    <div data-options="region:'north',title:'查询条件'" style="height: 132px;padding: 1px;" >
          <#include "search.ftl"/>
     </div>
-    <div data-options="region:'center'">
+    <div data-options="region:'center',fit:true" style="padding:1px;">
         <div id="message_datagrid"></div>
     </div>
 </div>

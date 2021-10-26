@@ -57,7 +57,7 @@
     </select>
 	<delete id="deleteMessage">
 		delete from t_message
-		where consumer_queue = #{queue} and id  = #{messageId}
+		where consumer_queue = #{queue} and id = #{messageId}
 	</delete>
 	
 	<select id ="getMessage"  resultMap="AdminMessageVo">
@@ -104,7 +104,7 @@
             AND id = #{id,jdbcType=VARCHAR}
         </if>
         <if test="consumerQueue != null and consumerQueue != ''">
-            AND consumer_queue LIKE CONCAT (#{consumerQueue,jdbcType=VARCHAR},'%')
+            AND consumer_queue = #{consumerQueue,jdbcType=VARCHAR}
         </if>
         <if test="alreadyDead != null">
             AND already_dead = #{alreadyDead,jdbcType=TINYINT}

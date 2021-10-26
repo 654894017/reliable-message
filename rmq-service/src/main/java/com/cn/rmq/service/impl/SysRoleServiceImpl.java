@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cn.rmq.api.DataGrid;
 import com.cn.rmq.api.admin.model.dto.system.SysRoleDTO;
@@ -22,9 +23,9 @@ import com.github.pagehelper.PageHelper;
 import cn.hutool.core.util.IdUtil;
 
 /**
- * <p>
+ * 
  * 角色服务实现类
- * </p>
+ * 
  *
  */
 @DubboService(timeout = Constants.SERVICE_TIMEOUT)
@@ -70,6 +71,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole, 
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public int deleteByPrimaryKeys(List<String> sysRoleIds) {
         roleResourceMapper.deleteByRoleIds(sysRoleIds);
         userRoleMapper.deleteByRoleIds(sysRoleIds);

@@ -232,7 +232,7 @@
 
 </script>
 
-<div class="easyui-layout" data-options="fit:true,border:false">
+<div class="easyui-layout" data-options="fit:true,border:false" style="padding:1px;">
     <div data-options="region:'north',title:'查询条件',border:false" style="height: 100px;">
          <#include "search.ftl"/>
     </div>

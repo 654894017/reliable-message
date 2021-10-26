@@ -1,4 +1,3 @@
-# rmq-cms运行端口和访问根路径，可根据自身情况配置
 server:
   port: 10081
   servlet:

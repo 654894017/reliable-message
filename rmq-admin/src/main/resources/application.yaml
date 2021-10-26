@@ -6,6 +6,6 @@ spring:
     expose-request-attributes: true
     expose-session-attributes: true
     request-context-attribute: request
+    cache: false
   resources:
     static-locations: classpath:/webapp/static/
-    

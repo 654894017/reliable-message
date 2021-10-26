@@ -19,36 +19,6 @@ public class ThreadPoolConfig {
     private CheckTaskConfig checkTaskConfig;
     @Autowired
     private RecoverTaskConfig recoverTaskConfig;
-
-    public static void main(String[] args) {
-        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder().setNamePrefix("check-pool-").build();
-        ThreadPoolExecutor executor =  new ThreadPoolExecutor(5,
-                100,
-                5000,
-                TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<>(1024),
-                namedThreadFactory);
-        
-        for(int i=0;i<500;i++) {
-            executor.submit(()->{
-                System.out.println(1);
-            });
-        }
-        
-        while(true) {
-            System.out.println(executor.getActiveCount());
-            System.out.println(executor.getQueue().size());
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-
-       
-        
-    }
     
     @Bean
     public ThreadPoolExecutor checkExecutor() {

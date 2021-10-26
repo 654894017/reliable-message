@@ -1,6 +1,6 @@
 
 <div class="easyui-layout" data-options="fit:true,border:true">
-    <div data-options="region:'north',title:'查询条件',border:true" style="height: 140px;">
+    <div data-options="region:'north',title:'查询条件',border:true" style="height: 70px;">
         <#include "search.ftl"/>
     </div>
 

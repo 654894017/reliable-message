@@ -123,10 +123,12 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         try {
             SendResult result = defaultMQProducer.send(rmessage);
             if (!result.getSendStatus().equals(SendStatus.SEND_OK)) {
+                log.error("send message to rocketmq failed, rocketmq return status code: {}.", result.getSendStatus());
                 throw new RmqException(
                     "send message to rocketmq failed, rocketmq return status code: " + result.getSendStatus());
             }
         } catch (MQClientException | RemotingException | MQBrokerException | InterruptedException e) {
+            log.error("send message to rocketmq failed ", e);
             throw new RmqException("send message to rocketmq failed ", e);
         }
 
@@ -160,11 +162,14 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         try {
             SendResult result = defaultMQProducer.send(rmessage);
             if (!result.getSendStatus().equals(SendStatus.SEND_OK)) {
+                log.error("send message to rocketmq failed, rocketmq return status code: {}.z ",
+                    result.getSendStatus());
                 throw new RmqException(
                     "send message to rocketmq failed, rocketmq return status code: " + result.getSendStatus());
             }
         } catch (MQClientException | RemotingException | MQBrokerException | InterruptedException e) {
-            throw new RmqException("send message to mq failed ", e);
+            log.error("send message to rocketmq failed ", e);
+            throw new RmqException("send message to rocketmq failed ", e);
         }
         log.info("【resendMessageById】success, messageId={}", messageId);
     }

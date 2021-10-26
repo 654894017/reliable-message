@@ -12,6 +12,7 @@ import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import com.alibaba.fastjson.JSONObject;
 import com.cn.rmq.api.enums.MessageStatusEnum;
@@ -34,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
+@ConditionalOnProperty(name = "spring.rmq", havingValue = "rocketmq", matchIfMissing = false)
 @DubboService(timeout = Constants.SERVICE_TIMEOUT)
 public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message, String> implements IReliableMessageService {
 
@@ -94,7 +96,7 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
             if (result.getSendStatus().equals(SendStatus.SEND_OK)) {
                 mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SENDING.getValue());
             } else {
-                log.error("send message to rocketmq failed, rocketmq return status code: {}", result.getSendStatus());
+                log.error("send message to rocketmq failed, rocketmq return status code: {}.", result.getSendStatus());
                 mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SEND_FAILED.getValue());
                 throw new RmqException(
                     "send message to rocketmq failed, rocketmq return status code: " + result.getSendStatus());

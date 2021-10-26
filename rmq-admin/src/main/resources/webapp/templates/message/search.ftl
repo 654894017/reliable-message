@@ -38,7 +38,7 @@
     });
 </script>
 
-<form id="message_searchform" class="field-form" style="margin-top:5px;margin-bottom: 0px;">
+<form id="message_searchform" class="field-form">
     <table>
         <tr>
         	 <td>消费队列</td>
