@@ -45,6 +45,8 @@
 
 		<!--dubbo -->
 		<dubbo.version>2.7.12</dubbo.version>
+		<!--roketmq client -->
+		<rocketmq.client.version>4.7.1</rocketmq.client.version>
 
 		<!--guava -->
 		<guava.version>27.1-jre</guava.version>
@@ -98,12 +100,6 @@
 				<groupId>com.github.pagehelper</groupId>
 				<artifactId>pagehelper</artifactId>
 				<version>${pagehelper.version}</version>
-			</dependency>
-			<!--ActiveMQ -->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-activemq</artifactId>
-				<version>${spring-boot.version}</version>
 			</dependency>
 
 			<!-- dubbo -->
@@ -208,7 +204,7 @@
 			<dependency>
 				<groupId>org.apache.rocketmq</groupId>
 				<artifactId>rocketmq-client</artifactId>
-				<version>4.7.1</version>
+				<version>${rocketmq.client.version}</version>
 			</dependency>
 		</dependencies>
 

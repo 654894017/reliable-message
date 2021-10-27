@@ -13,16 +13,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import com.cn.rmq.service.utils.ClassPathFileUtil;
+import com.cn.rmq.service.utils.SpringContextUtil;
 
-
-@ComponentScan(basePackages = {"com.cn.rmq.service.mq" })
+@ComponentScan(basePackages = {"com.cn.rmq.service"})
 @SpringBootApplication
 @MapperScan("com.cn.rmq.dal.mapper")
 public class ServiceApplication {
-    
+
     @Bean("shardingDataSource")
-    public static DataSource shardjdbcDataSource() throws SQLException, IOException {
-        return YamlShardingDataSourceFactory.createDataSource(ClassPathFileUtil.getFile("application-database.yaml"));
+    public DataSource shardjdbcDataSource() throws SQLException, IOException {
+        String activeProfile = SpringContextUtil.getActiveProfile();
+        return YamlShardingDataSourceFactory
+            .createDataSource(ClassPathFileUtil.getFile("application-database-" + activeProfile + ".yaml"));
     }
 
     public static void main(String[] args) {

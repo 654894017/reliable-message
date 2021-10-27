@@ -28,7 +28,7 @@
 <div id="index_west" data-options="region:'west',split:true" title="菜单" style="width:200px">
     <#include "index-menu.ftl"/>
 </div>
-<div id="index_center" data-options="region:'center'" style="padding:1px;">
+<div id="index_center" data-options="region:'center'" >
     <div id="center_tabs_layout" class="easyui-tabs" data-options="border:false,fit:true"
          style="width: auto; height: auto;"/>
 </div>

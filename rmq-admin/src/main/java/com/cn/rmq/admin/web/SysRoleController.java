@@ -9,12 +9,13 @@ import javax.servlet.http.HttpSession;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cn.rmq.api.DataGrid;
 import com.cn.rmq.api.admin.model.dto.system.SysRoleDTO;
@@ -32,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
  * <p>角色控制器</p>
  *
  */
-@RestController
+@Controller
 @RequestMapping(value = "sys_role", method = RequestMethod.POST)
 @Slf4j
 public class SysRoleController {
@@ -56,6 +57,7 @@ public class SysRoleController {
      * <p>新增</p>
      */
     @RequestMapping(value = "create")
+    @ResponseBody
     public RspBase create(@ModelAttribute SysRole model, HttpSession session) {
         log.info("请求参数：" + model);
 
@@ -86,6 +88,7 @@ public class SysRoleController {
      * <p>删除</p>
      */
     @RequestMapping(value = "delete")
+    @ResponseBody
     public RspBase delete(@RequestParam("roleIds") String roleIds) {
         log.debug("请求参数：" + roleIds);
         List<String> list = Arrays.asList(roleIds.split(","));
@@ -100,6 +103,7 @@ public class SysRoleController {
      * <p>修改</p>
      */
     @RequestMapping(value = "update")
+    @ResponseBody
     public RspBase update(@ModelAttribute SysRole model, HttpSession session) {
         log.info("请求参数：" + model);
 
@@ -139,6 +143,7 @@ public class SysRoleController {
      * <p>获取角色-资源列表</p>
      */
     @RequestMapping(value = "{roleId}/resources")
+    @ResponseBody
     public List<RoleResource> getRoleResources(@PathVariable("roleId") String roleId) {
         log.info("请求参数：roleId=" + roleId);
         List<RoleResource> roleResources = sysRoleService.getRoleResources(roleId);
@@ -151,6 +156,7 @@ public class SysRoleController {
      */
     @RequiresPermissions("role:search")
     @RequestMapping(value = "search")
+    @ResponseBody
     public DataGrid search(@ModelAttribute SysRoleDTO model) {
         log.info("请求参数：" + model);
         DataGrid datagrid = sysRoleService.selectByConditionPage(model);
@@ -158,6 +164,7 @@ public class SysRoleController {
     }
 
     @RequestMapping(value = "ztree")
+    @ResponseBody
     public List<SysRole> getZTree(@ModelAttribute SysRoleDTO model) {
         log.info("请求参数：" + model);
         List<SysRole> roles = sysRoleService.selectByConditionAll(model);
@@ -166,6 +173,7 @@ public class SysRoleController {
     }
 
     @RequestMapping(value = "{roleId}/resources/allot")
+    @ResponseBody
     public RspBase allotRoleResources(@RequestParam(value = "resourceIds") String resourceIds, @PathVariable("roleId") String roleId) {
         log.info("请求参数：roleId=" + roleId + ", resourceIds=" + resourceIds);
         RspBase rspBase = new RspBase();
