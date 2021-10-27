@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cn.rmq.api.DataGrid;
 import com.cn.rmq.api.model.Constants;
 import com.cn.rmq.api.model.dto.RspBase;
-import com.cn.rmq.api.model.dto.message.AdminMessageListDto;
+import com.cn.rmq.api.model.dto.message.AdminMessageListQuery;
 import com.cn.rmq.api.model.vo.AdminMessageVo;
 import com.cn.rmq.api.service.IMessageService;
 
@@ -26,20 +26,20 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/message")
+@RequestMapping(value = "message")
 public class MessageController {
     @DubboReference
     private IMessageService messageService;
 
-    @GetMapping("/page")
-    public Object page(@ModelAttribute AdminMessageListDto req) {
-        log.info("【message-page】start：" + req);
-        DataGrid rsp = messageService.listPage(req);
+    @GetMapping("page")
+    public Object page(@ModelAttribute AdminMessageListQuery query) {
+        log.info("【message-page】start：" + query);
+        DataGrid rsp = messageService.listPage(query);
         log.info("【message-page】success");
         return rsp;
     }
 
-    @GetMapping("/{queue}/{id}")
+    @GetMapping("{queue}/{id}")
     public Object get(@PathVariable("queue") String queue, @PathVariable("id") String id) {
         log.info("get queue: {}, message id : {} ", queue, id);
         RspBase rspBase = new RspBase();
@@ -54,7 +54,7 @@ public class MessageController {
         return rspBase;
     }
 
-    @DeleteMapping("/{queue}/{id}")
+    @DeleteMapping("{queue}/{id}")
     public Object delete(@PathVariable("queue") String queue, @PathVariable("id") String id) {
         log.info("【message-delete】start：" + id);
         messageService.delete(queue, id);
@@ -63,7 +63,7 @@ public class MessageController {
         return rspBase;
     }
 
-    @PostMapping("/{queue}/{id}/resend")
+    @PostMapping("{queue}/{id}/resend")
     public Object resend(@PathVariable("queue") String queue, @PathVariable("id") String id) {
         log.info("【message-resend】start：" + id);
         messageService.resendMessage(queue,id);

@@ -29,14 +29,14 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @RestController
-@RequestMapping(value = "/queue")
+@RequestMapping(value = "queue")
 @Slf4j
 public class QueueController {
 
     @DubboReference
     private IQueueService queueService;
 
-    @GetMapping("/page")
+    @GetMapping("page")
     public Object page(@ModelAttribute AdminQueueListDto req) {
         log.info("【queue-page】start：" + req);
         DataGrid rsp = queueService.listPage(req);
@@ -65,7 +65,7 @@ public class QueueController {
         return new RspBase();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public Object delete(@PathVariable("id") String id) {
         log.info("【queue-delete】start：" + id);
         queueService.deleteByPrimaryKey(id);
@@ -73,7 +73,7 @@ public class QueueController {
         return new RspBase();
     }
 
-    @PostMapping("/{id}/resend")
+    @PostMapping("{id}/resend")
     public Object resend(@PathVariable("id") String id) {
         log.info("【queue-resend】start：" + id);
         int count = queueService.resendDead(id);

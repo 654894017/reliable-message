@@ -19,7 +19,7 @@ import com.cn.rmq.api.enums.AlreadyDeadEnum;
 import com.cn.rmq.api.exceptions.CheckException;
 import com.cn.rmq.api.exceptions.RmqException;
 import com.cn.rmq.api.model.RmqMessage;
-import com.cn.rmq.api.model.dto.message.AdminMessageListDto;
+import com.cn.rmq.api.model.dto.message.AdminMessageListQuery;
 import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.model.vo.AdminMessageVo;
 import com.cn.rmq.api.service.IMessageService;
@@ -53,7 +53,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
     }
 
     @Override
-    public DataGrid listPage(AdminMessageListDto req) {
+    public DataGrid listPage(AdminMessageListQuery req) {
         Page<Object> pageInfo = PageHelper.startPage(req.getPage(), req.getRows());
         List<AdminMessageVo> list = mapper.adminListPage(req);
 

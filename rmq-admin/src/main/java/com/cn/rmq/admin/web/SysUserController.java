@@ -32,11 +32,12 @@ import cn.hutool.crypto.SecureUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * <p>系统用户控制器</p>
+ * 
+ * 系统用户控制器
  *
  */
 @Controller
-@RequestMapping(value = "/sys_user", method = RequestMethod.POST)
+@RequestMapping(value = "sys_user", method = RequestMethod.POST)
 @Slf4j
 public class SysUserController {
     private static final String[] IGNORES = {"sysUserId", "createTime"};
@@ -49,15 +50,15 @@ public class SysUserController {
      *
      * @return 管理页面路径
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @RequestMapping(value = "page", method = RequestMethod.GET)
     public String page(String name) {
-        return "/sys-user/" + name;
+        return "sys-user/" + name;
     }
 
     /**
      * <p>新增用户</p>
      */
-    @RequestMapping(value = "/create")
+    @RequestMapping(value = "create")
     @ResponseBody
     public Object create(@ModelAttribute SysUser model, HttpSession session) {
         log.info("请求参数：" + model);
@@ -89,7 +90,7 @@ public class SysUserController {
     /**
      * <p>删除用户</p>
      */
-    @RequestMapping(value = "/delete")
+    @RequestMapping(value = "delete")
     @ResponseBody
     public Object delete(@RequestParam("userIds") String userIds) {
         log.info("请求内容：" + userIds);
@@ -109,7 +110,7 @@ public class SysUserController {
     /**
      * <p>用户更新</p>
      */
-    @RequestMapping(value = "/update")
+    @RequestMapping(value = "update")
     @ResponseBody
     public Object update(@ModelAttribute SysUser model, HttpSession session) {
         log.info("请求参数：" + model);
@@ -148,7 +149,7 @@ public class SysUserController {
     /**
      * <p>用户查询</p>
      */
-    @RequestMapping(value = "/search")
+    @RequestMapping(value = "search")
     @ResponseBody
     public Object search(@ModelAttribute SysUserDTO model) {
         log.info("请求参数：" + model);
@@ -163,7 +164,7 @@ public class SysUserController {
     /**
      * <p>用户密码修改</p>
      */
-    @RequestMapping(value = "/password/change")
+    @RequestMapping(value = "password/change")
     @ResponseBody
     public Object changePassword(@RequestParam("oldPwd") String oldPwd, @RequestParam("newPwd") String newPwd, HttpServletRequest request) {
         Object sessionObj = request.getSession().getAttribute(Constants.SESSION_USER);
@@ -192,7 +193,7 @@ public class SysUserController {
      *
      * @param userId 用户唯一标识
      */
-    @RequestMapping(value = "/{userId}/roles")
+    @RequestMapping(value = "{userId}/roles")
     @ResponseBody
     public Object getUserRoles(@PathVariable("userId") String userId) {
         List<UserRole> userRoles = sysUserService.selectUserRoleByUserId(userId);
@@ -202,7 +203,7 @@ public class SysUserController {
     /**
      * <p>为用户重新分配角色</p>
      */
-    @RequestMapping(value = "/{userId}/role/allot")
+    @RequestMapping(value = "{userId}/role/allot")
     @ResponseBody
     public Object allotUserRoles(@RequestParam(value = "roleIds") String roleIds, @PathVariable("userId") String userId) {
         log.info("请求参数：userId=" + userId + ", roleIds=" + roleIds);
@@ -216,7 +217,7 @@ public class SysUserController {
         return rspBase;
     }
 
-    @RequestMapping(value = "/{userId}/menu")
+    @RequestMapping(value = "{userId}/menu")
     @ResponseBody
     public Object getUserMenu(@PathVariable("userId") String userId) {
         List<SysResourceDTO> userMenus = sysUserService.selectMenuByUserId(userId);

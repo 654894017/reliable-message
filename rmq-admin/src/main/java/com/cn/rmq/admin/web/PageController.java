@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
  *
  */
 @Controller
-@RequestMapping(value = "/page")
+@RequestMapping(value = "page")
 public class PageController {
 
-    @RequestMapping(value = "/{model}/{name}", method = RequestMethod.GET)
+    @RequestMapping(value = "{model}/{name}", method = RequestMethod.GET)
     public String page(@PathVariable("model") String model, @PathVariable("name") String name) {
         return model + "/" + name;
     }

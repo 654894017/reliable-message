@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.cn.rmq.api.model.dto.message.AdminMessageListDto;
+import com.cn.rmq.api.model.dto.message.AdminMessageListQuery;
 import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.model.vo.AdminMessageVo;
 
@@ -32,7 +32,7 @@ public interface MessageMapper extends BaseMapper<Message, String> {
      * @param req 请求参数
      * @return 消息列表
      */
-    List<AdminMessageVo> adminListPage(AdminMessageListDto req);
+    List<AdminMessageVo> adminListPage(AdminMessageListQuery req);
     
     AdminMessageVo getMessage(@Param("queue") String queue,@Param("messageId") String messageId);
 

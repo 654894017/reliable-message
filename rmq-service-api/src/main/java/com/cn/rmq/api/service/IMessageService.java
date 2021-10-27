@@ -1,7 +1,7 @@
 package com.cn.rmq.api.service;
 
 import com.cn.rmq.api.DataGrid;
-import com.cn.rmq.api.model.dto.message.AdminMessageListDto;
+import com.cn.rmq.api.model.dto.message.AdminMessageListQuery;
 import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.model.vo.AdminMessageVo;
 
@@ -40,7 +40,7 @@ public interface IMessageService extends IBaseService<Message, String> {
      * @param req 查询条件
      * @return 数据列表
      */
-    DataGrid listPage(AdminMessageListDto req);
+    DataGrid listPage(AdminMessageListQuery req);
 
     /**
      * 重发某个消息队列中的全部已死亡的消息

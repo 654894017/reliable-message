@@ -1,0 +1,30 @@
+dubbo:
+  application:
+    name: ${artifactId}
+    logger: slf4j
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  scan:
+    base-packages: com.cn.rmq.schedule.service.impl
+
+schedule:
+  check:
+    core-pool-size: 10
+    max-pool-size: 100
+    keep-alive-time: 60000
+    queue-capacity: 10
+    wait-complete-timeout: 10000
+  recover:
+    core-pool-size: 10
+    max-pool-size: 100
+    keep-alive-time: 60000
+    queue-capacity: 10
+    wait-complete-timeout: 30000
+    interval:
+    - 1
+    - 1
+    - 2
+    - 2
+    - 5
+    - 5
+    - 5

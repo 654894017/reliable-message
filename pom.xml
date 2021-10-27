@@ -209,7 +209,7 @@
 				<groupId>org.apache.rocketmq</groupId>
 				<artifactId>rocketmq-client</artifactId>
 				<version>4.7.1</version>
-			</dependency>    
+			</dependency>
 		</dependencies>
 
 	</dependencyManagement>
@@ -230,6 +230,12 @@
 				<profileActive>test</profileActive>
 			</properties>
 		</profile>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<profileActive>prod</profileActive>
+			</properties>
+		</profile>
 	</profiles>
 
 	<build>
@@ -242,6 +248,7 @@
 				<excludes>
 					<exclude>dev/**</exclude>
 					<exclude>test/**</exclude>
+					<exclude>prod/**</exclude>
 				</excludes>
 			</resource>
 			<resource>

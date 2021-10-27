@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Controller
-@RequestMapping(value = "/sys_resource", method = RequestMethod.POST)
+@RequestMapping(value = "sys_resource", method = RequestMethod.POST)
 @Slf4j
 public class SysResourceController {
 
@@ -48,15 +48,15 @@ public class SysResourceController {
      *
      * @return 管理页面路径
      */
-    @RequestMapping(value = "/page", method = RequestMethod.GET)
+    @RequestMapping(value = "page", method = RequestMethod.GET)
     public String page(String name) {
-        return "/sys-resource/" + name;
+        return "sys-resource/" + name;
     }
 
     /**
      * <p>新增资源</p>
      */
-    @RequestMapping(value = "/create")
+    @RequestMapping(value = "create")
     @ResponseBody
     @RequiresPermissions("resource:create")
     public Object create(@ModelAttribute SysResourceDTO model, HttpSession session) {
@@ -90,7 +90,7 @@ public class SysResourceController {
      * @param resourceIds
      * @return
      */
-    @RequestMapping(value = "/delete")
+    @RequestMapping(value = "delete")
     @ResponseBody
     public Object delete(@RequestParam("resourceIds") String resourceIds) {
         log.info("请求参数：resourceIds=" + resourceIds);
@@ -113,7 +113,7 @@ public class SysResourceController {
      * @param model {@link SysResourceDTO} 更新内容
      * @return 更新操作应答
      */
-    @RequestMapping(value = "/update")
+    @RequestMapping(value = "update")
     @ResponseBody
     public Object update(@ModelAttribute SysResourceDTO model, HttpSession session) {
         log.info("请求参数：" + model);
@@ -152,7 +152,7 @@ public class SysResourceController {
     /**
      * <p>查询资源</p>
      */
-    @RequestMapping(value = "/search")
+    @RequestMapping(value = "search")
     @ResponseBody
     public Object searchResources(@ModelAttribute SysResourceDTO model) {
         log.info("请求参数：" + model);
@@ -160,7 +160,7 @@ public class SysResourceController {
         return datagrid;
     }
 
-    @RequestMapping(value = "/menu")
+    @RequestMapping(value = "menu")
     @ResponseBody
     public Object getMenu() {
         List<SysResourceDTO> resources = sysResourceService.selectByType(SysResourceTypeEnum.MENU.getValue());
@@ -169,7 +169,7 @@ public class SysResourceController {
         return resources;
     }
 
-    @RequestMapping(value = "/ztree")
+    @RequestMapping(value = "ztree")
     @ResponseBody
     public Object getZTree(@ModelAttribute SysResourceDTO model, HttpServletResponse response) {
         log.info("请求参数：" + model);
