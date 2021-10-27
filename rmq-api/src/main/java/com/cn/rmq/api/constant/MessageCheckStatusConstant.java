@@ -11,7 +11,7 @@ public interface MessageCheckStatusConstant {
     /**
      * 业务处理失败，RMQ删除半提交消息
      */
-    public final static int FAILED = 0;
+    public final static int FAILED_DELETE = 0;
     /**
      * 业务处理成功，RMQ发送半消息到MQ中间件
      */
