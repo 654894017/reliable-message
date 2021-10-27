@@ -95,7 +95,7 @@
         </if>
     </select>
 
-    <select id="adminListPage" parameterType="com.cn.rmq.api.model.dto.message.AdminMessageListDto"
+    <select id="adminListPage" parameterType="com.cn.rmq.api.model.dto.message.AdminMessageListQuery"
             resultMap="AdminMessageVo">
         SELECT <include refid="Base_Column_List" />
         FROM t_message

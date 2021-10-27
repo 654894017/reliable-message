@@ -18,7 +18,7 @@ import com.cn.rmq.api.DataGrid;
 import com.cn.rmq.api.enums.AlreadyDeadEnum;
 import com.cn.rmq.api.exceptions.CheckException;
 import com.cn.rmq.api.exceptions.RmqException;
-import com.cn.rmq.api.model.RmqMessage;
+import com.cn.rmq.api.model.TransactionMessage;
 import com.cn.rmq.api.model.dto.message.AdminMessageListQuery;
 import com.cn.rmq.api.model.po.Message;
 import com.cn.rmq.api.model.vo.AdminMessageVo;
@@ -111,14 +111,15 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         mapper.addResendTimes(message.getId());
 
         // 发送MQ消息
-        RmqMessage rmqMessage = new RmqMessage();
-        rmqMessage.setMessageId(message.getId());
-        rmqMessage.setMessageBody(message.getMessageBody());
+        TransactionMessage transactionMessage = new TransactionMessage();
+        transactionMessage.setMessageId(message.getId());
+        transactionMessage.setMessageBody(message.getMessageBody());
 
-        String body = JSONObject.toJSONString(rmqMessage);
-        org.apache.rocketmq.common.message.Message rmessage = //
-            new org.apache.rocketmq.common.message.Message(message.getConsumerQueue(),
-                body.getBytes(Charset.forName("UTF-8")));
+        String body = JSONObject.toJSONString(transactionMessage);
+        org.apache.rocketmq.common.message.Message rmessage = new org.apache.rocketmq.common.message.Message(
+            message.getConsumerQueue(), 
+            body.getBytes(Charset.forName("UTF-8"))
+        );
 
         try {
             SendResult result = defaultMQProducer.send(rmessage);
@@ -152,7 +153,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         mapper.addResendTimes(messageId);
 
         // 发送MQ消息
-        RmqMessage rmqMessage = new RmqMessage();
+        TransactionMessage rmqMessage = new TransactionMessage();
         rmqMessage.setMessageId(message.getId());
         rmqMessage.setMessageBody(message.getMessageBody());
         String body = JSONObject.toJSONString(rmqMessage);

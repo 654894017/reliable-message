@@ -98,8 +98,8 @@
     function queueAdd(){
         var dig = $('<div />').dialog({
             href : 'page/queue/add',
-            width : 600,
-            height : 200,
+            width : 650,
+            height : 400,
             modal : true,
             title : '新增',
             buttons : [ {
@@ -129,8 +129,8 @@
         if (rows.length === 1) {
             var dig = $('<div />').dialog({
                 href : 'page/queue/edit',
-                width : 600,
-                height : 200,
+                width : 650,
+                height : 400,
                 modal : true,
                 title : '修改',
                 buttons : [ {

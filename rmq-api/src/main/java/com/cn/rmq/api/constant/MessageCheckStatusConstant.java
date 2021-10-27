@@ -17,7 +17,7 @@ public interface MessageCheckStatusConstant {
      */
     public final static int SUCCESS_NOFITY = 1;
     /**
-     * 业务处理成功，RMQ删除半提交消息
+     * 业务处理成功，RMQ删除半提交消息(用于不需要发送消息的场景)
      */
     public final static int SUCCESS_DELETE = 2;
 

@@ -6,7 +6,7 @@ import lombok.Data;
 
 
 @Data
-public class RmqMessage implements Serializable {
+public class TransactionMessage implements Serializable {
     /**
      * 
      */
