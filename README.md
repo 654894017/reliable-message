@@ -5,7 +5,7 @@
 **RMQ**（reliable-message-queue）是**基于可靠消息的最终一致性**的分布式事务解决方案。同时基于事务消息半提交原理，结合消息的回查机制，实现类似TCC的事务模型。
 
 
-- RMQ不同于seata、tcc-transaction、Hmily登录类似框架，需要在相同的协议下比如都是dubbo、spring cloud下才能够使用。RMQ给与用户最灵活的选择，不局限于dubbo、spring cloud，对方接口可以是grpc、thrift、php语言等类似接口。只要业务方接口提供类似Try、Commit、Cancel接口，或Commit、Cancel接口。我们在业务层面通过硬编码的形式实现类型TCC的效果。
+- RMQ不同于seata、tcc-transaction、Hmily等类似框架，需要在相同的协议下比如都是dubbo、spring cloud下才能够使用。RMQ给与用户最灵活的选择，不局限于dubbo、spring cloud，对方接口可以是grpc、thrift、php语言等类似接口。只要业务方接口提供类似Try、Commit、Cancel接口，或Commit、Cancel接口。我们在业务层面通过硬编码的形式实现类型TCC的效果。
 
 
 ## 框架定位
@@ -88,8 +88,8 @@ public CheckStatus checkBusStatus(BusReq req) {
 
 CheckStatus 格式
 {	
-	"code": 0,  // 0 成功  1 失败 
-	"data": 1   // 0 业务处理失败，删除半提交消息 1 业务处理成功，RMQ发送半消息到MQ中间件 2 业务处理成功，RMQ删除半提交消息 
+  "code": 0,  // 0 成功  1 失败 
+  "data": 1   // 0 业务处理失败，删除半提交消息 1 业务处理成功，RMQ发送半消息到MQ中间件 2 业务处理成功，RMQ删除半提交消息 
 }
 
 ```
@@ -131,7 +131,7 @@ System.out.printf("xxxxx-consumer started.");
 
 ## 业务接口注意事项
 
-- 幂等性：不管是MQ消费服务，还是业务提供的Try、Commit、Cancel接口需要满足幂等性要求，因为极端异常情况下，消息确认子系统会check业务系统做数据一致性修正。存在重复调用的情况，也存在消息重复发送MQ的情况。
+- 幂等性：不管是MQ消费服务，还是业务提供的Try、Commit、Cancel接口都需要满足幂等性要求，因为极端异常情况下，消息确认子系统会check业务系统做数据一致性修正。存在重复调用的情况，也存在消息重复发送MQ的情况。
 - 空回滚：业务系统有可能没执行Try，结果被执行Cancle的情况。需要保障不允许空回滚的情况。
 - 悬挂：由于网络问题业务先被Cancel了然，后又收到Try的动作。需要保证Try不会被执行。
 
