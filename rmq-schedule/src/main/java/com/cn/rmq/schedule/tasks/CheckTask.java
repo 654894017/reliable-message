@@ -21,10 +21,10 @@ public class CheckTask {
 
     @Scheduled(cron = "0 0/1 * * * ? ")
     public void task() {
-        log.info("【CheckTask】start");
+        log.info("check task start");
 
         checkMessageService.checkWaitingMessage();
 
-        log.info("【CheckTask】end");
+        log.info("check task end");
     }
 }

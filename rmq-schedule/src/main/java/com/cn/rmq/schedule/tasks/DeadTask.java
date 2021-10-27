@@ -29,14 +29,14 @@ public class DeadTask {
     @Scheduled(cron = "0 0/1 * * * ? ")
     public void task() {
      
-        log.info("【DeadTask】start");
+        log.info("dead task start");
         
         short maxResendTimes = (short) config.getInterval().size();
         
         int updateCount = messageService.updateMessageDead(maxResendTimes);
         
-        log.info("【DeadTask】maxResendTimes={}, updateCount={}", maxResendTimes, updateCount);
+        log.info("dead task maxResendTimes={}, updateCount={}", maxResendTimes, updateCount);
         
-        log.info("【DeadTask】end");
+        log.info("dead task end");
     }
 }

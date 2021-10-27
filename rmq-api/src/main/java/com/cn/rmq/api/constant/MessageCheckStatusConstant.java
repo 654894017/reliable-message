@@ -9,7 +9,7 @@ package com.cn.rmq.api.constant;
  */
 public interface MessageCheckStatusConstant {
     /**
-     * 业务处理失败，需要RMQ重新发起重试
+     * 业务处理失败，RMQ删除半提交消息
      */
     public final static int FAILED = 0;
     /**

@@ -23,10 +23,10 @@ public class RecoverTask {
 
     @Scheduled(cron = "0 0/1 * * * ? ")
     public void task() {
-        log.info("【RecoverTask】start");
+        log.info("recover task start");
 
         recoverMessageService.recoverSendingMessage();
 
-        log.info("【RecoverTask】end");
+        log.info("recover task end");
     }
 }
