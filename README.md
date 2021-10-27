@@ -1,6 +1,6 @@
 ------------
 
-#### 介绍
+## 介绍
 
 **RMQ**（reliable-message-queue）是**基于可靠消息的最终一致性**的分布式事务解决方案。同时基于事务消息半提交原理，结合消息的回查机制，实现类似TCC的事务模型。
 
@@ -15,7 +15,7 @@
 
 ------------
 
-#### Maven模块描述
+## Maven模块描述
 
 | 模块名称 | 描述 |
 | --- | --- |
@@ -31,7 +31,7 @@
 ------------
 
 
-#### 在业务代码中引入RMQ的Dubbo服务
+## 在业务代码中引入RMQ的Dubbo服务
 ```
 import org.apache.dubbo.config.annotation.DubboReference;
 import com.cn.rmq.api.service.IReliableMessageService;
@@ -40,7 +40,7 @@ import com.cn.rmq.api.service.IReliableMessageService;
 private IReliableMessageService reliableMessageService;
 ```
 
-#### 编写消息发送方业务方法
+## 编写消息发送方业务方法
 结合事务消息实现TCC效果，如果不需要使用MQ传递领域消息到其他业务模块，可以在完成业务后删除事务消息，不需要confirm它。
 
 ```
@@ -68,7 +68,7 @@ public void doBusiness() {
     }
 ```
 
-#### 编写业务回调check方法
+## 编写业务回调check方法
 当执行doBusiness异常回滚业务时，系统奔溃，消息确认子系统定时发起消息确认
 
 ```
@@ -95,7 +95,7 @@ CheckStatus 格式
 ```
 
 
-#### 编写消息消费方业务方法（RocketMQ）
+## 编写消息消费方业务方法（RocketMQ）
 ```
 DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("xxxxxx_consumer_group");
 consumer.setNamesrvAddr("localhost:9876");
@@ -129,4 +129,13 @@ System.out.printf("xxxxx-consumer started.");
         
 ```
 
+## 业务接口注意事项
+
+- 幂等性：不管是MQ消费服务，还是业务提供的Try、Commit、Cancel接口需要满足幂等性要求，因为极端异常情况下，消息确认子系统会check业务系统做数据一致性修正。存在重复调用的情况，也存在消息重复发送MQ的情况。
+- 空回滚：业务系统有可能没执行Try，结果被执行Cancle的情况。需要保障不允许空回滚的情况。
+- 悬挂：由于网络问题业务先被Cancel了然，后又收到Try的动作。需要保证Try不会被执行。
+
+基于以上三个问题是分布式事务中一定会遇到的：可以引入一个**业务幂等表**来实现消息的幂等性、空回滚、悬挂问题。
+
 ------------
+
