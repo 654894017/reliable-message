@@ -47,7 +47,6 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
         }
 
         String id = IdUtil.simpleUUID();
-
         // 插入预发送消息记录
         Message message = new Message();
         message.setId(id);
@@ -56,12 +55,14 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
         message.setCreateTime(LocalDateTime.now());
         message.setUpdateTime(LocalDateTime.now());
         mapper.insertSelective(message);
-
+        
+        log.info("create pre message succesed. queue : {}, message id : {}, body : {}", consumerQueue, id, messageBody);
         return id;
     }
 
     @Override
     public void confirmAndSendMessage(String queue, String messageId) {
+        
         if (StringUtils.isBlank(messageId)) {
             throw new CheckException("messageId is empty");
         }
@@ -90,7 +91,7 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
     }
 
     @Override
-    public void directSendMessage(String consumerQueue, String messageId, String messageBody) {
+    public void directSendMessage(String queuue, String messageId, String messageBody) {
 
         TransactionMessage transactionMessage = new TransactionMessage();
         transactionMessage.setMessageId(messageId);
@@ -99,8 +100,8 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
         String body = JSONObject.toJSONString(transactionMessage);
 
         try {
-            kafkaTemplate.send(consumerQueue, messageId, body).get();
-            log.info("send message to kafka succesed. queue: {}, message id : {}, body : {} ", consumerQueue, messageId, body);
+            kafkaTemplate.send(queuue, messageId, body).get();
+            log.info("send message to kafka succesed. queue: {}, message id : {}, body : {} ", queuue, messageId, body);
         } catch (Exception e) {
             log.error("send message to kafka failed ", e);
             throw new RmqException("send message to kafka failed ", e);
@@ -109,6 +110,11 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
 
     @Override
     public void deleteMessage(String queue, String messageId) {
-        mapper.deleteMessage(queue, messageId);
+        int count = mapper.deleteMessage(queue, messageId);
+        if (count > 0) {
+            log.info("delete message succesed. queue: {}, message id : {}, body : {} ", queue, messageId);
+        } else {
+            log.error("delete message failed. queue: {}, message id : {}, body : {} ", queue, messageId);
+        }
     }
 }
