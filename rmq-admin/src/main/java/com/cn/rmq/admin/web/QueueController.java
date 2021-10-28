@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class QueueController {
 
-    @DubboReference
+    @DubboReference(retries = -1)
     private IQueueService queueService;
 
     @GetMapping("page")

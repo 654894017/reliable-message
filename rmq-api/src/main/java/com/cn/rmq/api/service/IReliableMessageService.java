@@ -27,4 +27,12 @@ public interface IReliableMessageService {
      * @param messageId
      */
     void deleteMessage(String queue, String messageId);
+    
+    /**
+     * 直接发送消息
+     * @param consumerQueue
+     * @param messageId
+     * @param messageBody
+     */
+    void directSendMessage(String consumerQueue, String messageId, String messageBody);
 }

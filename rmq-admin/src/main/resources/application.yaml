@@ -7,5 +7,10 @@ spring:
     expose-session-attributes: true
     request-context-attribute: request
     cache: false
+    suffix: .ftl
   resources:
     static-locations: classpath:/webapp/static/
+  mvc:
+   hiddenmethod:
+    filter: 
+     enabled: true

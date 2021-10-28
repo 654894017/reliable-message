@@ -37,7 +37,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @ConditionalOnProperty(name = "spring.rmq", havingValue = "rocketmq", matchIfMissing = false)
 @DubboService(timeout = Constants.SERVICE_TIMEOUT)
-public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message, String> implements IReliableMessageService {
+public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message, String>
+    implements IReliableMessageService {
 
     @Autowired
     private DefaultMQProducer defaultMQProducer;
@@ -105,6 +106,31 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
             log.error("send message to rocketmq failed ", e);
             mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SEND_FAILED.getValue());
             throw new RmqException("send message to rocketmq failed", e);
+        }
+    }
+    
+    @Override
+    public void directSendMessage(String consumerQueue, String messageId, String messageBody) {
+
+        TransactionMessage transactionMessage = new TransactionMessage();
+        transactionMessage.setMessageId(messageId);
+        transactionMessage.setMessageBody(messageBody);
+
+        String body = JSONObject.toJSONString(transactionMessage);
+        
+        org.apache.rocketmq.common.message.Message rmessage =
+            new org.apache.rocketmq.common.message.Message(consumerQueue, body.getBytes(Charset.forName("UTF-8")));
+        try {
+            SendResult result = defaultMQProducer.send(rmessage);
+            if (!result.getSendStatus().equals(SendStatus.SEND_OK)) {
+                log.error("send message to rocketmq failed, rocketmq return status code: {}.",
+                    result.getSendStatus());
+                throw new RmqException(
+                    "send message to rocketmq failed, rocketmq return status code: " + result.getSendStatus());
+            }
+        } catch (MQClientException | RemotingException | MQBrokerException | InterruptedException e) {
+            log.error("send message to rocketmq failed ", e);
+            throw new RmqException("send message to rocketmq failed ", e);
         }
     }
 

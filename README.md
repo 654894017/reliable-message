@@ -5,7 +5,7 @@
 **RMQ**（reliable-message-queue）是**基于可靠消息的最终一致性**的分布式事务解决方案。同时基于事务消息半提交原理，结合消息的回查机制，实现类似TCC的事务模型。
 
 
-- RMQ不同于seata、tcc-transaction、Hmily等类似框架，需要在相同的协议下比如都是dubbo、spring cloud下才能够使用。RMQ给与用户最灵活的选择，不局限于dubbo、spring cloud，对方接口可以是grpc、thrift、php语言等类似接口。只要业务方接口提供类似Try、Commit、Cancel接口，或Commit、Cancel接口。我们在业务层面通过硬编码的形式实现类型TCC的效果。
+- RMQ不同于seata、tcc-transaction、Hmily等类似框架，需要在相同的协议下比如都是dubbo、spring cloud下才能够使用。RMQ给予用户最灵活的选择，不局限于dubbo、spring cloud，对方接口可以是grpc、thrift、http等类似接口。只要业务方接口提供类似Try、Commit、Cancel接口，或Commit、Cancel接口。我们在业务层面通过硬编码的形式实现类型TCC或CC的效果。
 
 
 ## 框架定位
@@ -53,9 +53,10 @@ public void doBusiness() {
         String messageId = reliableMessageService.createPreMessage(queue, messageContent);
 
         try{
-         // 执行业务1 Commit(业务层面需要做好幂等、悬挂)
+         
+         // 执行业务1 Try(业务层面需要做好幂等、悬挂)
          // 执行业务2 Try(业务层面需要做好幂等、悬挂)
-         // 执行业务3 Try(业务层面需要做好幂等、悬挂)    
+         // 执行业务3 Commit(业务层面需要做好幂等、悬挂)    
         }catch(Throwable e){
          // 回滚业务1 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
          // 回滚业务2 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
@@ -64,15 +65,15 @@ public void doBusiness() {
          RpcContext.getContext().asyncCall(() -> reliableMessageService.deleteMessage(queue, messageId));
          return;
         }
-        // 执行业务2 Commit(业务层面需要做好幂等、悬挂)
-        // 执行业务3 Commit(业务层面需要做好幂等、悬挂)    
+        // 执行业务1 Commit(业务层面需要做好幂等、悬挂)
+        // 执行业务2 Commit(业务层面需要做好幂等、悬挂)    
         // 异步调用RMQ，确认发送消息(如果是当做分布式事务框架使用，不需要对外发送消息，则不需要进行消息confirm操作，直接调用deleteMessage删除事务消息即可)
         RpcContext.getContext().asyncCall(() -> reliableMessageService.confirmAndSendMessage(queue, messageId));
     }
 ```
 
 ## 编写业务回调check方法
-当执行doBusiness异常回滚业务时，系统奔溃，消息确认子系统定时发起消息确认
+当执行doBusiness异常回滚业务时或业务在Commit时，系统奔溃，消息确认子系统定时发起消息确认
 
 ```
 @RequestMapping("check")
@@ -84,7 +85,9 @@ public CheckStatus checkBusStatus(BusReq req) {
    
    
    //如果业务执行失败
-   //回滚业务(业务层面需要做好幂等、悬挂、空回滚问题)
+   //回滚业务1 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
+   //回滚业务2 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
+   //执行业务3 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
    //return new CheckStats(0,0)
    
 }
@@ -96,7 +99,10 @@ CheckStatus 格式
 }
 
 ```
-为什么会有3种状态？ 0 业务没有处理成功，回滚完所有业务后，半提交消息需要删除。   1 业务处理成功了，只是刚好在消息confirm时系统宕机了，需要重新发送  2 不需要传递领域消息到其他业务模块，业务已经完成了，需要删除了（虽然和0状态码效果是一样的，还是区分开来好一点）。
+###为什么会有3种状态？ 
+- 0 业务没有处理成功，回滚完所有业务后，半提交消息需要删除。   
+- 1 业务处理成功了，只是刚好在消息confirm时系统宕机了，需要重新发送  
+- 2 不需要传递领域消息到其他业务模块，业务已经完成了，需要删除了（虽然和0状态码效果是一样的，还是区分开来好一点）。
 
 
 ## 编写消息消费方业务方法（RocketMQ）
@@ -139,7 +145,7 @@ System.out.printf("xxxxx-consumer started.");
 - 空回滚：业务系统有可能没执行Try，结果被执行Cancle的情况。需要保障不允许空回滚的情况。
 - 悬挂：由于网络问题业务先被Cancel了然，后又收到Try的动作。需要保证Try不会被执行。
 
-基于以上三个问题是分布式事务中一定会遇到的：可以引入一个**业务幂等表**来实现消息的幂等性、空回滚、悬挂问题。
+基于以上三个问题是分布式事务中一定会遇到的：可以引入一个**业务幂等表**来解决消息的幂等性、空回滚、悬挂问题。
 
 ------------
 

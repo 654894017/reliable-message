@@ -1,8 +1,11 @@
 spring:   
-   rmq: rocketmq
-   rocketmq:
-    name-serv: localhost:9876
-    producer-group: rmq-group
+   # rocketmq,kafka
+   rmq: kafka    
+#   rocketmq:
+#    name-serv: localhost:9876
+#    producer-group: rmq-group
+   kafka:
+    bootstrap-servers: localhost:9092
 dubbo:
   application:
     name: ${artifactId}
