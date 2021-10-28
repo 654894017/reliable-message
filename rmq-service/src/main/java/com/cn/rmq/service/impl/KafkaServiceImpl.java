@@ -85,11 +85,13 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
         String body = JSONObject.toJSONString(transactionMessage);
         try {
             kafkaTemplate.send(queue, messageId, body).get();
-            mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SENDING.getValue());
+            update.setStatus(MessageStatusEnum.SENDING.getValue());
+            mapper.updateByPrimaryKeySelective(update);
             log.info("send message to kafka succesed. queue: {}, message id : {}, body : {} ", queue, messageId, body);
         } catch (Exception e) {
             log.error("send message to kafka failed ", e);
-            mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SEND_FAILED.getValue());
+            update.setStatus(MessageStatusEnum.SEND_FAILED.getValue());
+            mapper.updateByPrimaryKeySelective(update);
             throw new RmqException("send message to kafka failed", e);
         }
     }
