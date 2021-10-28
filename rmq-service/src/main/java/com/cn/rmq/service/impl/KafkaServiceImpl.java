@@ -72,11 +72,6 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
             throw new CheckException("message not exist, queue :" + queue + ", message id : " + messageId);
         }
 
-        // 更新消息状态为发送中
-        Message update = new Message();
-        update.setId(messageId);
-        update.setUpdateTime(LocalDateTime.now());
-        update.setConfirmTime(LocalDateTime.now());
         // 发送MQ消息
         TransactionMessage transactionMessage = new TransactionMessage();
         transactionMessage.setMessageId(messageId);
@@ -85,13 +80,11 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
         String body = JSONObject.toJSONString(transactionMessage);
         try {
             kafkaTemplate.send(queue, messageId, body).get();
-            update.setStatus(MessageStatusEnum.SENDING.getValue());
-            mapper.updateByPrimaryKeySelective(update);
+            mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SENDING.getValue());
             log.info("send message to kafka succesed. queue: {}, message id : {}, body : {} ", queue, messageId, body);
         } catch (Exception e) {
             log.error("send message to kafka failed ", e);
-            update.setStatus(MessageStatusEnum.SEND_FAILED.getValue());
-            mapper.updateByPrimaryKeySelective(update);
+            mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SEND_FAILED.getValue());
             throw new RmqException("send message to kafka failed", e);
         }
     }

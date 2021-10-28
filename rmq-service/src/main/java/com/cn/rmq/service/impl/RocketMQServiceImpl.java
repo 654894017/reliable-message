@@ -77,12 +77,7 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
         if (message == null) {
             throw new CheckException("message not exist, queue :" + queue + ", message id : " + messageId);
         }
-
-        // 更新消息状态为发送中
-        Message update = new Message();
-        update.setId(messageId);
-        update.setUpdateTime(LocalDateTime.now());
-        update.setConfirmTime(LocalDateTime.now());
+        
         // 发送MQ消息
         TransactionMessage transactionMessage = new TransactionMessage();
         transactionMessage.setMessageId(messageId);
