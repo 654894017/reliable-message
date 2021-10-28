@@ -101,41 +101,109 @@ CheckStatus 格式
 ```
 ###为什么会有3种状态？ 
 - 0 业务没有处理成功，回滚完所有业务后，半提交消息需要删除。   
-- 1 业务处理成功了，只是刚好在消息confirm时系统宕机了，需要重新发送  
+- 1 业务处理成功了，只是刚好在消息confirm时系统宕机了，此时消息确认子系统check业务系统后需要重新发送。
 - 2 不需要传递领域消息到其他业务模块，业务已经完成了，需要删除了（虽然和0状态码效果是一样的，还是区分开来好一点）。
 
 
 ## 编写消息消费方业务方法（RocketMQ）
 ```
-DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("xxxxxx_consumer_group");
-consumer.setNamesrvAddr("localhost:9876");
-consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
-consumer.setConsumeThreadMax(1);
-consumer.setConsumeThreadMin(1);
-consumer.setMaxReconsumeTimes(1);
-consumer.subscribe("xxxxxxx", "*");
-consumer.registerMessageListener(new MessageListenerConcurrently() {
-    @Override
-    public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
-        try {
-            for (MessageExt message : msgs) {
-                String body = new String(message.getBody(), Charset.forName("UTF-8"));
-                //业务处理
-                
-                //删除事务消息
-                reliableMessageService.deleteMessage(message.getTopic(), msg.getMessageId());
-                log.info("xxxxxx-处理消息成功");
-            }
-            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-        } catch (Throwable e) {
-            log.info("xxxxx-处理消息失败", e);
-            return ConsumeConcurrentlyStatus.RECONSUME_LATER;
-        }
+@Component
+@Slf4j
+public class PayQueueRocketmqConsumer {
 
+    @DubboReference
+    private IRechargeOrderService rechargeOrderService;
+    @DubboReference
+    private IReliableMessageService reliableMessageService;
+
+    @PostConstruct
+    public void handler() throws MQClientException {
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("pay_queue_consumer_group");
+        consumer.setNamesrvAddr("localhost:9876");
+        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
+        consumer.setConsumeThreadMax(1);
+        consumer.setConsumeThreadMin(1);
+        consumer.setMaxReconsumeTimes(1);
+        consumer.subscribe("pay_queue", "*");
+        consumer.registerMessageListener(new MessageListenerConcurrently() {
+
+            @Override
+            public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
+                try {
+                    System.out.printf("%s Receive New Messages: %s %n", Thread.currentThread().getName(), msgs);
+                    for (MessageExt message : msgs) {
+                        String body = new String(message.getBody(), Charset.forName("UTF-8"));
+                        TransactionMessage msg = JSONUtil.toBean(body, TransactionMessage.class);
+                        log.info("【payQueue】开始处理消息" + msg);
+                        PayOrder payOrder = JSONUtil.toBean(msg.getMessageBody(), PayOrder.class);
+                        rechargeOrderService.rechargeSuccess(payOrder);
+                        reliableMessageService.deleteMessage(message.getTopic(), msg.getMessageId());
+                        log.info("【payQueue】处理消息成功");
+                    }
+                    return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+                } catch (Throwable e) {
+                    log.info("【payQueue】处理消息失败", e);
+                    return ConsumeConcurrentlyStatus.RECONSUME_LATER;
+                }
+
+            }
+        });
+        consumer.start();
+        System.out.printf("pay queue consumer started.");
     }
-};
-consumer.start();
-System.out.printf("xxxxx-consumer started.");
+}
+        
+```
+
+## 编写消息消费方业务方法（Kafka）
+```
+@Component
+@Slf4j
+@Configuration
+public class PayQueueKafkaConsumer {
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory =
+            new ConcurrentKafkaListenerContainerFactory<String, String>();
+        factory.setConsumerFactory(consumerFactory());
+        return factory;
+    }
+
+    @Bean
+    public ConsumerFactory<String, String> consumerFactory() {
+        return new DefaultKafkaConsumerFactory<String, String>(consumerConfigs());
+    }
+
+    @Bean
+    public Map<String, Object> consumerConfigs() {
+        HashMap<String, Object> props = new HashMap<String, Object>();
+        props.put("bootstrap.servers", "localhost:9092");
+        props.put("group.id", "pay_queue_consumer_group");
+        props.put("enable.auto.commit", "true");
+        props.put("auto.commit.interval.ms", "1000");
+        props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        return props;
+    }
+
+    @DubboReference
+    private IRechargeOrderService rechargeOrderService;
+    @DubboReference
+    private IReliableMessageService reliableMessageService;
+
+    @KafkaListener(id = "pay", topics = "pay_queue")
+    public void listen(ConsumerRecord<String, String> record) {
+        String body = record.value();
+        TransactionMessage msg = JSONUtil.toBean(body, TransactionMessage.class);
+        log.info("【payQueue】开始处理消息" + msg);
+        PayOrder payOrder = JSONUtil.toBean(msg.getMessageBody(), PayOrder.class);
+        rechargeOrderService.rechargeSuccess(payOrder);
+        reliableMessageService.deleteMessage("pay_queue", msg.getMessageId());
+        log.info("【payQueue】处理消息成功");
+    }
+
+}
         
 ```
 
