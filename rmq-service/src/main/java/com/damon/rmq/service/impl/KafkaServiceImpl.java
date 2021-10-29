@@ -80,7 +80,7 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
 
         String body = JSONObject.toJSONString(transactionMessage);
         try {
-            kafkaTemplate.send(queue, messageId, body).get();
+            kafkaTemplate.send(queue, body).get();
             mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SENDING.getValue());
             log.info("send message to kafka succeed. queue: {}, message id : {}, body : {} ", queue, messageId, body);
         } catch (Exception e) {
@@ -91,7 +91,7 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
     }
 
     @Override
-    public void directSendMessage(String queuue, String messageId, String messageBody) {
+    public void directSendMessage(String queue, String messageId, String messageBody) {
 
         TransactionMessage transactionMessage = new TransactionMessage();
         transactionMessage.setMessageId(messageId);
@@ -100,8 +100,8 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
         String body = JSONObject.toJSONString(transactionMessage);
 
         try {
-            kafkaTemplate.send(queuue, messageId, body).get();
-            log.info("send message to kafka succeed. queue: {}, message id : {}, body : {} ", queuue, messageId, body);
+            kafkaTemplate.send(queue, body).get();
+            log.info("send message to kafka succeed. queue: {}, message id : {}, body : {} ", queue, messageId, body);
         } catch (Exception e) {
             log.error("send message to kafka failed ", e);
             throw new RmqException("send message to kafka failed ", e);

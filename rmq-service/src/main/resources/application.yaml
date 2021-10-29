@@ -3,6 +3,6 @@ spring:
     active: @profileActive@
 mybatis:
   typeAliasesPackage: com.damon.rmq.api.model.po, com.damon.rmq.api.admin.model.po
-  mapperLocations: classpath:com/cn/rmq/dal/mapper/**/*.xml
+  mapperLocations: classpath:com/damon/rmq/dal/mapper/**/*.xml
   configuration:
     cache-enabled: true
