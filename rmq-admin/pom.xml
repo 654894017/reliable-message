@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<artifactId>reliable-message</artifactId>
-		<groupId>com.cn.rmq</groupId>
+		<groupId>com.damon.rmq</groupId>
 		<version>1.0.1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -61,7 +61,7 @@
 
 		<!-- modules -->
 		<dependency>
-			<groupId>com.cn.rmq</groupId>
+			<groupId>com.damon.rmq</groupId>
 			<artifactId>rmq-admin-api</artifactId>
 		</dependency>
 	</dependencies>
@@ -80,7 +80,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>com.cn.rmq.admin.AdminApplication</mainClass>
+					<mainClass>com.damon.rmq.admin.AdminApplication</mainClass>
 					<outputDirectory>../target</outputDirectory>
 				</configuration>
 				<executions>

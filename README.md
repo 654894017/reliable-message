@@ -34,7 +34,7 @@
 ## 在业务代码中引入RMQ的Dubbo服务
 ```
 import org.apache.dubbo.config.annotation.DubboReference;
-import com.cn.rmq.api.service.IReliableMessageService;
+import com.damon.rmq.api.service.IReliableMessageService;
 
 @DubboReference
 private IReliableMessageService reliableMessageService;

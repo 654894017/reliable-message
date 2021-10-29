@@ -57,6 +57,6 @@
         <appender-ref ref="fileErrorLog" />
     </root>
 
-    <logger name="com.cn.rmq.dal.mapper" level="INFO"/>
+    <logger name="com.damon.rmq.dal.mapper" level="INFO"/>
 
 </configuration>

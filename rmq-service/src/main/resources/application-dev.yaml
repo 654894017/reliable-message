@@ -1,6 +1,5 @@
-spring:   
-   # rocketmq,kafka
-   rmq: kafka    
+spring: 
+   rmq: kafka    # rocketmq,kafka
 #   rocketmq:
 #    name-serv: localhost:9876
 #    producer-group: rmq-group
@@ -16,4 +15,4 @@ dubbo:
     name: dubbo
     port: 20881
   scan:
-    base-packages: com.cn.rmq.service.impl
+    base-packages: com.damon.rmq.service.impl

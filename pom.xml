@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.cn.rmq</groupId>
+	<groupId>com.damon.rmq</groupId>
 	<artifactId>reliable-message</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0.1</version>
@@ -47,7 +47,12 @@
 		<dubbo.version>2.7.12</dubbo.version>
 		<!--roketmq client -->
 		<rocketmq.client.version>4.7.1</rocketmq.client.version>
-
+		<!--kafka client -->
+		<kafka.client.version>3.0.0</kafka.client.version>
+	    <!--spring kafka  -->
+		<spring.kafka.version>2.7.8</spring.kafka.version>
+		
+		<kafka.streams.version>3.0.0</kafka.streams.version>
 		<!--guava -->
 		<guava.version>27.1-jre</guava.version>
 
@@ -177,27 +182,27 @@
 
 			<!-- modules -->
 			<dependency>
-				<groupId>com.cn.rmq</groupId>
+				<groupId>com.damon.rmq</groupId>
 				<artifactId>rmq-admin-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.cn.rmq</groupId>
+				<groupId>com.damon.rmq</groupId>
 				<artifactId>rmq-service-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.cn.rmq</groupId>
+				<groupId>com.damon.rmq</groupId>
 				<artifactId>rmq-schedule-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.cn.rmq</groupId>
+				<groupId>com.damon.rmq</groupId>
 				<artifactId>rmq-dal</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.cn.rmq</groupId>
+				<groupId>com.damon.rmq</groupId>
 				<artifactId>rmq-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -209,17 +214,17 @@
 			<dependency>
 				<groupId>org.apache.kafka</groupId>
 				<artifactId>kafka-clients</artifactId>
-				<version>3.0.0</version>
+				<version>${kafka.client.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.kafka</groupId>
 				<artifactId>spring-kafka</artifactId>
-				<version>2.7.8</version>
+				<version>${spring.kafka.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.kafka</groupId>
 				<artifactId>kafka-streams</artifactId>
-				<version>3.0.0</version>
+				<version>${kafka.streams.version}</version>
 			</dependency>
 		</dependencies>
 

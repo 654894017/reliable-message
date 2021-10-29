@@ -13,4 +13,4 @@ dubbo:
     name: dubbo
     port: 20881
   scan:
-    base-packages: com.cn.rmq.service.impl
+    base-packages: com.damon.rmq.service.impl
