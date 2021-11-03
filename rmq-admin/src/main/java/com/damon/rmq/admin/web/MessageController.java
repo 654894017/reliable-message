@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping(value = "message")
 public class MessageController {
-    @DubboReference(retries = -1)
+    @DubboReference
     private IMessageService messageService;
 
     @GetMapping("page")

@@ -17,3 +17,5 @@ dubbo:
     address: zookeeper://127.0.0.1:2181
   consumer:
     check: false
+  reference: -1
+  service: -1

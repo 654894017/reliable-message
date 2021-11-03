@@ -43,6 +43,8 @@ private IReliableMessageService reliableMessageService;
 ## 编写消息发送方业务方法
 结合事务消息实现TCC效果，如果不需要使用MQ传递领域消息到其他业务模块，可以在完成业务后删除事务消息，不需要confirm它。
 
+- 案例1
+
 ```
 public void doBusiness() {
         // 自定义消息队列名称
@@ -53,7 +55,6 @@ public void doBusiness() {
         String messageId = reliableMessageService.createPreMessage(queue, messageContent);
 
         try{
-         
          // 执行业务1 Try(业务层面需要做好幂等、悬挂)
          // 执行业务2 Try(业务层面需要做好幂等、悬挂)
          // 执行业务3 Commit(业务层面需要做好幂等、悬挂)    
@@ -71,41 +72,7 @@ public void doBusiness() {
         RpcContext.getContext().asyncCall(() -> reliableMessageService.confirmAndSendMessage(queue, messageId));
     }
 ```
-
-## 编写业务回调check方法
-当执行doBusiness异常回滚业务时或业务在Commit时，系统奔溃，消息确认子系统定时发起消息确认
-
-```
-@RequestMapping("check")
-@ResponseBody
-public CheckStatus checkBusStatus(BusReq req) {
-   
-   //如果业务执行成功 
-   //return new CheckStats(0,1||2)
-   
-   
-   //如果业务执行失败
-   //回滚业务1 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
-   //回滚业务2 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
-   //执行业务3 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
-   //return new CheckStats(0,0)
-   
-}
-
-CheckStatus 格式
-{	
-  "code": 0,  // 0 成功  1 失败 
-  "data": 1   // 0 业务处理失败，删除半提交消息 1 业务处理成功，RMQ发送半消息到MQ中间件 2 业务处理成功，RMQ删除半提交消息 
-}
-
-```
-### 为什么会有3种状态？ 
-- 0 业务没有处理成功，回滚完所有业务后，半提交消息需要删除。   
-- 1 业务处理成功了，只是刚好在消息confirm时系统宕机了，此时消息确认子系统check业务系统后需要重新发送。
-- 2 不需要传递领域消息到其他业务模块，业务已经完成了，需要删除了（虽然和0状态码效果是一样的，还是区分开来好一点）。
-
-
-## 编写消息消费方业务方法（RocketMQ）
+## 案例1编写消息消费方业务方法（RocketMQ）
 ```
 @Component
 @Slf4j
@@ -155,7 +122,7 @@ public class PayQueueRocketmqConsumer {
         
 ```
 
-## 编写消息消费方业务方法（Kafka）
+## 案例1编写消息消费方业务方法（Kafka）
 ```
 @Component
 @Slf4j
@@ -206,6 +173,134 @@ public class PayQueueKafkaConsumer {
 }
         
 ```
+
+
+
+- 案例2
+
+```
+public void doBusiness() {
+        // 自定义消息队列名称
+        String queue = "test_queue";
+        // 消息内容, 如果传输对象，建议转换成json字符串
+        String messageContent = "......";
+        // 调用RMQ，预发送消息
+        String messageId = reliableMessageService.createPreMessage(queue, messageContent);
+
+        try{
+         
+         // 执行业务1 Try(业务层面需要做好幂等、悬挂)
+         // 执行业务2 Try(业务层面需要做好幂等、悬挂)
+         // 执行业务3 Commit(业务层面需要做好幂等、悬挂)    
+        }catch(Throwable e){
+         String messageBody = "失败回滚消息";
+         //发送失败消息到MQ，异步回滚异常。
+         RpcContext.getContext().asyncCall(() -> reliableMessageService.directSendMessage(queue, messageId, messageBody));
+         return;
+        }
+        // 执行业务1 Commit(业务层面需要做好幂等、悬挂)
+        // 执行业务2 Commit(业务层面需要做好幂等、悬挂)    
+        // 异步调用RMQ，确认发送消息(如果是当做分布式事务框架使用，不需要对外发送消息，则不需要进行消息confirm操作，直接调用deleteMessage删除事务消息即可)
+        RpcContext.getContext().asyncCall(() -> reliableMessageService.confirmAndSendMessage(queue, messageId));
+    }
+```
+
+
+## 案例2消息消费方业务方法，（RocketMQ）
+```
+@Component
+@Slf4j
+public class PayQueueRocketmqConsumer {
+
+    @DubboReference
+    private IRechargeOrderService rechargeOrderService;
+    @DubboReference
+    private IReliableMessageService reliableMessageService;
+
+    @PostConstruct
+    public void handler() throws MQClientException {
+        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("pay_queue_consumer_group");
+        consumer.setNamesrvAddr("localhost:9876");
+        consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
+        consumer.setConsumeThreadMax(1);
+        consumer.setConsumeThreadMin(1);
+        consumer.setMaxReconsumeTimes(1);
+        consumer.subscribe("pay_queue", "*");
+        consumer.registerMessageListener(new MessageListenerConcurrently() {
+
+            @Override
+            public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
+                try {
+                    System.out.printf("%s Receive New Messages: %s %n", Thread.currentThread().getName(), msgs);
+                    for (MessageExt message : msgs) {
+                       
+                        String body = new String(message.getBody(), Charset.forName("UTF-8"));
+                        TransactionMessage msg = JSONUtil.toBean(body, TransactionMessage.class);
+                        
+                        log.info("【payQueue】开始处理消息" + msg);
+                        PayOrderCancel cancel = JSONUtil.toBean(msg.getMessageBody(), PayOrderCancel.class);
+                       
+                        //回滚业务1 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)	
+                        
+                        //回滚业务2 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
+                        
+                        //执行业务3 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
+                        
+                        //处理下游业务
+                        rechargeOrderService.rechargeSuccess(payOrder);
+                        //删除rmq消息
+                        reliableMessageService.deleteMessage(message.getTopic(), msg.getMessageId());
+                        
+                        log.info("【payQueue】处理消息成功");
+                    }
+                    return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+                } catch (Throwable e) {
+                    log.info("【payQueue】处理消息失败", e);
+                    return ConsumeConcurrentlyStatus.RECONSUME_LATER;
+                }
+
+            }
+        });
+        consumer.start();
+        System.out.printf("pay queue consumer started.");
+    }
+}
+        
+```
+
+## 编写业务回调check方法
+当执行doBusiness异常回滚业务时或业务在Commit时，系统奔溃，消息确认子系统定时发起消息确认
+
+```
+@RequestMapping("check")
+@ResponseBody
+public CheckStatus checkBusStatus(BusReq req) {
+   
+   //如果业务执行成功 
+   //return new CheckStats(0,1||2)
+   
+   
+   //如果业务执行失败
+   //回滚业务1 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
+   //回滚业务2 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
+   //执行业务3 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
+   //return new CheckStats(0,0)
+   
+}
+
+CheckStatus 格式
+{	
+  "code": 0,  // 0 成功  1 失败 
+  "data": 1   // 0 业务处理失败，删除半提交消息 1 业务处理成功，RMQ发送半消息到MQ中间件 2 业务处理成功，RMQ删除半提交消息 
+}
+
+```
+### 为什么会有3种状态？ 
+- 0 业务没有处理成功，回滚完所有业务后，半提交消息需要删除。   
+- 1 业务处理成功了，只是刚好在消息confirm时系统宕机了，此时消息确认子系统check业务系统后需要重新发送。
+- 2 不需要传递领域消息到其他业务模块，业务已经完成了，需要删除了（虽然和0状态码效果是一样的，还是区分开来好一点）。
+
+
 
 ## 业务接口注意事项
 
