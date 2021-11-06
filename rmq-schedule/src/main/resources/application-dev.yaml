@@ -6,8 +6,10 @@ dubbo:
     address: zookeeper://127.0.0.1:2181
   scan:
     base-packages: com.damon.rmq.schedule.service.impl
-  reference: -1
-  service: -1
+  reference:
+    retries: -1
+  service: 
+    retries: -1
 
 schedule:
   check:
