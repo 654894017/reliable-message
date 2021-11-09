@@ -29,6 +29,7 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
+
 /**
  * 
  * 
@@ -89,12 +90,14 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
                         try {
                             checkMessage(queue, message);
                         } catch (Exception e) {
-                            log.error("【CheckTask】Exception, messageId=" + message.getId() + ", error:", e);
+                            log.error("【CheckTask】Exception, queue: {}, messageId= {}, error:",
+                                message.getConsumerQueue(), message.getId(), e);
                         } finally {
                             latch.countDown();
                         }
                     });
                 } catch (RejectedExecutionException e) {
+                    latch.countDown();
                     log.error("【CheckTask】Thread pool exhaustion:" + e.getMessage());
                 }
             }

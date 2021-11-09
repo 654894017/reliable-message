@@ -80,12 +80,14 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
                         try {
                             recoverMessage(message);
                         } catch (Exception e) {
-                            log.error("【RecoverTask】Exception, messageId=" + message.getId() + ", error:", e);
+                            log.error("【RecoverTask】Exception, queue: {}, messageId= {}, error:",
+                                message.getConsumerQueue(), message.getId(), e);
                         } finally {
                             latch.countDown();
                         }
                     });
                 } catch (RejectedExecutionException e) {
+                    latch.countDown();
                     log.error("【RecoverTask】Thread pool exhaustion:" + e.getMessage());
                 }
             }
