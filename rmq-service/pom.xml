@@ -57,7 +57,7 @@
 		<!-- modules -->
 		<dependency>
 			<groupId>com.damon.rmq</groupId>
-			<artifactId>rmq-dal</artifactId>
+			<artifactId>rmq-storage</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.damon.rmq</groupId>

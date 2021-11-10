@@ -1,4 +1,4 @@
-package com.damon.rmq.admin.base;
+package com.damon.rmq.admin.aop;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;

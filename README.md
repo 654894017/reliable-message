@@ -193,13 +193,12 @@ public void doBusiness() {
          // 执行业务2 Try(业务层面需要做好幂等、悬挂)
          // 执行业务3 Commit(业务层面需要做好幂等、悬挂)    
         }catch(Throwable e){
-         String messageBody = "失败回滚消息";
-         //发送失败消息到MQ，异步回滚异常。
-         RpcContext.getContext().asyncCall(() -> reliableMessageService.directSendMessage(queue, messageId, messageBody));
+         // 回滚业务1 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)	                     
+         // 回滚业务2 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)                      
+         // 执行业务3 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
+         RpcContext.getContext().asyncCall(() -> reliableMessageService.deleteMessage(queue, messageId));
          return;
-        }
-        // 执行业务1 Commit(业务层面需要做好幂等、悬挂)
-        // 执行业务2 Commit(业务层面需要做好幂等、悬挂)    
+        } 
         // 异步调用RMQ，确认发送消息(如果是当做分布式事务框架使用，不需要对外发送消息，则不需要进行消息confirm操作，直接调用deleteMessage删除事务消息即可)
         RpcContext.getContext().asyncCall(() -> reliableMessageService.confirmAndSendMessage(queue, messageId));
     }
@@ -239,13 +238,8 @@ public class PayQueueRocketmqConsumer {
                         
                         log.info("【payQueue】开始处理消息" + msg);
                         PayOrderCancel cancel = JSONUtil.toBean(msg.getMessageBody(), PayOrderCancel.class);
-                       
-                        //回滚业务1 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)	
-                        
-                        //回滚业务2 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
-                        
-                        //执行业务3 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
-                        
+                        // 执行业务1 Commit(业务层面需要做好幂等、悬挂)
+                        // 执行业务2 Commit(业务层面需要做好幂等、悬挂)   
                         //处理下游业务
                         rechargeOrderService.rechargeSuccess(payOrder);
                         //删除rmq消息

@@ -41,7 +41,7 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
     implements IReliableMessageService {
 
     @Autowired
-    private DefaultMQProducer defaultMQProducer;
+    private DefaultMQProducer producer;
 
     @Override
     public String createPreMessage(String consumerQueue, String messageBody) {
@@ -63,7 +63,7 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
         message.setUpdateTime(LocalDateTime.now());
         mapper.insertSelective(message);
 
-        log.info("create pre message succeed. queue : {}, message id : {}, body : {}", consumerQueue, id, messageBody);
+        log.debug("create pre message succeed. queue : {}, message id : {}, body : {}", consumerQueue, id, messageBody);
         return id;
     }
 
@@ -89,10 +89,10 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
             new org.apache.rocketmq.common.message.Message(message.getConsumerQueue(),
                 body.getBytes(Charset.forName("UTF-8")));
         try {
-            SendResult result = defaultMQProducer.send(rmessage);
+            SendResult result = producer.send(rmessage);
             if (result.getSendStatus().equals(SendStatus.SEND_OK)) {
                 mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SENDING.getValue());
-                log.info("send message to rocketmq succeed. queue: {}, message id : {}, body : {} ", queue, messageId,
+                log.debug("send message to rocketmq succeed. queue: {}, message id : {}, body : {} ", queue, messageId,
                     body);
             } else {
                 log.error("send message to rocketmq failed, rocketmq return status code: {}.", result.getSendStatus());
@@ -113,19 +113,19 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
         TransactionMessage transactionMessage = new TransactionMessage();
         transactionMessage.setMessageId(messageId);
         transactionMessage.setMessageBody(messageBody);
-
+        
         String body = JSONObject.toJSONString(transactionMessage);
 
         org.apache.rocketmq.common.message.Message rmessage =
             new org.apache.rocketmq.common.message.Message(consumerQueue, body.getBytes(Charset.forName("UTF-8")));
         try {
-            SendResult result = defaultMQProducer.send(rmessage);
+            SendResult result = producer.send(rmessage);
             if (!result.getSendStatus().equals(SendStatus.SEND_OK)) {
                 log.error("send message to rocketmq failed, rocketmq return status code: {}.", result.getSendStatus());
                 throw new RmqException(
                     "send message to rocketmq failed, rocketmq return status code: " + result.getSendStatus());
             }
-            log.info("send message to rocketmq succeed. queue: {}, message id : {}, body : {}.", consumerQueue,
+            log.debug("send message to rocketmq succeed. queue: {}, message id : {}, body : {}.", consumerQueue,
                 messageId, body);
         } catch (MQClientException | RemotingException | MQBrokerException | InterruptedException e) {
             log.error("send message to rocketmq failed ", e);
@@ -137,7 +137,7 @@ public class RocketMQServiceImpl extends BaseServiceImpl<MessageMapper, Message,
     public void deleteMessage(String queue, String messageId) {
         int count = mapper.deleteMessage(queue, messageId);
         if (count > 0) {
-            log.info("delete message succeed. queue: {}, message id : {}, body : {} ", queue, messageId);
+            log.debug("delete message succeed. queue: {}, message id : {}, body : {} ", queue, messageId);
         } else {
             log.error("delete message failed. queue: {}, message id : {}, body : {} ", queue, messageId);
         }

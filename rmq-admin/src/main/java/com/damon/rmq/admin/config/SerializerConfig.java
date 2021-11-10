@@ -8,11 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDateTime;
 
-/**
- * <p>Title:</p>
- * <p>Description:</p>
- *
- */
+
 @Configuration
 public class SerializerConfig {
 

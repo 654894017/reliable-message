@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.authc.AuthenticationException;
@@ -48,17 +49,18 @@ public class AdminShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         // 获取登录时输入的用户名
-        String username = (String) principalCollection.fromRealm(getName()).iterator().next();
+        String username = (String)principalCollection.fromRealm(getName()).iterator().next();
         // 到数据库查是否有此对象
         List<SysUser> users = sysUserService.selectByUserName(username);
-        if (null == users || users.size() <= 0) {
+
+        if (CollectionUtils.isEmpty(users)) {
             return null;
         }
 
         // 权限信息对象info,用来存放查出的用户的所有的角色（role）及资源（resource）
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         List<SysRole> roles = sysRoleService.selectByUserId(users.get(0).getSysUserId());
-        if (null == roles || roles.size() == 0) {
+        if (CollectionUtils.isEmpty(roles)) {
             return null;
         }
 
@@ -70,10 +72,9 @@ public class AdminShiroRealm extends AuthorizingRealm {
         info.setRoles(roleNames);
         List<SysResource> resources = sysResourceService.selectByUserId(users.get(0).getSysUserId());
         for (SysResource resource : resources) {
-            if (StringUtils.isEmpty(resource.getPermission())) {
-                continue;
+            if (StringUtils.isNotBlank(resource.getPermission())) {
+                info.addStringPermission(resource.getPermission());
             }
-            info.addStringPermission(resource.getPermission());
         }
         return info;
     }
@@ -84,13 +85,13 @@ public class AdminShiroRealm extends AuthorizingRealm {
      * </p>
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
+        throws AuthenticationException {
+        UsernamePasswordToken token = (UsernamePasswordToken)authenticationToken;
         List<SysUser> users = sysUserService.selectByUserName(token.getUsername());
-        if (null == users || users.size() <= 0) {
+        if (CollectionUtils.isEmpty(users)) {
             return null;
         }
-
         SysUser user = users.get(0);
         return new SimpleAuthenticationInfo(user.getUserName(), user.getUserPwd(), getName());
     }

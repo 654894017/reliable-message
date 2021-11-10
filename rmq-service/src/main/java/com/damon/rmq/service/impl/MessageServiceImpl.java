@@ -26,8 +26,8 @@ import lombok.extern.slf4j.Slf4j;
  * @author xianping_lu
  *
  */
-@DubboService
 @Slf4j
+@DubboService
 public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, String> implements IMessageService {
 
     @Autowired
@@ -118,7 +118,6 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         if (message == null) {
             throw new CheckException("message not exist");
         }
-
         // 增加重发次数
         mapper.addResendTimes(messageId);
 

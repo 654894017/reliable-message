@@ -10,7 +10,7 @@
 	<version>1.0.1</version>
 	<modules>
 		<module>rmq-api</module>
-		<module>rmq-dal</module>
+		<module>rmq-storage</module>
 		<module>rmq-service</module>
 		<module>rmq-service-api</module>
 		<module>rmq-admin</module>

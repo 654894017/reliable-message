@@ -1,12 +1,14 @@
 package com.damon.rmq.admin.utils;
 
-import org.apache.commons.lang3.StringUtils;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
- * <p>图形验证码工具类</p>
+ * 图形验证码工具类
+ * 
+ * @author xianpinglu
  *
  */
 public final class CaptchaValidateUtil {
@@ -43,7 +45,7 @@ public final class CaptchaValidateUtil {
 
         Object captcha = session.getAttribute(SESSION_KEY);
         if (captcha != null && userCaptcha.equalsIgnoreCase(captcha.toString())) {
-            long timestamp = (Long) session.getAttribute(SESSION_TIME_KEY);
+            long timestamp = (Long)session.getAttribute(SESSION_TIME_KEY);
             // 判断是否过期
             if ((timestamp + TIMEOUT) > System.currentTimeMillis()) {
                 session.removeAttribute(SESSION_KEY);

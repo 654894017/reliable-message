@@ -56,7 +56,7 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
         message.setUpdateTime(LocalDateTime.now());
         mapper.insertSelective(message);
         
-        log.info("create pre message succeed. queue : {}, message id : {}, body : {}", consumerQueue, id, messageBody);
+        log.debug("create pre message succeed. queue : {}, message id : {}, body : {}", consumerQueue, id, messageBody);
         return id;
     }
 
@@ -82,7 +82,7 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
         try {
             kafkaTemplate.send(queue, body).get();
             mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SENDING.getValue());
-            log.info("send message to kafka succeed. queue: {}, message id : {}, body : {} ", queue, messageId, body);
+            log.debug("send message to kafka succeed. queue: {}, message id : {}, body : {} ", queue, messageId, body);
         } catch (Exception e) {
             log.error("send message to kafka failed ", e);
             mapper.updateMessageStatus(queue, messageId, MessageStatusEnum.SEND_FAILED.getValue());
@@ -101,7 +101,7 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
 
         try {
             kafkaTemplate.send(queue, body).get();
-            log.info("send message to kafka succeed. queue: {}, message id : {}, body : {} ", queue, messageId, body);
+            log.debug("send message to kafka succeed. queue: {}, message id : {}, body : {} ", queue, messageId, body);
         } catch (Exception e) {
             log.error("send message to kafka failed ", e);
             throw new RmqException("send message to kafka failed ", e);
@@ -112,7 +112,7 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
     public void deleteMessage(String queue, String messageId) {
         int count = mapper.deleteMessage(queue, messageId);
         if (count > 0) {
-            log.info("delete message succeed. queue: {}, message id : {}, body : {} ", queue, messageId);
+            log.debug("delete message succeed. queue: {}, message id : {}, body : {} ", queue, messageId);
         } else {
             log.error("delete message failed. queue: {}, message id : {}, body : {} ", queue, messageId);
         }
