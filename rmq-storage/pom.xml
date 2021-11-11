@@ -54,7 +54,7 @@
 		</repository>
 	</repositories> -->
 	<build>
-		<finalName>rmq-dal-${parent.version}</finalName>
+		<finalName>rmq-storage-${parent.version}</finalName>
 
 		<resources>
 			<resource>

@@ -198,7 +198,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.damon.rmq</groupId>
-				<artifactId>rmq-dal</artifactId>
+				<artifactId>rmq-storage</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

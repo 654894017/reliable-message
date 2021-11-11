@@ -45,17 +45,17 @@
 			<groupId>org.apache.zookeeper</groupId>
 			<artifactId>zookeeper</artifactId>
 		</dependency>
-		<dependency>
+		<dependency>  
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-framework</artifactId>
 		</dependency>
-		<dependency>
+		<dependency>   
 			<groupId>org.apache.curator</groupId>
 			<artifactId>curator-recipes</artifactId>
 		</dependency>
-
-		<!-- modules -->
-		<dependency>
+   
+		<!-- modules -->    
+		<dependency>   
 			<groupId>com.damon.rmq</groupId>
 			<artifactId>rmq-storage</artifactId>
 		</dependency>

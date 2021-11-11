@@ -2,7 +2,10 @@ package com.damon.rmq.service.utils;
 
 import org.springframework.core.io.ClassPathResource;
 
+import cn.hutool.core.io.FileUtil;
+
 import java.io.*;
+import java.util.UUID;
 
 /**
  * <p>
@@ -24,24 +27,25 @@ public class ClassPathFileUtil {
     public static File getFile(String fileName) throws IOException {
         // 获取当前执行启动命令的路径
         String userDir = System.getProperty(USER_DIR);
-        System.out.println("user.dir:"+userDir);
+        System.out.println("user.dir:" + userDir);
 
         File targetFile;
         // 打包后启动时，路径以\\bin结束：E:\\github\\spring-boot-assembly\\target\\spring-boot-assembly\\bin
         // 执行startup.bat或者startup.sh命令的路径，默认目录是bin，如果不是，请修改
-        if (userDir.endsWith(BIN)){
+        if (userDir.endsWith(BIN)) {
             File file = new File(userDir);
             // 获取E:\\github\\spring-boot-assembly
             File parentFile = file.getParentFile();
             // 获取配置文件目录，默认配置文件目录是config，如果不是，请修改
-            File configDir = new File(parentFile,CONFIG);
+            File configDir = new File(parentFile, CONFIG);
             // 目标文件
-            targetFile = new File(configDir,fileName);
-        }else{
+            targetFile = new File(configDir, fileName);
+        } else {
             // 工具中启动
-            // E:\github\spring-boot-assembly\target\classes\test.jks
             ClassPathResource classPathResource = new ClassPathResource(fileName);
-            targetFile = classPathResource.getFile();
+            targetFile =
+                File.createTempFile(UUID.randomUUID().toString(), fileName.substring(fileName.lastIndexOf(".")));
+            FileUtil.writeFromStream(classPathResource.getInputStream(), targetFile);
         }
         System.out.println("targetFile = " + targetFile);
         return targetFile;
