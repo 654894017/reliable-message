@@ -5,8 +5,10 @@
     function searchMessage() {
         var searchform = $('#message_searchform');
         if (searchform.form('validate')) {
-      		$('#message_datagrid').datagrid({url: 'message/page'});
-        	$('#message_datagrid').datagrid('load', serializeObject($('#message_searchform')));
+      		$('#message_datagrid').datagrid({
+      			url: 'message/page',
+      			queryParams:serializeObject($('#message_searchform'))
+      		});
         }
     }
 

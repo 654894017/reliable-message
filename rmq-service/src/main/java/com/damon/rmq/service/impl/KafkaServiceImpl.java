@@ -112,9 +112,9 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
     public void deleteMessage(String queue, String messageId) {
         int count = mapper.deleteMessage(queue, messageId);
         if (count > 0) {
-            log.debug("delete message succeed. queue: {}, message id : {}, body : {} ", queue, messageId);
+            log.debug("delete message succeed. queue: {}, message id : {}", queue, messageId);
         } else {
-            log.error("delete message failed. queue: {}, message id : {}, body : {} ", queue, messageId);
+            log.error("delete message failed. queue: {}, message id : {}", queue, messageId);
         }
     }
 }
