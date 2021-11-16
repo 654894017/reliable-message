@@ -59,11 +59,13 @@ public void doBusiness() {
          // 执行业务2 Try(业务层面需要做好幂等、悬挂)
          // 执行业务3 Commit(业务层面需要做好幂等、悬挂)    
         }catch(Throwable e){
-         // 回滚业务1 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
-         // 回滚业务2 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
-         // 执行业务3 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
-         // 删除预发送消息
-         RpcContext.getContext().asyncCall(() -> reliableMessageService.deleteMessage(queue, messageId));
+         RpcContext.getContext().asyncCall(() -> 
+            // 回滚业务1 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
+            // 回滚业务2 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
+            // 执行业务3 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
+            // 删除预发送消息
+            reliableMessageService.deleteMessage(queue, messageId)
+         );
          return;
         }
         // 执行业务1 Commit(业务层面需要做好幂等、悬挂)
