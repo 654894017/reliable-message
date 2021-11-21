@@ -59,11 +59,11 @@ public class SysResourceController {
     @RequestMapping(value = "create")
     @ResponseBody
     @RequiresPermissions("resource:create")
-    public Object create(@ModelAttribute SysResourceDTO model, HttpSession session) {
+    public RspBase<SysResourceDTO> create(@ModelAttribute SysResourceDTO model, HttpSession session) {
         log.info("请求参数：" + model);
         // 资源名称验证
         List<SysResourceDTO> resources = sysResourceService.selectByName(model.getName());
-        RspBase rspBase = new RspBase();
+        RspBase<SysResourceDTO> rspBase = new RspBase<>();
         if (null != resources && resources.size() > 0) {
             rspBase.code(Constants.CODE_FAILURE).msg("该资源已存在");
             log.warn("应答内容：" + rspBase);
@@ -92,11 +92,11 @@ public class SysResourceController {
      */
     @RequestMapping(value = "delete")
     @ResponseBody
-    public Object delete(@RequestParam("resourceIds") String resourceIds) {
+    public RspBase<Void> delete(@RequestParam("resourceIds") String resourceIds) {
         log.info("请求参数：resourceIds=" + resourceIds);
         List<String> list = Arrays.asList(resourceIds.split(","));
         int ret = sysResourceService.deleteByPrimaryKeys(list);
-        RspBase rspBase = new RspBase();
+        RspBase<Void> rspBase = new RspBase<>();
         if (ret <= 0) {
             rspBase.code(Constants.CODE_FAILURE).msg("删除失败");
             log.warn("应答内容：" + rspBase);
@@ -115,11 +115,11 @@ public class SysResourceController {
      */
     @RequestMapping(value = "update")
     @ResponseBody
-    public Object update(@ModelAttribute SysResourceDTO model, HttpSession session) {
+    public RspBase<SysResourceDTO> update(@ModelAttribute SysResourceDTO model, HttpSession session) {
         log.info("请求参数：" + model);
         // 资源验证
         SysResource resource = sysResourceService.selectByPrimaryKey(model.getResourceId());
-        RspBase rspBase = new RspBase();
+        RspBase<SysResourceDTO> rspBase = new RspBase<>();
         if (null == resource) {
             rspBase.code(Constants.CODE_FAILURE).msg("资源不存在");
             log.warn("应答内容：" + rspBase);
@@ -154,15 +154,15 @@ public class SysResourceController {
      */
     @RequestMapping(value = "search")
     @ResponseBody
-    public Object searchResources(@ModelAttribute SysResourceDTO model) {
+    public DataGrid<SysResourceDTO> searchResources(@ModelAttribute SysResourceDTO model) {
         log.info("请求参数：" + model);
-        DataGrid datagrid = sysResourceService.selectByConditionPage(model);
+        DataGrid<SysResourceDTO> datagrid = sysResourceService.selectByConditionPage(model);
         return datagrid;
     }
 
     @RequestMapping(value = "menu")
     @ResponseBody
-    public Object getMenu() {
+    public List<SysResourceDTO> getMenu() {
         List<SysResourceDTO> resources = sysResourceService.selectByType(SysResourceTypeEnum.MENU.getValue());
 
 //        log.info("应答内容：" + resources);
@@ -171,7 +171,7 @@ public class SysResourceController {
 
     @RequestMapping(value = "ztree")
     @ResponseBody
-    public Object getZTree(@ModelAttribute SysResourceDTO model, HttpServletResponse response) {
+    public List<SysResourceDTO> getZTree(@ModelAttribute SysResourceDTO model, HttpServletResponse response) {
         log.info("请求参数：" + model);
         model.setStatus((byte) 1);
         List<SysResourceDTO> resources = sysResourceService.selectByConditionAll(model);

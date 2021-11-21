@@ -42,10 +42,10 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole, 
      * {@inheritDoc}
      */
     @Override
-    public DataGrid selectByConditionPage(SysRoleDTO model) {
+    public DataGrid<SysRoleDTO> selectByConditionPage(SysRoleDTO model) {
         PageHelper.startPage(model.getPage(), model.getRows());
         List<SysRoleDTO> list = sysRoleMapper.selectByConditionPage(model);
-        DataGrid dataGrid = new DataGrid();
+        DataGrid<SysRoleDTO> dataGrid = new DataGrid<>();
         dataGrid.setRows(list);
         dataGrid.setTotal((int) ((Page<SysRoleDTO>) list).getTotal());
         return dataGrid;

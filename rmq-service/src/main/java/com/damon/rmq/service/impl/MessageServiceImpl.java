@@ -12,6 +12,7 @@ import com.damon.rmq.api.exceptions.CheckException;
 import com.damon.rmq.api.model.dto.message.AdminMessageListQuery;
 import com.damon.rmq.api.model.po.Message;
 import com.damon.rmq.api.model.vo.AdminMessageVo;
+import com.damon.rmq.api.model.vo.AdminQueueVo;
 import com.damon.rmq.api.service.IMessageService;
 import com.damon.rmq.api.service.IReliableMessageService;
 import com.damon.rmq.dal.mapper.MessageMapper;
@@ -44,11 +45,11 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
     }
 
     @Override
-    public DataGrid listPage(AdminMessageListQuery req) {
-        Page<Object> pageInfo = PageHelper.startPage(req.getPage(), req.getRows());
+    public DataGrid<AdminMessageVo> listPage(AdminMessageListQuery req) {
+        Page<AdminQueueVo> pageInfo = PageHelper.startPage(req.getPage(), req.getRows());
         List<AdminMessageVo> list = mapper.adminListPage(req);
 
-        DataGrid dataGrid = new DataGrid();
+        DataGrid<AdminMessageVo> dataGrid = new DataGrid<>();
         dataGrid.setRows(list);
         dataGrid.setTotal(pageInfo.getTotal());
         return dataGrid;
@@ -123,7 +124,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
 
         // 发送MQ消息
         reliableMessageService.directSendMessage(queue, messageId, message.getMessageBody());
-        log.info("【resendMessageById】success, messageId={}", messageId);
+        log.info("【resendMessageById】success, queue={}, messageId={}",queue, messageId);
     }
 
     @Override

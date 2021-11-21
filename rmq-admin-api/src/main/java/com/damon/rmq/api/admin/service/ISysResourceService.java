@@ -17,7 +17,7 @@ public interface ISysResourceService extends IBaseService<SysResource, String> {
      *
      * @param resourceReq 查询条件
      */
-    DataGrid selectByConditionPage(SysResourceDTO resourceReq);
+    DataGrid<SysResourceDTO> selectByConditionPage(SysResourceDTO resourceReq);
 
     /**
      * <p>根据条件获取资源列表</p>

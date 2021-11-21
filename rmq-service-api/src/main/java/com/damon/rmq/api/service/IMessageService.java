@@ -40,7 +40,7 @@ public interface IMessageService extends IBaseService<Message, String> {
      * @param req 查询条件
      * @return 数据列表
      */
-    DataGrid listPage(AdminMessageListQuery req);
+    DataGrid<AdminMessageVo> listPage(AdminMessageListQuery req);
 
     /**
      * 重发某个消息队列中的全部已死亡的消息

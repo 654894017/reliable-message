@@ -58,10 +58,10 @@ public class SysRoleController {
      */
     @RequestMapping(value = "create")
     @ResponseBody
-    public RspBase create(@ModelAttribute SysRole model, HttpSession session) {
+    public RspBase<SysRole> create(@ModelAttribute SysRole model, HttpSession session) {
         log.info("请求参数：" + model);
 
-        RspBase rspBase = new RspBase();
+        RspBase<SysRole> rspBase = new RspBase<>();
         // 验证角色名称
         List<SysRole> roles = sysRoleService.selectByRoleName(model.getRoleName());
         if (null != roles && roles.size() > 0) {
@@ -89,11 +89,11 @@ public class SysRoleController {
      */
     @RequestMapping(value = "delete")
     @ResponseBody
-    public RspBase delete(@RequestParam("roleIds") String roleIds) {
+    public RspBase<Void> delete(@RequestParam("roleIds") String roleIds) {
         log.debug("请求参数：" + roleIds);
         List<String> list = Arrays.asList(roleIds.split(","));
         sysRoleService.deleteByPrimaryKeys(list);
-        RspBase rspBase = new RspBase();
+        RspBase<Void> rspBase = new RspBase<>();
         rspBase.code(Constants.CODE_SUCCESS).msg("删除成功");
         log.debug("应答内容：" + rspBase);
         return rspBase;
@@ -104,10 +104,10 @@ public class SysRoleController {
      */
     @RequestMapping(value = "update")
     @ResponseBody
-    public RspBase update(@ModelAttribute SysRole model, HttpSession session) {
+    public RspBase<SysRole> update(@ModelAttribute SysRole model, HttpSession session) {
         log.info("请求参数：" + model);
 
-        RspBase rspBase = new RspBase();
+        RspBase<SysRole> rspBase = new RspBase<>();
         // 验证角色
         SysRole role = sysRoleService.selectByPrimaryKey(model.getRoleId());
         if (null == role) {
@@ -157,9 +157,9 @@ public class SysRoleController {
     @RequiresPermissions("role:search")
     @RequestMapping(value = "search")
     @ResponseBody
-    public DataGrid search(@ModelAttribute SysRoleDTO model) {
+    public DataGrid<SysRoleDTO> search(@ModelAttribute SysRoleDTO model) {
         log.info("请求参数：" + model);
-        DataGrid datagrid = sysRoleService.selectByConditionPage(model);
+        DataGrid<SysRoleDTO> datagrid = sysRoleService.selectByConditionPage(model);
         return datagrid;
     }
 
@@ -174,9 +174,9 @@ public class SysRoleController {
 
     @RequestMapping(value = "{roleId}/resources/allot")
     @ResponseBody
-    public RspBase allotRoleResources(@RequestParam(value = "resourceIds") String resourceIds, @PathVariable("roleId") String roleId) {
+    public RspBase<Void> allotRoleResources(@RequestParam(value = "resourceIds") String resourceIds, @PathVariable("roleId") String roleId) {
         log.info("请求参数：roleId=" + roleId + ", resourceIds=" + resourceIds);
-        RspBase rspBase = new RspBase();
+        RspBase<Void> rspBase = new RspBase<Void>();
         int ret = sysRoleService.allotRoleResources(roleId, Arrays.asList(resourceIds.split(",")));
         if (ret <= 0) {
             rspBase.code(Constants.CODE_FAILURE).msg("分配角色资源失败");

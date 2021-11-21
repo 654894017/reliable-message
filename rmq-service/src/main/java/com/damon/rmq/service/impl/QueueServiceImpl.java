@@ -11,7 +11,7 @@ import org.springframework.dao.DuplicateKeyException;
 import com.damon.rmq.api.DataGrid;
 import com.damon.rmq.api.exceptions.CheckException;
 import com.damon.rmq.api.model.Constants;
-import com.damon.rmq.api.model.dto.queue.AdminQueueListDto;
+import com.damon.rmq.api.model.dto.queue.AdminQueueListQueryHelper;
 import com.damon.rmq.api.model.dto.queue.QueueAddDto;
 import com.damon.rmq.api.model.dto.queue.QueueUpdateDto;
 import com.damon.rmq.api.model.po.Queue;
@@ -37,12 +37,12 @@ public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String
     private IMessageService messageService;
 
     @Override
-    public DataGrid listPage(AdminQueueListDto req) {
+    public DataGrid<AdminQueueVo> listPage(AdminQueueListQueryHelper req) {
         
         Page<AdminQueueVo> pageInfo = PageHelper.startPage(req.getPage(), req.getRows());
         List<AdminQueueVo> list = mapper.adminListPage(req);
 
-        DataGrid dataGrid = new DataGrid();
+        DataGrid<AdminQueueVo> dataGrid = new DataGrid<>();
         dataGrid.setRows(list);
         dataGrid.setTotal(pageInfo.getTotal());
         return dataGrid;

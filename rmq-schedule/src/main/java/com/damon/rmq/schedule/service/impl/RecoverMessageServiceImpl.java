@@ -80,7 +80,7 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
                         try {
                             recoverMessage(message);
                         } catch (Exception e) {
-                            log.error("【RecoverTask】Exception, queue: {}, messageId= {}, error:",
+                            log.error("recover task Exception, queue: {}, messageId= {}, error:",
                                 message.getConsumerQueue(), message.getId(), e);
                         } finally {
                             latch.countDown();

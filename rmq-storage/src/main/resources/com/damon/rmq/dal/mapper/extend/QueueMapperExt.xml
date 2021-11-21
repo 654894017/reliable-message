@@ -36,7 +36,7 @@
         <include refid="condition"/>
     </select>
 
-    <select id="adminListPage" parameterType="com.damon.rmq.api.model.dto.queue.AdminQueueListDto"
+    <select id="adminListPage" parameterType="com.damon.rmq.api.model.dto.queue.AdminQueueListQueryHelper"
             resultMap="AdminQueueVo">
         SELECT <include refid="Base_Column_List" />
         FROM t_queue

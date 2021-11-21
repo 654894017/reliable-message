@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AdminQueueListDto extends PageReq {
+public class AdminQueueListQueryHelper extends PageReq {
     /**
      * 
      */

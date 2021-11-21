@@ -113,10 +113,10 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser, 
      * {@inheritDoc}
      */
     @Override
-    public DataGrid selectByConditionPage(SysUserDTO model) {
+    public DataGrid<SysUserDTO> selectByConditionPage(SysUserDTO model) {
         PageHelper.startPage(model.getPage(), model.getRows());
         List<SysUserDTO> list = mapper.selectByConditionPage(model);
-        DataGrid dataGrid = new DataGrid();
+        DataGrid<SysUserDTO> dataGrid = new DataGrid<>();
         dataGrid.setRows(list);
         dataGrid.setTotal((int) ((Page<SysUserDTO>) list).getTotal());
         return dataGrid;

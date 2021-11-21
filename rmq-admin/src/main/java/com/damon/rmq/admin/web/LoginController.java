@@ -20,7 +20,6 @@ import com.damon.rmq.api.model.dto.RspBase;
 
 import cn.hutool.crypto.SecureUtil;
 
-
 @Controller
 public class LoginController {
 
@@ -56,10 +55,10 @@ public class LoginController {
      */
     @RequestMapping(value = "login/submit", method = RequestMethod.POST)
     @ResponseBody
-    public Object submit(HttpServletRequest request,
-                         @RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("captcha") String captcha) {
+    public Object submit(HttpServletRequest request, @RequestParam("username") String username,
+        @RequestParam("password") String password, @RequestParam("captcha") String captcha) {
 
-        RspBase rspBase = new RspBase();
+        RspBase<Void> rspBase = new RspBase<>();
         if (!CaptchaValidateUtil.validate(request, captcha)) {
             return rspBase.code(Constants.CODE_FAILURE).msg("验证码错误");
         }

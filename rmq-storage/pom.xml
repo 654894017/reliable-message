@@ -41,18 +41,6 @@
 		</dependency>
 
 	</dependencies>
-<!-- 	<repositories>
-		<repository>
-			<id>pupu-nexus-hr-public</id>
-			<name>Nexus HR Public Repository</name>
-			<url>http://mvn.pupuvip.com/repository/hr-public/</url>
-		</repository>
-		<repository>
-			<id>pupu-nexus-public</id>
-			<name>Nexus Public Repository</name>
-			<url>http://mvn.pupuvip.com/repository/maven-public/</url>
-		</repository>
-	</repositories> -->
 	<build>
 		<finalName>rmq-storage-${parent.version}</finalName>
 

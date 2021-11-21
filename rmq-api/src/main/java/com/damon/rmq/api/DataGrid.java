@@ -10,12 +10,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DataGrid implements Serializable {
+public class DataGrid<T> implements Serializable {
     /**
      * 
      */
     private static final long serialVersionUID = -4764349712734953813L;
-    private static final List<Object> EMPTY_LIST = new ArrayList<>();
+    //private static final List<Object> EMPTY_LIST = new ArrayList<>();
     private long total;
-    private List<?> rows = EMPTY_LIST;
+    private List<T> rows = new ArrayList<>();
 }

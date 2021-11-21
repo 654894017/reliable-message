@@ -16,7 +16,7 @@ public interface ISysRoleService extends IBaseService<SysRole, String> {
     /**
      * <p>根据查询条件获取用户分页</p>
      */
-    DataGrid selectByConditionPage(SysRoleDTO model);
+    DataGrid<SysRoleDTO> selectByConditionPage(SysRoleDTO model);
 
     /**
      * <p>根据查询条件获取用户列表</p>

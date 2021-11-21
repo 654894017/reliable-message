@@ -60,11 +60,11 @@ public class SysUserController {
      */
     @RequestMapping(value = "create")
     @ResponseBody
-    public Object create(@ModelAttribute SysUser model, HttpSession session) {
+    public RspBase<SysUser> create(@ModelAttribute SysUser model, HttpSession session) {
         log.info("请求参数：" + model);
         // 用户名验证
         List<SysUser> users = sysUserService.selectByUserName(model.getUserName());
-        RspBase rspBase = new RspBase();
+        RspBase<SysUser> rspBase = new RspBase<>();
         if (null != users && users.size() > 0) {
             rspBase.code(Constants.CODE_FAILURE).msg("该用户已存在");
             log.warn("应答内容：" + rspBase);
@@ -92,11 +92,11 @@ public class SysUserController {
      */
     @RequestMapping(value = "delete")
     @ResponseBody
-    public Object delete(@RequestParam("userIds") String userIds) {
+    public RspBase<Void> delete(@RequestParam("userIds") String userIds) {
         log.info("请求内容：" + userIds);
         List<String> list = Arrays.asList(userIds.split(","));
         int ret = sysUserService.deleteByPrimaryKeys(list);
-        RspBase rspBase = new RspBase();
+        RspBase<Void> rspBase = new RspBase<>();
         if (ret <= 0) {
             rspBase.code(Constants.CODE_FAILURE).msg("删除失败");
             log.warn("应答内容：" + rspBase);
@@ -112,11 +112,11 @@ public class SysUserController {
      */
     @RequestMapping(value = "update")
     @ResponseBody
-    public Object update(@ModelAttribute SysUser model, HttpSession session) {
+    public RspBase<SysUser> update(@ModelAttribute SysUser model, HttpSession session) {
         log.info("请求参数：" + model);
         // 用户验证
         SysUser user = sysUserService.selectByPrimaryKey(model.getSysUserId());
-        RspBase rspBase = new RspBase();
+        RspBase<SysUser> rspBase = new RspBase<>();
         if (null == user) {
             rspBase.code(Constants.CODE_FAILURE).msg("系统用户不存在");
             log.warn("应答内容：" + rspBase);
@@ -151,13 +151,13 @@ public class SysUserController {
      */
     @RequestMapping(value = "search")
     @ResponseBody
-    public Object search(@ModelAttribute SysUserDTO model) {
+    public DataGrid<SysUserDTO> search(@ModelAttribute SysUserDTO model) {
         log.info("请求参数：" + model);
         // 过滤用户状态为全部的搜索条件
         if (Byte.valueOf((byte) -1).equals(model.getUserStatus())) {
             model.setUserStatus(null);
         }
-        DataGrid dataGrid = sysUserService.selectByConditionPage(model);
+        DataGrid<SysUserDTO> dataGrid = sysUserService.selectByConditionPage(model);
         return dataGrid;
     }
 
@@ -173,7 +173,7 @@ public class SysUserController {
         }
 
         SysUser sysUser = sysUserService.selectByPrimaryKey(((SysUser) sessionObj).getSysUserId());
-        RspBase rspBase = new RspBase();
+        RspBase<Void> rspBase = new RspBase<>();
         if (!sysUser.getUserPwd().equals(SecureUtil.md5(oldPwd))) {
             rspBase.code(Constants.CODE_FAILURE).msg("旧密码错误");
             log.info("应答内容：" + rspBase);
@@ -195,7 +195,7 @@ public class SysUserController {
      */
     @RequestMapping(value = "{userId}/roles")
     @ResponseBody
-    public Object getUserRoles(@PathVariable("userId") String userId) {
+    public List<UserRole> getUserRoles(@PathVariable("userId") String userId) {
         List<UserRole> userRoles = sysUserService.selectUserRoleByUserId(userId);
         return userRoles;
     }
@@ -205,9 +205,9 @@ public class SysUserController {
      */
     @RequestMapping(value = "{userId}/role/allot")
     @ResponseBody
-    public Object allotUserRoles(@RequestParam(value = "roleIds") String roleIds, @PathVariable("userId") String userId) {
+    public RspBase<Void> allotUserRoles(@RequestParam(value = "roleIds") String roleIds, @PathVariable("userId") String userId) {
         log.info("请求参数：userId=" + userId + ", roleIds=" + roleIds);
-        RspBase rspBase = new RspBase();
+        RspBase<Void> rspBase = new RspBase<>();
         if (userId.equals("512c06d31bff11e6948f6c0b84680048")) {
             return rspBase.code(Constants.CODE_FAILURE).msg("禁止修改系统账号角色");
         }
@@ -219,7 +219,7 @@ public class SysUserController {
 
     @RequestMapping(value = "{userId}/menu")
     @ResponseBody
-    public Object getUserMenu(@PathVariable("userId") String userId) {
+    public List<SysResourceDTO> getUserMenu(@PathVariable("userId") String userId) {
         List<SysResourceDTO> userMenus = sysUserService.selectMenuByUserId(userId);
         return userMenus;
     }

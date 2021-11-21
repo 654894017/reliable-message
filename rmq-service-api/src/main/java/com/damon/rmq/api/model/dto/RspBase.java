@@ -5,29 +5,29 @@ import java.io.Serializable;
 import com.damon.rmq.api.model.Constants;
 
 
-public class RspBase implements Serializable {
+public class RspBase<T> implements Serializable {
     /**
      * 
      */
     private static final long serialVersionUID = 6074702512219977309L;
     private int code;
     private String msg = Constants.MSG_SUCCESS;
-    private Object data;
+    private T data;
 
     public RspBase() {
     }
 
-    public RspBase code(final int code) {
+    public RspBase<T> code(final int code) {
         this.code = code;
         return this;
     }
 
-    public RspBase msg(final String msg) {
+    public RspBase<T> msg(final String msg) {
         this.msg = msg;
         return this;
     }
 
-    public RspBase data(final Object data) {
+    public RspBase<T> data(final T data) {
         this.data = data;
         return this;
     }
@@ -55,11 +55,11 @@ public class RspBase implements Serializable {
     }
 
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 

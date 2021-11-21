@@ -37,9 +37,9 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public Object resolveException(Exception e, HttpServletRequest request) {
+    public RspBase<Void> resolveException(Exception e, HttpServletRequest request) {
         log.error(e.getClass().getName());
-        RspBase retBean = new RspBase();
+        RspBase<Void> retBean = new RspBase<Void>();
 
         if (e instanceof BindException) {
             BindException exs = (BindException)e;

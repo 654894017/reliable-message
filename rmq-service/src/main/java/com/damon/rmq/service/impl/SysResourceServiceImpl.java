@@ -34,10 +34,10 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResourceMapper, S
      * {@inheritDoc}
      */
     @Override
-    public DataGrid selectByConditionPage(SysResourceDTO model) {
+    public DataGrid<SysResourceDTO> selectByConditionPage(SysResourceDTO model) {
         PageHelper.startPage(model.getPage(), model.getRows());
         List<SysResourceDTO> list = mapper.selectByConditionPage(model);
-        DataGrid dataGrid = new DataGrid();
+        DataGrid<SysResourceDTO> dataGrid = new DataGrid<>();
         dataGrid.setRows(list);
         dataGrid.setTotal((int) ((Page<SysResourceDTO>) list).getTotal());
         return dataGrid;

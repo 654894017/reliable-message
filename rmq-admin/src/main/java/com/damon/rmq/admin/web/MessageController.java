@@ -32,17 +32,17 @@ public class MessageController {
     private IMessageService messageService;
 
     @GetMapping("page")
-    public Object page(@ModelAttribute AdminMessageListQuery query) {
+    public DataGrid<AdminMessageVo> page(@ModelAttribute AdminMessageListQuery query) {
         log.info("【message-page】start：" + query);
-        DataGrid rsp = messageService.listPage(query);
+        DataGrid<AdminMessageVo> rsp = messageService.listPage(query);
         log.info("【message-page】success");
         return rsp;
     }
 
     @GetMapping("{queue}/{id}")
-    public Object get(@PathVariable("queue") String queue, @PathVariable("id") String id) {
+    public RspBase<AdminMessageVo> get(@PathVariable("queue") String queue, @PathVariable("id") String id) {
         log.info("get queue: {}, message id : {} ", queue, id);
-        RspBase rspBase = new RspBase();
+        RspBase<AdminMessageVo> rspBase = new RspBase<>();
         AdminMessageVo message = messageService.get(queue, id);
         if (message != null) {
             rspBase.setData(message);
@@ -55,19 +55,19 @@ public class MessageController {
     }
 
     @DeleteMapping("{queue}/{id}")
-    public Object delete(@PathVariable("queue") String queue, @PathVariable("id") String id) {
+    public RspBase<Void> delete(@PathVariable("queue") String queue, @PathVariable("id") String id) {
         log.info("【message-delete】start：" + id);
         messageService.delete(queue, id);
-        RspBase rspBase = new RspBase();
+        RspBase<Void> rspBase = new RspBase<>();
         log.info("【message-delete】success：" + id);
         return rspBase;
     }
 
     @PostMapping("{queue}/{id}/resend")
-    public Object resend(@PathVariable("queue") String queue, @PathVariable("id") String id) {
+    public RspBase<Void> resend(@PathVariable("queue") String queue, @PathVariable("id") String id) {
         log.info("【message-resend】start：" + id);
         messageService.resendMessage(queue,id);
-        RspBase rspBase = new RspBase();
+        RspBase<Void> rspBase = new RspBase<>();
         log.info("【message-resend】success:" + id);
         return rspBase;
     }

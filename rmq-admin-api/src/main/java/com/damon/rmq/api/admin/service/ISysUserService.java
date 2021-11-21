@@ -44,7 +44,7 @@ public interface ISysUserService extends IBaseService<SysUser, String> {
      *
      * @param model 查询条件
      */
-    DataGrid selectByConditionPage(SysUserDTO model);
+    DataGrid<SysUserDTO> selectByConditionPage(SysUserDTO model);
 
     /**
      * <p>根据查询条件统计用户记录数</p>

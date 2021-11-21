@@ -1,10 +1,11 @@
 package com.damon.rmq.api.service;
 
 import com.damon.rmq.api.DataGrid;
-import com.damon.rmq.api.model.dto.queue.AdminQueueListDto;
+import com.damon.rmq.api.model.dto.queue.AdminQueueListQueryHelper;
 import com.damon.rmq.api.model.dto.queue.QueueAddDto;
 import com.damon.rmq.api.model.dto.queue.QueueUpdateDto;
 import com.damon.rmq.api.model.po.Queue;
+import com.damon.rmq.api.model.vo.AdminQueueVo;
 
 /**
  * 消费队列服务接口
@@ -39,5 +40,5 @@ public interface IQueueService extends IBaseService<Queue, String> {
      * @param req 查询条件
      * @return 数据列表
      */
-    DataGrid listPage(AdminQueueListDto req);
+    DataGrid<AdminQueueVo> listPage(AdminQueueListQueryHelper req);
 }

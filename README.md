@@ -55,9 +55,9 @@ public void doBusiness() {
         String messageId = reliableMessageService.createPreMessage(queue, messageContent);
 
         try{
-         // 执行业务1 Try(业务层面需要做好幂等、悬挂)
-         // 执行业务2 Try(业务层面需要做好幂等、悬挂)
-         // 执行业务3 Commit(业务层面需要做好幂等、悬挂)    
+          //执行业务1 Try(业务层面需要做好幂等、悬挂)
+          //执行业务2 Try(业务层面需要做好幂等、悬挂)
+          //执行业务3 Commit(业务层面需要做好幂等、悬挂)    
         }catch(Throwable e){
          RpcContext.getContext().asyncCall(() -> 
             // 回滚业务1 Cancel(业务层面需要做好幂等、悬挂、空回滚问题)
@@ -68,10 +68,12 @@ public void doBusiness() {
          );
          return;
         }
-        // 执行业务1 Commit(业务层面需要做好幂等、悬挂)
-        // 执行业务2 Commit(业务层面需要做好幂等、悬挂)    
-        // 异步调用RMQ，确认发送消息(如果是当做分布式事务框架使用，不需要对外发送消息，则不需要进行消息confirm操作，直接调用deleteMessage删除事务消息即可)
-        RpcContext.getContext().asyncCall(() -> reliableMessageService.confirmAndSendMessage(queue, messageId));
+        RpcContext.getContext().asyncCall(() -> 
+          //执行业务1 Commit(业务层面需要做好幂等、悬挂)
+          //执行业务2 Commit(业务层面需要做好幂等、悬挂)    
+          //异步调用RMQ，确认发送消息(如果是当做分布式事务框架使用，不需要对外发送消息，则不需要进行消息confirm操作，直接调用deleteMessage删除事务消息即可)
+        	reliableMessageService.confirmAndSendMessage(queue, messageId);
+        );
     }
 ```
 ## 案例1编写消息消费方业务方法（RocketMQ）
