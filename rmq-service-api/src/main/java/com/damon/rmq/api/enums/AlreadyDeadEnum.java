@@ -1,12 +1,6 @@
 package com.damon.rmq.api.enums;
 
-/**
- * <p>Title:</p>
- * <p>Description:消息状态常量</p>
- *
- * @author Chen Nan
- * @date 2019/3/11.
- */
+
 public enum AlreadyDeadEnum {
     /**
      * 未死亡
@@ -24,10 +18,6 @@ public enum AlreadyDeadEnum {
         this.value = value;
     }
 
-    public byte getValue() {
-        return value;
-    }
-
     public static String format(Byte value) {
         switch (value) {
             case 0:
@@ -37,5 +27,9 @@ public enum AlreadyDeadEnum {
             default:
                 return "";
         }
+    }
+
+    public byte getValue() {
+        return value;
     }
 }

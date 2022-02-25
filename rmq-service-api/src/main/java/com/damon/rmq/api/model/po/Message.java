@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public class Message implements Serializable {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -5681657576158364916L;
 

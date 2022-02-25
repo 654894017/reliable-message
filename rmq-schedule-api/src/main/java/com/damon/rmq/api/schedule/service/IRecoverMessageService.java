@@ -1,10 +1,9 @@
 package com.damon.rmq.api.schedule.service;
 
 /**
- *  消息恢复子系统服务接口
- *  
- * @author xianping_lu
+ * 消息恢复子系统服务接口
  *
+ * @author xianping_lu
  */
 public interface IRecoverMessageService {
     /**

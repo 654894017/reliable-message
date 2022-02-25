@@ -28,15 +28,15 @@
 <div id="index_west" data-options="region:'west',split:true" title="菜单" style="width:200px">
     <#include "index-menu.ftl"/>
 </div>
-<div id="index_center" data-options="region:'center'" >
+<div id="index_center" data-options="region:'center'">
     <div id="center_tabs_layout" class="easyui-tabs" data-options="border:false,fit:true"
          style="width: auto; height: auto;"/>
 </div>
 </div>
 <div id="index_south" data-options="region:'south'" style="height: 27px;overflow: hidden;">
-	<div class="panel-header panel-header-noborder" style="text-align: center;font-size:12px;">
-	版权所有 @<a href="mailto:654894017@qq.com">654894017</a>
-	</div>
+    <div class="panel-header panel-header-noborder" style="text-align: center;font-size:12px;">
+        版权所有 @<a href="mailto:654894017@qq.com">654894017</a>
+    </div>
 </div>
 </body>
 <script type="text/javascript">
@@ -73,13 +73,13 @@
                             success: function (ret) {
                                 parent.$.messager.progress('close');
                                 var rspJson = $.parseJSON(ret);
-                                if(rspJson.code == 0){
+                                if (rspJson.code == 0) {
                                     dg.dialog('close');
                                     $.messager.show({
                                         title: '成功提示',
                                         msg: rspJson.msg
                                     });
-                                }else{
+                                } else {
                                     $.messager.alert('错误提示', rspJson.msg, 'error');
                                 }
                             },

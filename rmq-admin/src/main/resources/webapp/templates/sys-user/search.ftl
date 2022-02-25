@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
     /**
      * 查询
@@ -30,10 +29,10 @@
                     <option value=1>启用</option>
                 </select>
             </td>
-            <td >
+            <td>
                 <a onclick="searchUsers()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
             </td>
-            <td >
+            <td>
                 <a onclick="clearSearchUserForm()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">清空</a>
             </td>
         </tr>

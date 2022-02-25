@@ -82,7 +82,7 @@
                     handler: function () {
                         queueAdd();
                     }
-                },'-',{
+                }, '-', {
                     text: '修改',
                     iconCls: 'icon-edit',
                     handler: function () {
@@ -95,17 +95,17 @@
     /**
      * 添加
      */
-    function queueAdd(){
+    function queueAdd() {
         var dig = $('<div />').dialog({
-            href : 'page/queue/add',
-            width : 650,
-            height : 400,
-            modal : true,
-            title : '新增',
-            buttons : [ {
-                text : '保存',
-                iconCls : 'icon-save',
-                handler : function() {
+            href: 'page/queue/add',
+            width: 650,
+            height: 400,
+            modal: true,
+            title: '新增',
+            buttons: [{
+                text: '保存',
+                iconCls: 'icon-save',
+                handler: function () {
                     queue_handle_add(dig);
                 }
             }, {
@@ -114,7 +114,7 @@
                 handler: function () {
                     dig.dialog('close'); //关闭窗口
                 }
-            } ],
+            }],
             onClose: function () {
                 $(this).dialog('destroy'); // 关闭后回收内存
             }
@@ -128,15 +128,15 @@
         var rows = $('#queue_datagrid').datagrid('getChecked');
         if (rows.length === 1) {
             var dig = $('<div />').dialog({
-                href : 'page/queue/edit',
-                width : 650,
-                height : 400,
-                modal : true,
-                title : '修改',
-                buttons : [ {
-                    text : '保存',
-                    iconCls : 'icon-save',
-                    handler : function() {
+                href: 'page/queue/edit',
+                width: 650,
+                height: 400,
+                modal: true,
+                title: '修改',
+                buttons: [{
+                    text: '保存',
+                    iconCls: 'icon-save',
+                    handler: function () {
                         queue_handle_edit(dig);
                     }
                 }, {
@@ -218,7 +218,7 @@
                         if (rsp.code === 0) {
                             $.messager.show({
                                 title: '成功提示',
-                                msg: "重新发送" + rsp.data +"条消息"
+                                msg: "重新发送" + rsp.data + "条消息"
                             });
                         } else {
                             $.messager.alert('错误提示', rsp.msg, 'error');
@@ -234,7 +234,7 @@
 
 <div class="easyui-layout" data-options="fit:true,border:false" style="padding:1px;">
     <div data-options="region:'north',title:'查询条件',border:false" style="height: 100px;">
-         <#include "search.ftl"/>
+        <#include "search.ftl"/>
     </div>
     <div data-options="region:'center',border:false">
         <div id="queue_datagrid"></div>

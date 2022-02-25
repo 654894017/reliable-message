@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.damon.rmq</groupId>
-		<artifactId>reliable-message</artifactId>
-		<version>1.0.1</version>
-	</parent>
-	<packaging>pom</packaging>
-	<artifactId>rmq-example</artifactId>
-	<name>rmq-example</name>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.damon.rmq</groupId>
+        <artifactId>reliable-message</artifactId>
+        <version>1.0.1</version>
+    </parent>
+    <packaging>pom</packaging>
+    <artifactId>rmq-example</artifactId>
+    <name>rmq-example</name>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-	<modules>
-		<module>inventory-service</module>
-		<module>coupon-service</module>
-		<module>goods-service</module>
-		<module>order-service</module>
-	</modules>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <modules>
+        <module>inventory-service</module>
+        <module>coupon-service</module>
+        <module>goods-service</module>
+        <module>order-service</module>
+    </modules>
 </project>

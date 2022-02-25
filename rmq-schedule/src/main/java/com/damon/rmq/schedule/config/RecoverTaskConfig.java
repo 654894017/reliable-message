@@ -1,28 +1,26 @@
 package com.damon.rmq.schedule.config;
 
-import java.util.List;
-
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import lombok.Data;
+import java.util.List;
 
 /**
  * 消息恢复定时任务配置
- * 
- * @author xianping_lu
  *
+ * @author xianping_lu
  */
 @Component
 @ConfigurationProperties(prefix = "schedule.recover")
 @Data
 public class RecoverTaskConfig {
-    
+
     /**
      * 分页大小
      */
-    private Integer pageSize =  1000;
-    
+    private Integer pageSize = 500;
+
     /**
      * 线程池最小线程数
      */
@@ -41,7 +39,6 @@ public class RecoverTaskConfig {
     private Integer queueCapacity = Integer.MAX_VALUE;
     /**
      * 等待所有线程执行完成的超时时间（单位：毫秒）
-     *
      */
     private Integer waitCompleteTimeout = 10000;
 

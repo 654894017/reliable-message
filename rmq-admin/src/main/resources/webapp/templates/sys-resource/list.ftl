@@ -1,4 +1,3 @@
-
 <div class="easyui-layout" data-options="fit:true,border:true">
     <div data-options="region:'north',title:'查询条件',border:true" style="height: 85px;">
         <#include "search.ftl"/>
@@ -7,17 +6,29 @@
     <div id="resource-toolbar" class="datagrid-toolbar">
         <table>
             <tr>
-                <td><a onclick="createResource();" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:'true'">增加</a></td>
-                <td><div class="datagrid-btn-separator"></div></td>
+                <td><a onclick="createResource();" class="easyui-linkbutton"
+                       data-options="iconCls:'icon-add',plain:'true'">增加</a></td>
+                <td>
+                    <div class="datagrid-btn-separator"></div>
+                </td>
 
-                <td><a onclick="updateResource();" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:'true'">修改</a></td>
-                <td><div class="datagrid-btn-separator"></div></td>
+                <td><a onclick="updateResource();" class="easyui-linkbutton"
+                       data-options="iconCls:'icon-edit',plain:'true'">修改</a></td>
+                <td>
+                    <div class="datagrid-btn-separator"></div>
+                </td>
 
-                <td><a onclick="deleteResource();" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:'true'">删除</a></td>
-                <td><div class="datagrid-btn-separator"></div></td>
+                <td><a onclick="deleteResource();" class="easyui-linkbutton"
+                       data-options="iconCls:'icon-remove',plain:'true'">删除</a></td>
+                <td>
+                    <div class="datagrid-btn-separator"></div>
+                </td>
 
-                <td><a onclick="$('#resource-datagrid').datagrid('unselectAll');" class="easyui-linkbutton" data-options="iconCls:'icon-redo',plain:'true'">取消选中</a></td>
-                <td><div class="datagrid-btn-separator"></div></td>
+                <td><a onclick="$('#resource-datagrid').datagrid('unselectAll');" class="easyui-linkbutton"
+                       data-options="iconCls:'icon-redo',plain:'true'">取消选中</a></td>
+                <td>
+                    <div class="datagrid-btn-separator"></div>
+                </td>
             </tr>
         </table>
     </div>
@@ -39,10 +50,10 @@
                    pageList: [ 10, 20, 30, 40, 50 ],
                    toolbar:'#resource-toolbar'">
             <thead>
-                <tr>
-                    <th data-options="field: 'resourceId',checkbox: true,width: 100">编号</th>
-                    <th data-options="field: 'name',width: 100">名称</th>
-                    <th data-options="field: 'type',width: 40,
+            <tr>
+                <th data-options="field: 'resourceId',checkbox: true,width: 100">编号</th>
+                <th data-options="field: 'name',width: 100">名称</th>
+                <th data-options="field: 'type',width: 40,
                         formatter: function (value, row, index) {
                             if (value == 0) {
                                 return '菜单';
@@ -51,8 +62,9 @@
                             } else {
                                 return '未知';
                             }
-                    }">类型</th>
-                    <th data-options="field: 'status',width: 40,
+                    }">类型
+                </th>
+                <th data-options="field: 'status',width: 40,
                     formatter: function (value, row, index) {
                         if (value == 0) {
                             return '禁用';
@@ -61,17 +73,18 @@
                         } else {
                             return '未知';
                         }
-                    }">状态</th>
-                    <th data-options="field: 'parentName',width: 100">上级资源</th>
-                    <th data-options="field: 'permission',width: 100">权限</th>
-                    <th data-options="field: 'url',width: 200">URL</th>
-                    <th data-options="field: 'icon',width: 150">资源图标</th>
-                    <th data-options="field: 'priority',width: 50">排序</th>
-                    <th data-options="field: 'createTime',width: 100">创建时间</th>
-                    <th data-options="field: 'updateTime',width: 100">更新时间</th>
-                </tr>
+                    }">状态
+                </th>
+                <th data-options="field: 'parentName',width: 100">上级资源</th>
+                <th data-options="field: 'permission',width: 100">权限</th>
+                <th data-options="field: 'url',width: 200">URL</th>
+                <th data-options="field: 'icon',width: 150">资源图标</th>
+                <th data-options="field: 'priority',width: 50">排序</th>
+                <th data-options="field: 'createTime',width: 100">创建时间</th>
+                <th data-options="field: 'updateTime',width: 100">更新时间</th>
+            </tr>
             </thead>
-       </table>
+        </table>
     </div>
 </div>
 

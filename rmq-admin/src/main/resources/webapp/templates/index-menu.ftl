@@ -6,7 +6,7 @@
 
 <script type="text/javascript">
     var curMenu = null, zTree_Menu = null;
-    $(function(){
+    $(function () {
         initWestMenu();
     })
     var westMenuTreeSetting = {

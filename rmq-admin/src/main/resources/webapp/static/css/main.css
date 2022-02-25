@@ -6,7 +6,7 @@
     color: #E84900;
     height: 50px;
     background: none;
-    font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+    font-family: "Segoe UI", "Lucida Grande", Helvetica, Arial, "Microsoft YaHei", FreeSans, Arimo, "Droid Sans", "wenquanyi micro hei", "Hiragino Sans GB", "Hiragino Sans GB W3", FontAwesome, sans-serif;
 }
 
 .header-brand {
@@ -21,22 +21,27 @@
     text-decoration: none;
     margin-left: 10px;
 }
-.header-brand em{
+
+.header-brand em {
     font-style: normal;
     font-size: 15px;
 }
+
 .header-user {
     float: right;
     padding-top: 15px;
     padding-right: 40px;
     font-size: 15px;
 }
-.header-user b{
+
+.header-user b {
     font-weight: normal;
 }
-.header-user img{
+
+.header-user img {
     vertical-align: middle;
 }
+
 body {
     /*background: url('../images/background.gif') repeat #E9F0F4;*/
     /*font-family: "Times New Roman", Georgia, Serif;*/
@@ -104,6 +109,6 @@ body {
 }
 
 /* add by chennan 20160616 */
-.span_required{
+.span_required {
     color: red;
 }

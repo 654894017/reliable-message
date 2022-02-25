@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Data
 public class QueueAddDto implements Serializable {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -1284433227488306392L;
 

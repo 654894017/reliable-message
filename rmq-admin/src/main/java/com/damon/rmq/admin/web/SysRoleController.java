@@ -1,22 +1,6 @@
 package com.damon.rmq.admin.web;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import cn.hutool.core.util.IdUtil;
 import com.damon.rmq.api.DataGrid;
 import com.damon.rmq.api.admin.model.dto.system.SysRoleDTO;
 import com.damon.rmq.api.admin.model.po.RoleResource;
@@ -25,13 +9,20 @@ import com.damon.rmq.api.admin.model.po.SysUser;
 import com.damon.rmq.api.admin.service.ISysRoleService;
 import com.damon.rmq.api.model.Constants;
 import com.damon.rmq.api.model.dto.RspBase;
-
-import cn.hutool.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p>角色控制器</p>
- *
  */
 @Controller
 @RequestMapping(value = "sys_role", method = RequestMethod.POST)

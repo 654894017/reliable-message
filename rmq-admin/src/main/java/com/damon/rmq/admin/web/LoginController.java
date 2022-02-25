@@ -1,7 +1,11 @@
 package com.damon.rmq.admin.web;
 
-import javax.servlet.http.HttpServletRequest;
-
+import cn.hutool.crypto.SecureUtil;
+import com.damon.rmq.admin.utils.CaptchaValidateUtil;
+import com.damon.rmq.api.admin.model.po.SysUser;
+import com.damon.rmq.api.admin.service.ISysUserService;
+import com.damon.rmq.api.model.Constants;
+import com.damon.rmq.api.model.dto.RspBase;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -12,13 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.damon.rmq.admin.utils.CaptchaValidateUtil;
-import com.damon.rmq.api.admin.model.po.SysUser;
-import com.damon.rmq.api.admin.service.ISysUserService;
-import com.damon.rmq.api.model.Constants;
-import com.damon.rmq.api.model.dto.RspBase;
-
-import cn.hutool.crypto.SecureUtil;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class LoginController {
@@ -56,7 +54,7 @@ public class LoginController {
     @RequestMapping(value = "login/submit", method = RequestMethod.POST)
     @ResponseBody
     public Object submit(HttpServletRequest request, @RequestParam("username") String username,
-        @RequestParam("password") String password, @RequestParam("captcha") String captcha) {
+                         @RequestParam("password") String password, @RequestParam("captcha") String captcha) {
 
         RspBase<Void> rspBase = new RspBase<>();
         if (!CaptchaValidateUtil.validate(request, captcha)) {

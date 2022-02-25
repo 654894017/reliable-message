@@ -1,28 +1,19 @@
 package com.damon.rmq.admin.web;
 
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.damon.rmq.api.DataGrid;
 import com.damon.rmq.api.model.Constants;
 import com.damon.rmq.api.model.dto.RspBase;
 import com.damon.rmq.api.model.dto.message.AdminMessageListQuery;
 import com.damon.rmq.api.model.vo.AdminMessageVo;
 import com.damon.rmq.api.service.IMessageService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 消息管理制器
- * 
- * @author xianping_lu
  *
+ * @author xianping_lu
  */
 @Slf4j
 @RestController
@@ -66,7 +57,7 @@ public class MessageController {
     @PostMapping("{queue}/{id}/resend")
     public RspBase<Void> resend(@PathVariable("queue") String queue, @PathVariable("id") String id) {
         log.info("【message-resend】start：" + id);
-        messageService.resendMessage(queue,id);
+        messageService.resendMessage(queue, id);
         RspBase<Void> rspBase = new RspBase<>();
         log.info("【message-resend】success:" + id);
         return rspBase;

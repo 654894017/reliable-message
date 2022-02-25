@@ -1,7 +1,8 @@
 fancyBox
 ========
 
-fancyBox is a tool that offers a nice and elegant way to add zooming functionality for images, html content and multi-media on your webpages.
+fancyBox is a tool that offers a nice and elegant way to add zooming functionality for images, html content and
+multi-media on your webpages.
 
 More information and examples: http://www.fancyapps.com/fancybox/
 
@@ -13,8 +14,8 @@ Copyright (c) 2012 Janis Skarnelis - janis@fancyapps.com
 How to use
 ----------
 
-To get started, download the plugin, unzip it and copy files to your website/application directory.
-Load files in the <head> section of your HTML document. Make sure you also add the jQuery library.
+To get started, download the plugin, unzip it and copy files to your website/application directory. Load files in
+the <head> section of your HTML document. Make sure you also add the jQuery library.
 
     <head>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
@@ -26,8 +27,8 @@ Create your links with a `title` if you want a title to be shown, and add a clas
 
     <a href="large_image.jpg" class="fancybox" title="Sample title"><img src="small_image.jpg" /></a>
 
-If you have a set of related items that you would like to group,
-additionally include a group name in the `rel` (or `data-fancybox-group`) attribute:
+If you have a set of related items that you would like to group, additionally include a group name in the `rel` (
+or `data-fancybox-group`) attribute:
 
     <a href="large_1.jpg" class="fancybox" rel="gallery" title="Sample title 1"><img src="small_1.jpg" /></a>
     <a href="large_2.jpg" class="fancybox" rel="gallery" title="Sample title 1"><img src="small_2.jpg" /></a>
@@ -55,8 +56,9 @@ Tip: Automatically group and apply fancyBox to all images:
 
     $("a[href$='.jpg'],a[href$='.jpeg'],a[href$='.png'],a[href$='.gif']").attr('rel', 'gallery').fancybox();
 
-Script uses the `href` attribute of the matched elements to obtain the location of the content and to figure out content type you want to display.
-You can specify type directly by adding classname (fancybox.image, fancybox.iframe, etc) or `data-fancybox-type` attribute:
+Script uses the `href` attribute of the matched elements to obtain the location of the content and to figure out content
+type you want to display. You can specify type directly by adding classname (fancybox.image, fancybox.iframe, etc)
+or `data-fancybox-type` attribute:
 
     //Ajax:
     <a href="/example.html" class="fancybox fancybox.ajax">Example</a>
@@ -75,8 +77,9 @@ You can specify type directly by adding classname (fancybox.image, fancybox.ifra
     //Image:
     <a href="example.jpg" class="fancybox">Example</a>
 
-Note, ajax requests are subject to the [same origin policy](http://en.wikipedia.org/wiki/Same_origin_policy).
-If fancyBox will not be able to get content type, it will try to guess based on 'href' and will quit silently if would not succeed.
+Note, ajax requests are subject to the [same origin policy](http://en.wikipedia.org/wiki/Same_origin_policy). If
+fancyBox will not be able to get content type, it will try to guess based on 'href' and will quit silently if would not
+succeed.
 (this is different from previsous versions where 'ajax' was used as default type or an error message was displayed).
 
 Advanced
@@ -84,8 +87,8 @@ Advanced
 
 ### Helpers
 
-Helpers provide a simple mechanism to extend the capabilities of fancyBox. There are two built-in helpers - 'overlay' and 'title'.
-You can disable them, set custom options or enable other helpers. Examples:
+Helpers provide a simple mechanism to extend the capabilities of fancyBox. There are two built-in helpers - 'overlay'
+and 'title'. You can disable them, set custom options or enable other helpers. Examples:
 
     //Disable title helper
     $(".fancybox").fancybox({
@@ -125,10 +128,10 @@ You can disable them, set custom options or enable other helpers. Examples:
         }
     });
 
-
 ### API
 
-Also available are event driven callback methods.  The `this` keyword refers to the current or upcoming object (depends on callback method). Here is how you can change title:
+Also available are event driven callback methods. The `this` keyword refers to the current or upcoming object (depends
+on callback method). Here is how you can change title:
 
     $(".fancybox").fancybox({
         beforeLoad : function() {
@@ -185,8 +188,8 @@ There is a simply way to access wrapping elements using JS:
     $.fancybox.outer
     $.fancybox.inner
 
-You can override CSS to customize the look. For example, make navigation arrows always visible,
-change width and move them outside of area (use this snippet after including fancybox.css):
+You can override CSS to customize the look. For example, make navigation arrows always visible, change width and move
+them outside of area (use this snippet after including fancybox.css):
 
     .fancybox-nav span {
         visibility: visible;
@@ -209,7 +212,6 @@ In that case, you might want to increase space around box:
     $(".fancybox").fancybox({
         margin : [20, 60, 20, 60]
     });
-
 
 Bug tracker
 -----------

@@ -1,7 +1,7 @@
-
 <script type="text/javascript">
 
-    var rsp=null;
+    var rsp = null;
+
     /**
      * 初始化用户角色树
      * @param userId 用户唯一标识
@@ -22,7 +22,7 @@
                     idKey: "roleId",
                     rootPId: null
                 },
-                key : {
+                key: {
                     name: "roleName"
                 }
             }
@@ -64,13 +64,13 @@
             ContentType: "application/json; charset=UTF-8",
             success: function (ret) {
                 parent.$.messager.progress('close');
-                 rsp = $.parseJSON(ret);
+                rsp = $.parseJSON(ret);
                 for (var i = 0; i < rsp.length; i++) {
                     var node = zTreeObj.getNodeByParam("roleId", rsp[i].roleId, null);
                     if (node.isParent == false) {
                         zTreeObj.checkNode(node, true, true);
                     } else {
-                        zTreeObj.expandNode(node,true,false,true);
+                        zTreeObj.expandNode(node, true, false, true);
                     }
                 }
             },
@@ -125,7 +125,7 @@
                     $.messager.alert('错误提示', rspJson.msg, 'error');
                 }
             },
-            error: function() {
+            error: function () {
                 parent.$.messager.progress('close');
                 $.messager.alert('错误提示', '分配失败', 'error');
             }
@@ -147,11 +147,11 @@
 
         for (var i = 0; i < rsp.length; i++) {
             var node = zTreeObj.getNodeByParam("roleId", rsp[i].roleId, null);
-                zTreeObj.checkNode(node, false, true);
+            zTreeObj.checkNode(node, false, true);
         }
     }
 
-    $(document).ready(function(){
+    $(document).ready(function () {
         // 初始化用户角色树
         initUserRoleTree();
     });
@@ -162,7 +162,8 @@
     <div data-options="region:'north', border:true" style="height: 44px;">
         <div style="text-align:center;margin-top: 7px;margin-bottom: 5px">
             <a onclick="saveUserRoleAllot();" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
-            <a onclick="redoUserRoleAllot();" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" style="margin-left: 10px">重置</a>
+            <a onclick="redoUserRoleAllot();" class="easyui-linkbutton" data-options="iconCls:'icon-reload'"
+               style="margin-left: 10px">重置</a>
         </div>
     </div>
     <div data-options="region:'center',border:true">

@@ -6,9 +6,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 消息确认子系统启动类
- * 
- * @author xianping_lu
  *
+ * @author xianping_lu
  */
 @SpringBootApplication
 @EnableScheduling

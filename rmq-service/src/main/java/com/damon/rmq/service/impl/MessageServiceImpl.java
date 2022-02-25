@@ -1,11 +1,5 @@
 package com.damon.rmq.service.impl;
 
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.damon.rmq.api.DataGrid;
 import com.damon.rmq.api.enums.AlreadyDeadEnum;
 import com.damon.rmq.api.exceptions.CheckException;
@@ -18,14 +12,17 @@ import com.damon.rmq.api.service.IReliableMessageService;
 import com.damon.rmq.dal.mapper.MessageMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * 队列服务实现
- * 
- * @author xianping_lu
  *
+ * @author xianping_lu
  */
 @Slf4j
 @DubboService
@@ -73,7 +70,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         int totalPage = 0;
         int totalCount = 0;
 
-        for (int pageNum = 1;; pageNum++) {
+        for (int pageNum = 1; ; pageNum++) {
             // 分页查询死亡消息
             Page<Message> pageInfo = PageHelper.startPage(pageNum, pageSize, countFlag);
             List<Message> list = mapper.list(condition);
@@ -103,7 +100,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
         mapper.addResendTimes(message.getId());
         // 发送MQ消息
         reliableMessageService.directSendMessage(message.getConsumerQueue(), message.getId(), message.getMessageBody());
-        
+
         log.info("【resendMessage】success, messageId={}", message.getId());
     }
 
@@ -124,7 +121,7 @@ public class MessageServiceImpl extends BaseServiceImpl<MessageMapper, Message, 
 
         // 发送MQ消息
         reliableMessageService.directSendMessage(queue, messageId, message.getMessageBody());
-        log.info("【resendMessageById】success, queue={}, messageId={}",queue, messageId);
+        log.info("【resendMessageById】success, queue={}, messageId={}", queue, messageId);
     }
 
     @Override

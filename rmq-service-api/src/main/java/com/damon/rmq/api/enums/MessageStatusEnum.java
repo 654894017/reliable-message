@@ -2,9 +2,8 @@ package com.damon.rmq.api.enums;
 
 /**
  * 消息状态常量
- * 
- * @author xianping_lu
  *
+ * @author xianping_lu
  */
 public enum MessageStatusEnum {
     /**
@@ -24,7 +23,7 @@ public enum MessageStatusEnum {
 
     /**
      * 发送失败
-     * 
+     *
      * @param args
      */
     SEND_FAILED((byte) 2);
@@ -35,20 +34,20 @@ public enum MessageStatusEnum {
         this.value = value;
     }
 
-    public byte getValue() {
-        return value;
-    }
-
     public static String format(byte value) {
         switch (value) {
-        case 0:
-            return "待确认";
-        case 1:
-            return "发送中";
-        case 2:
-            return "发送失败";
-        default:
-            return "";
+            case 0:
+                return "待确认";
+            case 1:
+                return "发送中";
+            case 2:
+                return "发送失败";
+            default:
+                return "";
         }
+    }
+
+    public byte getValue() {
+        return value;
     }
 }

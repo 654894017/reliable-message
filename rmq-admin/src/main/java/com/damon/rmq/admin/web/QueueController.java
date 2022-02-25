@@ -1,18 +1,5 @@
 package com.damon.rmq.admin.web;
 
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.damon.rmq.api.DataGrid;
 import com.damon.rmq.api.admin.model.po.SysUser;
 import com.damon.rmq.api.model.Constants;
@@ -22,12 +9,15 @@ import com.damon.rmq.api.model.dto.queue.QueueAddDto;
 import com.damon.rmq.api.model.dto.queue.QueueUpdateDto;
 import com.damon.rmq.api.model.vo.AdminQueueVo;
 import com.damon.rmq.api.service.IQueueService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 /**
  * <p>队列管理制器</p>
- *
  */
 @RestController
 @RequestMapping(value = "queue")
@@ -38,20 +28,20 @@ public class QueueController {
     private IQueueService queueService;
 
     @GetMapping("page")
-    public DataGrid<AdminQueueVo> page(@ModelAttribute AdminQueueListQueryHelper req) {
-        log.info("【queue-page】start：" + req);
-        DataGrid<AdminQueueVo> rsp = queueService.listPage(req);
+    public DataGrid<AdminQueueVo> page(@ModelAttribute AdminQueueListQueryHelper query) {
+        log.info("【queue-page】start：" + query);
+        DataGrid<AdminQueueVo> rsp = queueService.querylistPage(query);
         log.info("【queue-page】success");
         return rsp;
     }
 
     @PostMapping
-    public RspBase<Void> add(@ModelAttribute @Valid QueueAddDto req, HttpSession session) {
-        log.info("【queue-create】add：" + req);
-        SysUser sysUser = (SysUser)session.getAttribute(Constants.SESSION_USER);
-        req.setCreateUser(sysUser.getUserName());
-        req.setUpdateUser(sysUser.getUserName());
-        queueService.add(req);
+    public RspBase<Void> create(@ModelAttribute @Valid QueueAddDto queue, HttpSession session) {
+        log.info("【queue-create】add：" + queue);
+        SysUser sysUser = (SysUser) session.getAttribute(Constants.SESSION_USER);
+        queue.setCreateUser(sysUser.getUserName());
+        queue.setUpdateUser(sysUser.getUserName());
+        queueService.create(queue);
         log.info("【queue-create】add");
         return new RspBase<>();
     }
@@ -59,7 +49,7 @@ public class QueueController {
     @PutMapping
     public RspBase<Void> update(@ModelAttribute @Valid QueueUpdateDto req, HttpSession session) {
         log.info("【queue-update】create：" + req);
-        SysUser sysUser = (SysUser)session.getAttribute(Constants.SESSION_USER);
+        SysUser sysUser = (SysUser) session.getAttribute(Constants.SESSION_USER);
         req.setUpdateUser(sysUser.getUserName());
         queueService.update(req);
         log.info("【queue-update】create");

@@ -1,15 +1,13 @@
 package com.damon.rmq.schedule.config;
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import lombok.Data;
-
 /**
  * 消息确认定时任务配置
- * 
- * @author xianping_lu
  *
+ * @author xianping_lu
  */
 @Component
 @ConfigurationProperties(prefix = "schedule.check")
@@ -18,7 +16,7 @@ public class CheckTaskConfig {
     /**
      * 分页大小
      */
-    private Integer pageSize =  1000;
+    private Integer pageSize = 500;
     /**
      * 线程池最小线程数
      */

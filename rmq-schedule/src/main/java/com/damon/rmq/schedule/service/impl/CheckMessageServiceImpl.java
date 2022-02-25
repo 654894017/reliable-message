@@ -1,16 +1,8 @@
 package com.damon.rmq.schedule.service.impl;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.ThreadPoolExecutor;
-
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.beans.factory.annotation.Autowired;
-
+import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.damon.rmq.api.constant.MessageCheckStatusConstant;
 import com.damon.rmq.api.enums.MessageStatusEnum;
 import com.damon.rmq.api.model.Constants;
@@ -24,19 +16,22 @@ import com.damon.rmq.api.service.IReliableMessageService;
 import com.damon.rmq.api.utils.DateFormatUtils;
 import com.damon.rmq.schedule.config.CheckTaskConfig;
 import com.github.pagehelper.Page;
-
-import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * 
- * 
  * 消息回查服务
- * 
- * @author xianpinglu
  *
+ * @author xianpinglu
  */
 @Slf4j
 @DubboService
@@ -77,7 +72,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
         boolean countFlag = true;
         int totalPage = 0;
 
-        for (int pageNum = 1;; pageNum++) {
+        for (int pageNum = 1; ; pageNum++) {
             // 分页查询消息
             Page<Message> page = getPage(condition, pageNum, pageSize, countFlag);
             List<Message> messageList = page.getResult();
@@ -90,8 +85,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
                         try {
                             checkMessage(queue, message);
                         } catch (Exception e) {
-                            log.error("【CheckTask】Exception, queue: {}, messageId= {}, error:",
-                                message.getConsumerQueue(), message.getId(), e);
+                            log.error("【CheckTask】Exception, queue: {}, messageId= {}, error:", message.getConsumerQueue(), message.getId(), e);
                         } finally {
                             latch.countDown();
                         }
@@ -142,7 +136,7 @@ public class CheckMessageServiceImpl implements ICheckMessageService {
             } else {
                 // data!=1，该消息不需要发送，直接删除
                 log.info("【CheckTask】message delete, messageId={}, data={}", message.getId(), data);
-                messageService.deleteByPrimaryKey(message.getId());
+                reliableMessageService.deleteMessage(queue.getConsumerQueue(), message.getId());
             }
         } else {
             // 业务方处理异常，记录日志

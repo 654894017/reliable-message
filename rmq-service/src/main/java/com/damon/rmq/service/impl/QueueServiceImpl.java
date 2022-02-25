@@ -1,13 +1,6 @@
 package com.damon.rmq.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.beans.BeanUtils;
-import org.springframework.dao.DuplicateKeyException;
-
+import cn.hutool.core.util.IdUtil;
 import com.damon.rmq.api.DataGrid;
 import com.damon.rmq.api.exceptions.CheckException;
 import com.damon.rmq.api.model.Constants;
@@ -21,14 +14,18 @@ import com.damon.rmq.api.service.IQueueService;
 import com.damon.rmq.dal.mapper.QueueMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.BeanUtils;
+import org.springframework.dao.DuplicateKeyException;
 
-import cn.hutool.core.util.IdUtil;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 队列服务实现
- * 
- * @author xianping_lu
  *
+ * @author xianping_lu
  */
 @DubboService(timeout = Constants.SERVICE_TIMEOUT)
 public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String> implements IQueueService {
@@ -37,10 +34,10 @@ public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String
     private IMessageService messageService;
 
     @Override
-    public DataGrid<AdminQueueVo> listPage(AdminQueueListQueryHelper req) {
-        
-        Page<AdminQueueVo> pageInfo = PageHelper.startPage(req.getPage(), req.getRows());
-        List<AdminQueueVo> list = mapper.adminListPage(req);
+    public DataGrid<AdminQueueVo> querylistPage(AdminQueueListQueryHelper query) {
+
+        Page<AdminQueueVo> pageInfo = PageHelper.startPage(query.getPage(), query.getRows());
+        List<AdminQueueVo> list = mapper.adminListPage(query);
 
         DataGrid<AdminQueueVo> dataGrid = new DataGrid<>();
         dataGrid.setRows(list);
@@ -49,7 +46,7 @@ public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String
     }
 
     @Override
-    public void add(QueueAddDto req) {
+    public void create(QueueAddDto req) {
         Queue queue = new Queue();
         queue.setConsumerQueue(req.getConsumerQueue());
         BeanUtils.copyProperties(req, queue);
@@ -65,7 +62,7 @@ public class QueueServiceImpl extends BaseServiceImpl<QueueMapper, Queue, String
 
     @Override
     public void update(QueueUpdateDto req) {
-        
+
         Queue queue = mapper.selectByPrimaryKey(req.getId());
         if (queue == null) {
             throw new CheckException("queue not exist");

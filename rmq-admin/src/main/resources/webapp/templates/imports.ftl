@@ -23,8 +23,10 @@
 <script type="text/javascript" src="${basePath}js/tyb.webuploader.util.js"></script>
 
 <!-- 引入FancyBox依赖 -->
-<link rel="stylesheet" href="${basePath}external/fancyBox-v2.1.5/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen"/>
-<script type="text/javascript" src="${basePath}external/fancyBox-v2.1.5/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+<link rel="stylesheet" href="${basePath}external/fancyBox-v2.1.5/source/jquery.fancybox.css?v=2.1.5" type="text/css"
+      media="screen"/>
+<script type="text/javascript"
+        src="${basePath}external/fancyBox-v2.1.5/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 <!-- 自定义样式 -->
 <link rel="stylesheet" type="text/css" href="${basePath}css/main.css"/>
@@ -36,18 +38,18 @@
 
 <script type="text/javascript">
     $.ajaxSetup({
-    	cache: false,       
+        cache: false,
         ifModified: true,
-        contentType:"application/x-www-form-urlencoded;charset=utf-8",
-        complete:function(XMLHttpRequest,textStatus){
+        contentType: "application/x-www-form-urlencoded;charset=utf-8",
+        complete: function (XMLHttpRequest, textStatus) {
             var sessionstatus = XMLHttpRequest.getResponseHeader("sessionstatus"); //通过XMLHttpRequest取得响应头，sessionstatus，
-            if(sessionstatus == "timeout"){
+            if (sessionstatus == "timeout") {
                 //如果超时就处理 ，指定要跳转的页面
                 var currUrl = location.href;
                 var loginUrl = currUrl.substring(0, currUrl.lastIndexOf('/')) + "/login";
                 location.href = loginUrl;
             }
-            if("parsererror" == textStatus){
+            if ("parsererror" == textStatus) {
                 var currUrl = location.href;
                 var loginUrl = currUrl.substring(0, currUrl.lastIndexOf('/')) + "/login";
                 location.href = loginUrl;

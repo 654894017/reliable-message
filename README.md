@@ -4,11 +4,11 @@
 
 **reliable-message**是基于可靠消息的**最终一致性**的分布式事务解决方案（需要MQ）。同时基于事务消息半提交原理，结合消息的回查机制，也可实现类似TCC的事务模型（不需要MQ）。
 
-
-- RMQ不同于seata、tcc-transaction、Hmily等类似框架，需要在相同的协议下比如都是dubbo、spring cloud下才能够使用。RMQ给予用户最灵活的选择，不局限于dubbo、spring cloud，对方接口可以是grpc、thrift、http等类似接口。只要业务方接口提供类似Try、Commit、Cancel接口，或Commit、Cancel接口。我们在业务层面通过硬编码的形式实现类型TCC或CC的效果。
-
+- RMQ不同于seata、tcc-transaction、Hmily等类似框架，需要在相同的协议下比如都是dubbo、spring cloud下才能够使用。RMQ给予用户最灵活的选择，不局限于dubbo、spring
+  cloud，对方接口可以是grpc、thrift、http等类似接口。只要业务方接口提供类似Try、Commit、Cancel接口，或Commit、Cancel接口。我们在业务层面通过硬编码的形式实现类型TCC或CC的效果。
 
 ## 框架定位
+
 - RMQ本身不生产消息队列，只是消息的搬运工。
 - RMQ框架提供消息预发送、消息发送、消息确认、消息恢复、消息管理等功能，结合成熟的消息中间件（Kafka、RocketMQ），解决分布式事务，达到数据最终一致性。
 - RMQ基于事务消息半提交原理，结合消息的回查机制，实现类似TCC的事务模型（业务硬编码）。
@@ -30,8 +30,8 @@
 
 ------------
 
-
 ## 在业务代码中引入RMQ的Dubbo服务
+
 ```
 import org.apache.dubbo.config.annotation.DubboReference;
 import com.damon.rmq.api.service.IReliableMessageService;
@@ -41,6 +41,7 @@ private IReliableMessageService reliableMessageService;
 ```
 
 ## 编写消息发送方业务方法
+
 结合事务消息实现TCC效果，如果不需要使用MQ传递领域消息到其他业务模块，可以在完成业务后删除事务消息，不需要confirm它。
 
 - 案例1
@@ -55,6 +56,7 @@ public void doBusiness() {
         String messageId = reliableMessageService.createPreMessage(queue, messageContent);
 
         try{
+          //以下步骤可以异步多线程执行
           //执行业务1 Try(业务层面需要做好幂等、悬挂)
           //执行业务2 Try(业务层面需要做好幂等、悬挂)
           //执行业务3 Commit(业务层面需要做好幂等、悬挂)    
@@ -76,7 +78,9 @@ public void doBusiness() {
         );
     }
 ```
+
 ## 案例1编写消息消费方业务方法（RocketMQ）
+
 ```
 @Component
 @Slf4j
@@ -127,6 +131,7 @@ public class PayQueueRocketmqConsumer {
 ```
 
 ## 案例1编写消息消费方业务方法（Kafka）
+
 ```
 @Component
 @Slf4j
@@ -178,8 +183,6 @@ public class PayQueueKafkaConsumer {
         
 ```
 
-
-
 - 案例2
 
 ```
@@ -208,8 +211,8 @@ public void doBusiness() {
     }
 ```
 
-
 ## 案例2消息消费方业务方法，（RocketMQ）
+
 ```
 @Component
 @Slf4j
@@ -267,6 +270,7 @@ public class PayQueueRocketmqConsumer {
 ```
 
 ## 编写业务回调check方法
+
 当执行doBusiness异常回滚业务时或业务在Commit时，系统奔溃，消息确认子系统定时发起消息确认
 
 ```
@@ -293,12 +297,12 @@ CheckStatus 格式
 }
 
 ```
-### 为什么会有3种状态？ 
-- 0 业务没有处理成功，回滚完所有业务后，半提交消息需要删除。   
+
+### 为什么会有3种状态？
+
+- 0 业务没有处理成功，回滚完所有业务后，半提交消息需要删除。
 - 1 业务处理成功了，只是刚好在消息confirm时系统宕机了，此时消息确认子系统check业务系统后需要重新发送。
 - 2 不需要传递领域消息到其他业务模块，业务已经完成了，需要删除了（虽然和0状态码效果是一样的，还是区分开来好一点）。
-
-
 
 ## 业务接口注意事项
 

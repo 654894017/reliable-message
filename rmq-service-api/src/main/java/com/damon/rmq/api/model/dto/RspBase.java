@@ -1,13 +1,13 @@
 package com.damon.rmq.api.model.dto;
 
-import java.io.Serializable;
-
 import com.damon.rmq.api.model.Constants;
+
+import java.io.Serializable;
 
 
 public class RspBase<T> implements Serializable {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 6074702512219977309L;
     private int code;
@@ -15,6 +15,11 @@ public class RspBase<T> implements Serializable {
     private T data;
 
     public RspBase() {
+    }
+
+    public RspBase(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
     }
 
     public RspBase<T> code(final int code) {
@@ -30,11 +35,6 @@ public class RspBase<T> implements Serializable {
     public RspBase<T> data(final T data) {
         this.data = data;
         return this;
-    }
-
-    public RspBase(int code, String msg) {
-        this.code = code;
-        this.msg = msg;
     }
 
     public int getCode() {

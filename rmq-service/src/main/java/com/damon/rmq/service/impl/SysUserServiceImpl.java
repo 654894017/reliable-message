@@ -1,13 +1,6 @@
 package com.damon.rmq.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.beans.factory.annotation.Autowired;
-
+import cn.hutool.core.util.IdUtil;
 import com.damon.rmq.api.DataGrid;
 import com.damon.rmq.api.admin.model.dto.system.SysResourceDTO;
 import com.damon.rmq.api.admin.model.dto.system.SysUserDTO;
@@ -20,8 +13,14 @@ import com.damon.rmq.dal.mapper.SysUserMapper;
 import com.damon.rmq.dal.mapper.UserRoleMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
-import cn.hutool.core.util.IdUtil;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 系统用户服务实现类
@@ -36,82 +35,58 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser, 
     @Autowired
     private SysResourceMapper sysResourceMapper;
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int deleteByPrimaryKey(String id) {
         return sysUserMapper.deleteByPrimaryKey(id);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public int insert(SysUser record) {
         return sysUserMapper.insert(record);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public int insertSelective(SysUser record) {
         return sysUserMapper.insertSelective(record);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public SysUser selectByPrimaryKey(String id) {
         return sysUserMapper.selectByPrimaryKey(id);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public int updateByPrimaryKeySelective(SysUser record) {
         return sysUserMapper.updateByPrimaryKeySelective(record);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public int updateByPrimaryKey(SysUser record) {
         return sysUserMapper.updateByPrimaryKey(record);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public SysUser selectByUserNameAndPassWord(String username, String password) {
         return sysUserMapper.selectByUserNameAndPassWord(username, password);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public List<SysUser> selectByUserName(String username) {
         return sysUserMapper.selectByUserName(username);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int deleteByPrimaryKeys(List<String> userIds) {
         sysUserRoleMapper.deleteByUserIds(userIds);
         return sysUserMapper.deleteByPrimaryKeys(userIds);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public DataGrid<SysUserDTO> selectByConditionPage(SysUserDTO model) {
         PageHelper.startPage(model.getPage(), model.getRows());
@@ -122,25 +97,19 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser, 
         return dataGrid;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public int countByCondition(SysUserDTO model) {
         return sysUserMapper.countByCondition(model);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public List<UserRole> selectUserRoleByUserId(String userId) {
         return sysUserRoleMapper.selectByUserId(userId);
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Transactional
     @Override
     public int allotUserRole(String userId, List<String> roleIds) {
         sysUserRoleMapper.deleteByUserIds(Arrays.asList(userId));
@@ -159,9 +128,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser, 
         return ret;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+
     @Override
     public List<SysResourceDTO> selectMenuByUserId(String userId) {
         return sysResourceMapper.selectMenuByUserId(userId);

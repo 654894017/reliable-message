@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Data
 public class SysRoleDTO implements Serializable {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -7971812678255316706L;
 

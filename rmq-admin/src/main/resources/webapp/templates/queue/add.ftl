@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
 
     // 处理添加
@@ -61,16 +60,16 @@
                        data-options="
                        required: true,
                        missingMessage: '请填写消息确认url'
-                       "/>   
-                      </br>
+                       "/>
+                </br>
                 注：确认消息返回规范</br>
-            	{</br>
+                {</br>
                 &nbsp;&nbsp;"code":0,</br>
                 &nbsp;&nbsp;"data":1 </br>
                 }
-			    </br>
-			    code: 0 成功  1 失败 </br>
-			    data: 0 业务处理失败，删除半提交消息 1 业务处理成功，RMQ发送半消息到MQ中间件 2 业务处理成功，RMQ删除半提交消息 </br>
+                </br>
+                code: 0 成功 1 失败 </br>
+                data: 0 业务处理失败，删除半提交消息 1 业务处理成功，RMQ发送半消息到MQ中间件 2 业务处理成功，RMQ删除半提交消息 </br>
             </td>
         </tr>
         <tr>

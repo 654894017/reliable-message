@@ -1,11 +1,9 @@
 package com.damon.rmq.api.constant;
+
 /**
- * 
  * 消息check返回状态码
- * 
- * 
- * @author xianping_lu
  *
+ * @author xianping_lu
  */
 public interface MessageCheckStatusConstant {
     /**

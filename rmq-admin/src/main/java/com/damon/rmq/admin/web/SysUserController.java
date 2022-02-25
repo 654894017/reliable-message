@@ -1,23 +1,7 @@
 package com.damon.rmq.admin.web;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.beans.BeanUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
-
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.crypto.SecureUtil;
 import com.damon.rmq.api.DataGrid;
 import com.damon.rmq.api.admin.model.dto.system.SysResourceDTO;
 import com.damon.rmq.api.admin.model.dto.system.SysUserDTO;
@@ -26,15 +10,21 @@ import com.damon.rmq.api.admin.model.po.UserRole;
 import com.damon.rmq.api.admin.service.ISysUserService;
 import com.damon.rmq.api.model.Constants;
 import com.damon.rmq.api.model.dto.RspBase;
-
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.crypto.SecureUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * 
  * 系统用户控制器
- *
  */
 @Controller
 @RequestMapping(value = "sys_user", method = RequestMethod.POST)

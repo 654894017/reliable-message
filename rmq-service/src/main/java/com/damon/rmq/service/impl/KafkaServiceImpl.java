@@ -1,13 +1,6 @@
 package com.damon.rmq.service.impl;
 
-import java.time.LocalDateTime;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.kafka.core.KafkaTemplate;
-
+import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.damon.rmq.api.enums.MessageStatusEnum;
 import com.damon.rmq.api.exceptions.CheckException;
@@ -18,21 +11,25 @@ import com.damon.rmq.api.model.po.Message;
 import com.damon.rmq.api.model.vo.AdminMessageVo;
 import com.damon.rmq.api.service.IReliableMessageService;
 import com.damon.rmq.dal.mapper.MessageMapper;
-
-import cn.hutool.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.kafka.core.KafkaTemplate;
+
+import java.time.LocalDateTime;
 
 /**
  * kafka消息服务实现
- * 
- * @author xianping_lu
  *
+ * @author xianping_lu
  */
 @Slf4j
 @ConditionalOnProperty(name = "spring.rmq", havingValue = "kafka", matchIfMissing = false)
 @DubboService(timeout = Constants.SERVICE_TIMEOUT)
 public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, String>
-    implements IReliableMessageService {
+        implements IReliableMessageService {
 
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
@@ -55,14 +52,14 @@ public class KafkaServiceImpl extends BaseServiceImpl<MessageMapper, Message, St
         message.setCreateTime(LocalDateTime.now());
         message.setUpdateTime(LocalDateTime.now());
         mapper.insertSelective(message);
-        
+
         log.debug("create pre message succeed. queue : {}, message id : {}, body : {}", consumerQueue, id, messageBody);
         return id;
     }
 
     @Override
     public void confirmAndSendMessage(String queue, String messageId) {
-        
+
         if (StringUtils.isBlank(messageId)) {
             throw new CheckException("messageId is empty");
         }

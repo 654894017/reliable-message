@@ -1,12 +1,11 @@
 package com.damon.rmq.dal.mapper;
 
-import java.util.List;
-
 import com.damon.rmq.api.admin.model.po.UserRole;
+
+import java.util.List;
 
 /**
  * <p>用户角色关联表操作接口</p>
- *
  */
 
 public interface UserRoleMapper extends BaseMapper<UserRole, String> {

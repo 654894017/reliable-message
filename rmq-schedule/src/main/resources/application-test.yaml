@@ -8,7 +8,7 @@ dubbo:
     base-packages: com.damon.rmq.schedule.service.impl
   reference:
     retries: -1
-  service: 
+  service:
     retries: -1
 
 schedule:
@@ -16,19 +16,19 @@ schedule:
     core-pool-size: 10
     max-pool-size: 100
     keep-alive-time: 60000
-    queue-capacity: 10
+    queue-capacity: 1000
     wait-complete-timeout: 10000
   recover:
     core-pool-size: 10
     max-pool-size: 100
     keep-alive-time: 60000
-    queue-capacity: 10
+    queue-capacity: 1000
     wait-complete-timeout: 30000
     interval:
-    - 1
-    - 1
-    - 2
-    - 2
-    - 5
-    - 5
-    - 5
+      - 1
+      - 1
+      - 2
+      - 2
+      - 5
+      - 5
+      - 5

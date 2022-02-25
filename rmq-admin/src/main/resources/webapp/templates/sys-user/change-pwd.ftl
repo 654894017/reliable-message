@@ -1,4 +1,3 @@
-
 <form id="password-changeform" method="post" class="field-form">
     <table>
         <tr>

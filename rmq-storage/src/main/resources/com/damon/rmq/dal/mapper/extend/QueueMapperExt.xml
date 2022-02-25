@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.damon.rmq.dal.mapper.QueueMapper">
 
-    <resultMap id="AdminQueueVo" type="com.damon.rmq.api.model.vo.AdminQueueVo"  extends="BaseResultMap">
+    <resultMap id="AdminQueueVo" type="com.damon.rmq.api.model.vo.AdminQueueVo" extends="BaseResultMap">
     </resultMap>
 
     <sql id="condition">
@@ -15,7 +15,8 @@
     </sql>
 
     <select id="get" parameterType="Queue" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List" />
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM t_queue
         WHERE 1=1
         <include refid="condition"/>
@@ -23,7 +24,8 @@
     </select>
 
     <select id="list" parameterType="Queue" resultMap="BaseResultMap">
-        SELECT <include refid="Base_Column_List" />
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM t_queue
         WHERE 1=1
         <include refid="condition"/>
@@ -38,7 +40,8 @@
 
     <select id="adminListPage" parameterType="com.damon.rmq.api.model.dto.queue.AdminQueueListQueryHelper"
             resultMap="AdminQueueVo">
-        SELECT <include refid="Base_Column_List" />
+        SELECT
+        <include refid="Base_Column_List"/>
         FROM t_queue
         WHERE 1=1
         <if test="id != null and id != ''">

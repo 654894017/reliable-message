@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
     /**
      * 查询
@@ -24,7 +23,7 @@
             <td>消费队列</td>
             <td><input name="consumerQueue" class="easyui-validatebox"/></td>
             <td>创建时间</td>
-            <td >
+            <td>
                 <input name="createStartTime" class="easyui-datetimebox"/>
                 至
                 <input name="createEndTime" class="easyui-datetimebox"/>
@@ -35,7 +34,8 @@
                 <a onclick="searchQueue()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
             </td>
             <td style="text-align:left" colspan="3">
-                <a onclick="clearSearchQueueForm()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">重置</a>
+                <a onclick="clearSearchQueueForm()" class="easyui-linkbutton"
+                   data-options="iconCls:'icon-cancel'">重置</a>
             </td>
         </tr>
     </table>

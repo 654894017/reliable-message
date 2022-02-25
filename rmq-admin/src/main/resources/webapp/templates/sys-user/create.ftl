@@ -1,4 +1,3 @@
-
 <form id="user-createform" method="post" class="field-form">
     <table>
         <tr>
@@ -11,7 +10,8 @@
             <td>状态<span class="required-field-title">*</span></td>
             <td>
                 <select name="userStatus" class="easyui-combobox"
-                        data-options="required:true, panelHeight:'auto', editable:false" style="width: 165px;height: 22px">
+                        data-options="required:true, panelHeight:'auto', editable:false"
+                        style="width: 165px;height: 22px">
                     <option value="0">禁用</option>
                     <option value="1">启用</option>
                 </select>

@@ -1,11 +1,10 @@
 package com.damon.rmq.dal.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.damon.rmq.api.admin.model.dto.system.SysRoleDTO;
 import com.damon.rmq.api.admin.model.po.SysRole;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface SysRoleMapper extends BaseMapper<SysRole, String> {
     /**

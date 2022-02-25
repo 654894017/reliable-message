@@ -52,14 +52,14 @@ $(document).ready(function () {
             type: 'post',
             dataType: 'json',
             success: function (jsondata) {
-                if(jsondata == null || jsondata.code == 0){
+                if (jsondata == null || jsondata.code == 0) {
                     var rememberMe = $("input[name='rememberMe']:checked").val();
                     if (!isUndefined(rememberMe)) {
                         $.cookie('cookie_user', username, {expires: 7});
                         $.cookie('cookie_pwd', password, {expires: 7});
                     }
                     window.location.href = "index";
-                }else{
+                } else {
                     alert(jsondata.msg);
                     $("#yzm-img").attr("src", "login/captcha?" + new Date().getTime());
                 }

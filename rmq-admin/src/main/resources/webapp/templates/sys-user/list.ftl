@@ -1,4 +1,3 @@
-
 <div class="easyui-layout" data-options="fit:true,border:true">
     <div data-options="region:'north',title:'查询条件',border:true" style="height: 70px;">
         <#include "search.ftl"/>
@@ -7,24 +6,36 @@
     <div id="user-toolbar" class="datagrid-toolbar">
         <table>
             <tr>
-                <td><a onclick="createUser();" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">增加</a></td>
-                <td><div class="datagrid-btn-separator"></div></td>
+                <td><a onclick="createUser();" class="easyui-linkbutton"
+                       data-options="iconCls:'icon-add',plain:true">增加</a></td>
+                <td>
+                    <div class="datagrid-btn-separator"></div>
+                </td>
 
-                <td><a onclick="deleteUsers();" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a></td>
-                <td><div class="datagrid-btn-separator"></div></td>
+                <td><a onclick="deleteUsers();" class="easyui-linkbutton"
+                       data-options="iconCls:'icon-remove',plain:true">删除</a></td>
+                <td>
+                    <div class="datagrid-btn-separator"></div>
+                </td>
 
-                <td><a onclick="updateUser();" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">修改</a></td>
-                <td><div class="datagrid-btn-separator"></div></td>
+                <td><a onclick="updateUser();" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">修改</a>
+                </td>
+                <td>
+                    <div class="datagrid-btn-separator"></div>
+                </td>
 
-                <td><a onclick="$('#user-datagrid').datagrid('unselectAll');" class="easyui-linkbutton" data-options="iconCls:'icon-redo',plain:true">取消选中</a></td>
-                <td><div class="datagrid-btn-separator"></div></td>
+                <td><a onclick="$('#user-datagrid').datagrid('unselectAll');" class="easyui-linkbutton"
+                       data-options="iconCls:'icon-redo',plain:true">取消选中</a></td>
+                <td>
+                    <div class="datagrid-btn-separator"></div>
+                </td>
             </tr>
         </table>
     </div>
 
     <div data-options="region:'center',border:true">
         <table id="user-datagrid" class="easyui-datagrid" title="管理员列表"
-            data-options="
+               data-options="
                 border: false,
                 fit: true,
                 striped: true,
@@ -48,10 +59,10 @@
                     }
                 }">
             <thead>
-                <tr>
-                    <th data-options="field: 'sysUserId',checkbox: true,width: 100">编号</th>
-                    <th data-options="field: 'userName',width: 100">用户名</th>
-                    <th data-options="field: 'userStatus',width: 70,
+            <tr>
+                <th data-options="field: 'sysUserId',checkbox: true,width: 100">编号</th>
+                <th data-options="field: 'userName',width: 100">用户名</th>
+                <th data-options="field: 'userStatus',width: 70,
                         formatter: function (value, row, index) {
                             if (value == 0) {
                                 return '禁用';
@@ -60,10 +71,11 @@
                             } else {
                                 return '未知';
                             }
-                        }">状态</th>
-                    <th data-options="field: 'createTime',width: 100">创建时间</th>
-                    <th data-options="field: 'updateTime',width: 100">更新时间</th>
-                </tr>
+                        }">状态
+                </th>
+                <th data-options="field: 'createTime',width: 100">创建时间</th>
+                <th data-options="field: 'updateTime',width: 100">更新时间</th>
+            </tr>
             </thead>
         </table>
     </div>

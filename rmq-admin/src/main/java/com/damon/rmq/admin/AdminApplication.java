@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * 消息管理子系统启动类
- *
  */
 @SpringBootApplication()
 public class AdminApplication {

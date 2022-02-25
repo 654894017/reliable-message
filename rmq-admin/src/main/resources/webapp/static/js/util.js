@@ -1,9 +1,9 @@
 var currRow;
 var currParent;
 
-serializeObject = function(form) {
+serializeObject = function (form) {
     var o = {};
-    $.each(form.serializeArray(), function(index) {
+    $.each(form.serializeArray(), function (index) {
         if (o[this['name']]) {
             o[this['name']] = o[this['name']] + "," + this['value'];
         } else {
@@ -64,20 +64,21 @@ function changePassword() {
 }
 
 /* add by chennan 20160616 */
+
 // 设置img图片路径
-function setImgSrc(imgId, imgSrc){
-    if(imgSrc != null && imgSrc.length > 0){
+function setImgSrc(imgId, imgSrc) {
+    if (imgSrc != null && imgSrc.length > 0) {
         $('#' + imgId).attr("src", imgSrc);
-    }else{
+    } else {
         $('#' + imgId).attr("src", "resources/images/none.jpg");
     }
 }
 
 // 设置img图片路径
-function setNginxImgSrc(imgId, imgSrc){
-    if(imgSrc != null && imgSrc.length > 0){
+function setNginxImgSrc(imgId, imgSrc) {
+    if (imgSrc != null && imgSrc.length > 0) {
         $('#' + imgId).attr("src", nginxImageUrl + imgSrc);
-    }else{
+    } else {
         $('#' + imgId).attr("src", "resources/images/none.jpg");
     }
 }
@@ -137,7 +138,7 @@ function uploadImageNew(url, imgType, imgFileId, previewImgId, previewImgStorePa
 
     var filemaxsize = 200;//200k
 
-    if($('#' + imgFileId)[0].files[0] == null){
+    if ($('#' + imgFileId)[0].files[0] == null) {
         alert("请先选择文件");
         return false;
     }
@@ -186,34 +187,34 @@ function uploadImageNew(url, imgType, imgFileId, previewImgId, previewImgStorePa
 // 获取编辑器中HTML内容
 function getEditorHTMLContents(EditorName) {
     var oEditor = FCKeditorAPI.GetInstance(EditorName);
-    return(oEditor.GetXHTML(true));
+    return (oEditor.GetXHTML(true));
 }
 
 // 获取编辑器中文字内容
 function getEditorTextContent(EditorName) {
     var oEditor = FCKeditorAPI.GetInstance(EditorName);
 //        return(oEditor.EditorDocument.body.innerText); //网上都是这样，但是这个属性却取不到值
-    return(oEditor.EditorDocument.body.innerHTML);//这样可以获得内容，并且带有样式标签
+    return (oEditor.EditorDocument.body.innerHTML);//这样可以获得内容，并且带有样式标签
 //        return(oEditor.EditorDocument.body.textContent);//这样可以获得内容，不带样式标签
 }
 
 // 获取地区列表
-function getAreaInfoList(areaSltId, areaLevel, areaParentId){
+function getAreaInfoList(areaSltId, areaLevel, areaParentId) {
     $.ajax({
-        url:"area_info/getList",
-        type:"post",
-        data:{
+        url: "area_info/getList",
+        type: "post",
+        data: {
             //传值，还是JSON数据
-            areaLevel : areaLevel,
-            areaParentId : areaParentId
+            areaLevel: areaLevel,
+            areaParentId: areaParentId
         },
         //重要，如果写jsonp会报转换错误，此处不写都可以
-        dataType:"json",
-        success:function(data){
+        dataType: "json",
+        success: function (data) {
             $("#" + areaSltId).combobox("loadData", data);
         },
         //异常处理
-        error:function(xml, text, msg){
+        error: function (xml, text, msg) {
             error.apply(this, arguments);
         }
     });

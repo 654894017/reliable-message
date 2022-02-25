@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
     $(function () {
         $("#message_detail_form input").attr("readonly", "readonly");

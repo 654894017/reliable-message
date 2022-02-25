@@ -5,12 +5,11 @@ import java.time.format.DateTimeFormatter;
 
 
 public class DateFormatUtils {
+    private static final String SPLIT_PATTERN_DATETIME = "yyyy-MM-dd HH:mm:ss";
+    public static final DateTimeFormatter SPLIT_FORMAT_DATETIME = DateTimeFormatter.ofPattern(SPLIT_PATTERN_DATETIME);
     private DateFormatUtils() {
         throw new RuntimeException("DateFormatUtils.class can't be instantiated");
     }
-
-    private static final String SPLIT_PATTERN_DATETIME = "yyyy-MM-dd HH:mm:ss";
-    public static final DateTimeFormatter SPLIT_FORMAT_DATETIME = DateTimeFormatter.ofPattern(SPLIT_PATTERN_DATETIME);
 
     /**
      * <p>使用时间格式（yyyy-MM-dd HH:mm:ss）进行时间格式化</p>

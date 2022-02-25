@@ -1,12 +1,11 @@
 package com.damon.rmq.dal.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.damon.rmq.api.model.dto.message.AdminMessageListQuery;
 import com.damon.rmq.api.model.po.Message;
 import com.damon.rmq.api.model.vo.AdminMessageVo;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 
 public interface MessageMapper extends BaseMapper<Message, String> {
@@ -33,13 +32,12 @@ public interface MessageMapper extends BaseMapper<Message, String> {
      * @return 消息列表
      */
     List<AdminMessageVo> adminListPage(AdminMessageListQuery req);
-    
-    AdminMessageVo getMessage(@Param("queue") String queue,@Param("messageId") String messageId);
 
-    int deleteMessage(@Param("queue") String queue,@Param("messageId") String messageId);
-    
-    int updateMessageStatus(@Param("queue") String queue,@Param("messageId") String messageId, @Param("status")int status);
-    
-    
-    
+    AdminMessageVo getMessage(@Param("queue") String queue, @Param("messageId") String messageId);
+
+    int deleteMessage(@Param("queue") String queue, @Param("messageId") String messageId);
+
+    int updateMessageStatus(@Param("queue") String queue, @Param("messageId") String messageId, @Param("status") int status);
+
+
 }

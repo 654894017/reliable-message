@@ -1,7 +1,6 @@
-
 <SCRIPT type="text/javascript">
 
-    var rspJson=null;
+    var rspJson = null;
     initRoleResourceTree(); // 初始化树
 
     var roleResourceTreeSetting = {
@@ -66,7 +65,7 @@
                     if (node.isParent == false) {
                         treeObj.checkNode(node, true, true);
                     } else {
-                        treeObj.expandNode(node,true,false,true);
+                        treeObj.expandNode(node, true, false, true);
                     }
                 }
             },
@@ -140,7 +139,7 @@
 //        initRoleResourceTree(selected.roleId);
         for (var i = 0; i < rspJson.length; i++) {
             var node = zTreeObj.getNodeByParam("resourceId", rspJson[i].resourceId, null);
-                zTreeObj.checkNode(node, false, true);
+            zTreeObj.checkNode(node, false, true);
         }
     }
 </SCRIPT>
@@ -148,7 +147,8 @@
     <div data-options="region:'north',border:true" style="height: 44px;">
         <div style="text-align:center;margin-top: 7px;margin-bottom: 5px">
             <a onclick="saveRoleResourceAllot();" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
-            <a onclick="redoRoleResourceAllot();" class="easyui-linkbutton" data-options="iconCls:'icon-reload'" style="margin-left: 10px">重置</a>
+            <a onclick="redoRoleResourceAllot();" class="easyui-linkbutton" data-options="iconCls:'icon-reload'"
+               style="margin-left: 10px">重置</a>
         </div>
     </div>
     <div data-options="region:'center',border:true">

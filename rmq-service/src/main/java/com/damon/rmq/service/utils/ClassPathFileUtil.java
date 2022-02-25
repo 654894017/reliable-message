@@ -1,17 +1,17 @@
 package com.damon.rmq.service.utils;
 
+import cn.hutool.core.io.FileUtil;
 import org.springframework.core.io.ClassPathResource;
 
-import cn.hutool.core.io.FileUtil;
-
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 /**
  * <p>
- *  将resources中的配置文件打包到外部config目录后，不能正常读取文件，请使用该工具类读取
- *  1.开发时，在工具中启动，使用ClassPah类获取到目标文件的觉得路径
- *  2.打包到config目录后，找到config目录下的目标文件的绝对路径
+ * 将resources中的配置文件打包到外部config目录后，不能正常读取文件，请使用该工具类读取
+ * 1.开发时，在工具中启动，使用ClassPah类获取到目标文件的觉得路径
+ * 2.打包到config目录后，找到config目录下的目标文件的绝对路径
  * </p>
  */
 public class ClassPathFileUtil {
@@ -21,6 +21,7 @@ public class ClassPathFileUtil {
 
     /**
      * 获取文件
+     *
      * @param fileName 文件名称
      * @return
      */
@@ -44,7 +45,7 @@ public class ClassPathFileUtil {
             // 工具中启动
             ClassPathResource classPathResource = new ClassPathResource(fileName);
             targetFile =
-                File.createTempFile(UUID.randomUUID().toString(), fileName.substring(fileName.lastIndexOf(".")));
+                    File.createTempFile(UUID.randomUUID().toString(), fileName.substring(fileName.lastIndexOf(".")));
             FileUtil.writeFromStream(classPathResource.getInputStream(), targetFile);
         }
         System.out.println("targetFile = " + targetFile);

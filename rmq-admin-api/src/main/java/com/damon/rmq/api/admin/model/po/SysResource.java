@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 public class SysResource implements Serializable {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -198744923348263967L;
 

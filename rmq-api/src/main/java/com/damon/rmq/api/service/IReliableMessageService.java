@@ -2,7 +2,6 @@ package com.damon.rmq.api.service;
 
 /**
  * 消息服务接口
- *
  */
 public interface IReliableMessageService {
     /**
@@ -19,17 +18,19 @@ public interface IReliableMessageService {
      *
      * @param messageId 消息 ID
      */
-    void confirmAndSendMessage(String queue,String messageId);
+    void confirmAndSendMessage(String queue, String messageId);
 
     /**
      * 删除消息
+     *
      * @param queue
      * @param messageId
      */
     void deleteMessage(String queue, String messageId);
-    
+
     /**
      * 直接发送消息
+     *
      * @param consumerQueue
      * @param messageId
      * @param messageBody

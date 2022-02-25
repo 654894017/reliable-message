@@ -1,8 +1,5 @@
 package com.damon.rmq.service.mq;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -12,11 +9,13 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * kafka 配置
- * 
- * @author xianpinglu
  *
+ * @author xianpinglu
  */
 @Configuration
 @ConditionalOnProperty(name = "spring.rmq", havingValue = "kafka", matchIfMissing = false)
@@ -24,7 +23,7 @@ public class KafkaConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
-    
+
     @Bean
     public ProducerFactory<String, String> producerFactory() {
         return new DefaultKafkaProducerFactory<String, String>(producerConfigs());
@@ -47,5 +46,5 @@ public class KafkaConfig {
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         return props;
     }
-    
+
 }

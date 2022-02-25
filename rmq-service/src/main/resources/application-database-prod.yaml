@@ -10,18 +10,18 @@ dataSources:
     username: root
     password: root
 
-shardingRule:  
+shardingRule:
   tables:
-    t_message: 
-      actualDataNodes: ds${0..1}.t_message${0..1}
+    t_message:
+      actualDataNodes: ds${0..1}.t_message_${0..1}
       databaseStrategy:
         inline:
           shardingColumn: id
           algorithmExpression: ds${Math.abs(id.hashCode())%2}
-      tableStrategy: 
+      tableStrategy:
         inline:
           shardingColumn: consumer_queue
-          algorithmExpression: t_message${Math.abs(consumer_queue.hashCode())%2}
+          algorithmExpression: t_message_${Math.abs(consumer_queue.hashCode())%2}
   defaultDataSourceName: ds0
 props:
   sql.show: true

@@ -2,12 +2,14 @@ fancyBox - Changelog
 =========
 
 ### Version 2.1.5 - June 14, 2013
+
 * Fixed #493 - Broken slideshow
 * Fixed #556 - Parent option
 * Retina graphics (#564) and retina display support (#420)
 * Improved "lock" feature
 
 ### Version 2.1.4 - January 10, 2013
+
 * Update to be compatible with jQuery v1.9
 * Small changes that should fix usability issues for certain users
 
@@ -97,11 +99,9 @@ fancyBox - Changelog
 * Fixed #47 - fix overriding properties
 * New option "position" to thumbnail and button helpers
 
-
 ### Version 2.0.3 - November 29, 2011
 
 * Fixed #29 - broken elastic transitions
-
 
 ### Version 2.0.2 - November 28, 2011
 
@@ -113,12 +113,10 @@ fancyBox - Changelog
 * Add ability to create groups using 'data-fancybox-group' attribute
 * Updated manual usage to match earlier releases
 
-
 ### Version 2.0.1 - November 23, 2011
 
 * Fixed keyboard events inside form elements
 * Fixed manual usage
-
 
 ### Version 2.0.0 - November 21, 2011
 

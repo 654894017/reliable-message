@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 public class RoleResource implements Serializable {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -5456732454234377097L;
 

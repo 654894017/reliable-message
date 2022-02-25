@@ -1,25 +1,27 @@
 <div class="apiDetail">
-<div>
-	<h2><span>Function(treeId, treeNode)</span><span class="path">setting.view.</span>addHoverDom</h2>
-	<h3>Overview<span class="h3_info">[ depends on <span class="highlight_green">jquery.ztree.exedit</span> js ]</span></h3>
-	<div class="desc">
-		<p></p>
-		<div class="longdesc">
-			<p>Used to display custom control when mouse move over the node. (e.g. the rename and remove button)</p>
-			<p class="highlight_red">If you use this function, so must set <span class="highlight_red">setting.view.removeHoverDom</span>, please make sure that a better understanding of zTree before you use it.</p>
-			<p>Default: null</p>
-		</div>
-	</div>
-	<h3>Function Parameter Descriptions</h3>
-	<div class="desc">
-	<h4><b>treeId</b><span>String</span></h4>
-	<p>zTree unique identifier: <b class="highlight_red">treeId</b>.</p>
-	<h4 class="topLine"><b>treeNode</b><span>JSON</span></h4>
-	<p>JSON data object of the node which need to display the custom control.</p>
-	</div>
-	<h3>Examples of setting & function</h3>
-	<h4>1. Display a button when mouse move over the node, and hide the button when mouse move out.</h4>
-	<pre xmlns=""><code>var setting = {
+    <div>
+        <h2><span>Function(treeId, treeNode)</span><span class="path">setting.view.</span>addHoverDom</h2>
+        <h3>Overview<span class="h3_info">[ depends on <span
+                class="highlight_green">jquery.ztree.exedit</span> js ]</span></h3>
+        <div class="desc">
+            <p></p>
+            <div class="longdesc">
+                <p>Used to display custom control when mouse move over the node. (e.g. the rename and remove button)</p>
+                <p class="highlight_red">If you use this function, so must set <span class="highlight_red">setting.view.removeHoverDom</span>,
+                    please make sure that a better understanding of zTree before you use it.</p>
+                <p>Default: null</p>
+            </div>
+        </div>
+        <h3>Function Parameter Descriptions</h3>
+        <div class="desc">
+            <h4><b>treeId</b><span>String</span></h4>
+            <p>zTree unique identifier: <b class="highlight_red">treeId</b>.</p>
+            <h4 class="topLine"><b>treeNode</b><span>JSON</span></h4>
+            <p>JSON data object of the node which need to display the custom control.</p>
+        </div>
+        <h3>Examples of setting & function</h3>
+        <h4>1. Display a button when mouse move over the node, and hide the button when mouse move out.</h4>
+        <pre xmlns=""><code>var setting = {
 	view: {
 		addHoverDom: addHoverDom,
 		removeHoverDom: removeHoverDom,
@@ -41,5 +43,5 @@ function removeHoverDom(treeId, treeNode) {
 	$("#diyBtn_space_" +treeNode.id).unbind().remove();
 };
 ......</code></pre>
-</div>
+    </div>
 </div>

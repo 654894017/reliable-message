@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class RmqException extends RuntimeException {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 911418878965576268L;
     private int code = 1;
@@ -30,7 +30,6 @@ public class RmqException extends RuntimeException {
     public RmqException(String message, Throwable cause) {
         super(message, cause);
     }
-    
-    
-    
+
+
 }

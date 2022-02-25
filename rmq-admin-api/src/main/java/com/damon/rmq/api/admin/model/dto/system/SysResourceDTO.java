@@ -7,12 +7,11 @@ import java.time.LocalDateTime;
 
 /**
  * <p>资源记录</p>
- *
  */
 @Data
 public class SysResourceDTO implements Serializable {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 6201761375538547626L;
     private String resourceId;

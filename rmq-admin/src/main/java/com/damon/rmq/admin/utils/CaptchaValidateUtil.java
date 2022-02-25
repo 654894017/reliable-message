@@ -1,21 +1,16 @@
 package com.damon.rmq.admin.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * 图形验证码工具类
- * 
- * @author xianpinglu
  *
+ * @author xianpinglu
  */
 public final class CaptchaValidateUtil {
-
-    private CaptchaValidateUtil() {
-        throw new RuntimeException("CaptchaUtil.class can't be instantiated");
-    }
 
     public static final String SESSION_KEY = "validate_code";
     public static final String SESSION_TIME_KEY = "validate_code_time";
@@ -23,6 +18,9 @@ public final class CaptchaValidateUtil {
      * 设置验证码的有效时间 3分钟
      */
     public static final int TIMEOUT = 1000 * 60 * 3;
+    private CaptchaValidateUtil() {
+        throw new RuntimeException("CaptchaUtil.class can't be instantiated");
+    }
 
     /**
      * <p>验证码合法性校验</p>
@@ -45,7 +43,7 @@ public final class CaptchaValidateUtil {
 
         Object captcha = session.getAttribute(SESSION_KEY);
         if (captcha != null && userCaptcha.equalsIgnoreCase(captcha.toString())) {
-            long timestamp = (Long)session.getAttribute(SESSION_TIME_KEY);
+            long timestamp = (Long) session.getAttribute(SESSION_TIME_KEY);
             // 判断是否过期
             if ((timestamp + TIMEOUT) > System.currentTimeMillis()) {
                 session.removeAttribute(SESSION_KEY);

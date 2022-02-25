@@ -1,17 +1,16 @@
 package com.damon.rmq.api.model.dto.queue;
 
-import java.io.Serializable;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
-import lombok.Data;
+import java.io.Serializable;
 
 
 @Data
 public class QueueUpdateDto implements Serializable {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -7357756131942314109L;
 

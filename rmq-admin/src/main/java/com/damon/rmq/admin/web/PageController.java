@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * 页面控制器
- * 
- * @author xianping_lu
  *
+ * @author xianping_lu
  */
 @Controller
 @RequestMapping(value = "page")

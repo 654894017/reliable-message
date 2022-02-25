@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Setter
 public class PageReq implements Serializable {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 6032097556910324881L;
     private int page = 1;

@@ -1,13 +1,6 @@
 package com.damon.rmq.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-
+import cn.hutool.core.util.IdUtil;
 import com.damon.rmq.api.DataGrid;
 import com.damon.rmq.api.admin.model.dto.system.SysRoleDTO;
 import com.damon.rmq.api.admin.model.po.RoleResource;
@@ -19,14 +12,16 @@ import com.damon.rmq.dal.mapper.SysRoleMapper;
 import com.damon.rmq.dal.mapper.UserRoleMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
-import cn.hutool.core.util.IdUtil;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * 
  * 角色服务实现类
- * 
- *
  */
 @DubboService(timeout = Constants.SERVICE_TIMEOUT)
 public class SysRoleServiceImpl extends BaseServiceImpl<SysRoleMapper, SysRole, String> implements ISysRoleService {

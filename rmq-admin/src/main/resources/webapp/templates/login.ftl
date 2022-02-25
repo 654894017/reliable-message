@@ -4,9 +4,10 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type"  />
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" charset="utf-8">
-    <title>CMS</title>
+    <meta http-equiv="Content-Type"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+          charset="utf-8">
+    <title>rmq-admin</title>
     <link rel="stylesheet" type="text/css" href="${basePath}css/base.css">
     <link rel="stylesheet" type="text/css" href="${basePath}css/login.css">
     <script type="text/javascript" src="${basePath}js/jquery-1.8.0.min.js"></script>
@@ -25,7 +26,7 @@
     }
 </script>
 <div class="header">
-    <#--<p class="page-logo"></p>-->
+    <!--  <p class="page-logo"></p>-->
 </div>
 
 <div class="login-block fn-clear">
@@ -33,15 +34,15 @@
         <p class="logo">消息管理平台</p>
         <div class="login-form">
             <div class="gray-bar fn-clear">
-                <label >账户</label>
+                <label>账户</label>
                 <input class="username" type="text" id="username" placeholder="请输入你的账户">
             </div>
             <div class="gray-bar fn-clear">
-                <label >密码</label>
+                <label>密码</label>
                 <input class="password" type="password" id="password" placeholder="请输入你的密码">
             </div>
             <div class="gray-bar fn-clear">
-                <label >验证码</label>
+                <label>验证码</label>
                 <input class="code" type="text" id="yzm" placeholder="请输入你的验证码">
                 <img class="yzm-img" src="login/captcha" id="yzm-img">
             </div>

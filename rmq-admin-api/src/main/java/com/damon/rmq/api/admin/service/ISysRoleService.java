@@ -1,12 +1,12 @@
 package com.damon.rmq.api.admin.service;
 
-import java.util.List;
-
 import com.damon.rmq.api.DataGrid;
 import com.damon.rmq.api.admin.model.dto.system.SysRoleDTO;
 import com.damon.rmq.api.admin.model.po.RoleResource;
 import com.damon.rmq.api.admin.model.po.SysRole;
 import com.damon.rmq.api.service.IBaseService;
+
+import java.util.List;
 
 /**
  * <p>角色服务接口</p>
@@ -75,6 +75,7 @@ public interface ISysRoleService extends IBaseService<SysRole, String> {
 
     /**
      * 根据ims用户获取对应解决列表
+     *
      * @param imsUserId
      * @return
      */

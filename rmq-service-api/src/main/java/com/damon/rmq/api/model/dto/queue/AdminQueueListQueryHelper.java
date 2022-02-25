@@ -1,19 +1,17 @@
 package com.damon.rmq.api.model.dto.queue;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.damon.rmq.api.PageReq;
-
 import cn.hutool.json.JSONUtil;
+import com.damon.rmq.api.PageReq;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 
 @Getter
 @Setter
 public class AdminQueueListQueryHelper extends PageReq {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 7109016150898123183L;
 

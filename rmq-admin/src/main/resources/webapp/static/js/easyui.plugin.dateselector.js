@@ -1,7 +1,7 @@
 /** create by ChenNan 20160627
  * 用于把easyui的databox转换成只能选择月份的选择框
  **/
-function toDateSelector(id){
+function toDateSelector(id) {
     $('#' + id).datebox({
         onShowPanel: function () {//显示日趋选择对象后再触发弹出月份层的事件，初始化时没有生成月份层
             span.trigger('click'); //触发click事件弹出月份层
@@ -26,18 +26,18 @@ function toDateSelector(id){
         span = p.find('span.calendar-text'); //显示月份层的触发控件
 }
 
-function sltDateFormatter(date){
+function sltDateFormatter(date) {
     var y = date.getFullYear();
-    var m = date.getMonth()+1;
-    if(m < 10){
+    var m = date.getMonth() + 1;
+    if (m < 10) {
         m = '0' + m;
     }
-    return y+'-'+m;
+    return y + '-' + m;
 }
 
-function sltDateParser(s){
+function sltDateParser(s) {
     var t = Date.parse(s);
-    if (!isNaN(t)){
+    if (!isNaN(t)) {
         return new Date(t);
     } else {
         return new Date();

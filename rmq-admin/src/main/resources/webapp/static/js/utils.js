@@ -1,6 +1,6 @@
-serializeObject = function(form) {
+serializeObject = function (form) {
     var o = {};
-    $.each(form.serializeArray(), function(index) {
+    $.each(form.serializeArray(), function (index) {
         if (o[this['name']]) {
             o[this['name']] = o[this['name']] + "," + this['value'];
         } else {
@@ -16,8 +16,8 @@ serializeObject = function(form) {
  * @param value 待判断内容
  * @returns {boolean}
  */
-function isUndefined(value){
-    if(value != undefined && value != ''){
+function isUndefined(value) {
+    if (value != undefined && value != '') {
         return false;
     }
     return true;

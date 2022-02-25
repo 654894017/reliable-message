@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
     /**
      * 查询
@@ -22,7 +21,8 @@
             <td><input name="roleName" maxlength="50" class="easyui-validatebox" style="width: 165px;"/></td>
             <td>状态</td>
             <td>
-                <select name="status" class="easyui-combobox" data-options="panelHeight:'auto',editable:false" style="width: 165px;height: 26px">
+                <select name="status" class="easyui-combobox" data-options="panelHeight:'auto',editable:false"
+                        style="width: 165px;height: 26px">
                     <option value="">全部</option>
                     <option value=0>禁用</option>
                     <option value=1>启用</option>

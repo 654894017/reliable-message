@@ -11,6 +11,6 @@ spring:
   resources:
     static-locations: classpath:/webapp/static/
   mvc:
-   hiddenmethod:
-    filter: 
-     enabled: true
+    hiddenmethod:
+      filter:
+        enabled: true

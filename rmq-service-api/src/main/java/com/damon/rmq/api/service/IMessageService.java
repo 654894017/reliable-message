@@ -24,7 +24,7 @@ public interface IMessageService extends IBaseService<Message, String> {
      *
      * @param messageId 消息ID
      */
-    void resendMessage(String queue,String messageId);
+    void resendMessage(String queue, String messageId);
 
     /**
      * 标记所有重发次数超过限制的消息为已死亡
@@ -32,8 +32,8 @@ public interface IMessageService extends IBaseService<Message, String> {
      * @param resendTimes 最大重发次数限制
      * @return 处理记录数量
      */
-    int updateMessageDead(Short resendTimes);    
-    
+    int updateMessageDead(Short resendTimes);
+
     /**
      * 分页查询
      *

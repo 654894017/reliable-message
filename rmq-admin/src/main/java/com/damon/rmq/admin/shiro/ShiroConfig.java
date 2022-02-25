@@ -11,11 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * <p>Title:</p>
- * <p>Description:</p>
- *
- */
+
 @Configuration
 public class ShiroConfig {
 
@@ -25,7 +21,7 @@ public class ShiroConfig {
     }
 
     @Bean
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(AdminShiroRealm cmsShiroRealm){
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(AdminShiroRealm cmsShiroRealm) {
         ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
         shiroFilter.setSecurityManager(defaultWebSecurityManager(cmsShiroRealm));
         shiroFilter.setLoginUrl("/login");
@@ -54,12 +50,12 @@ public class ShiroConfig {
     }
 
     @Bean
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor(){
+    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
         return new LifecycleBeanPostProcessor();
     }
 
     @Bean
-    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator(){
+    public DefaultAdvisorAutoProxyCreator defaultAdvisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator creator = new DefaultAdvisorAutoProxyCreator();
         creator.setProxyTargetClass(true);
         return creator;

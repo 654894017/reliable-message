@@ -106,7 +106,7 @@
     /**
      * 删除消息
      */
-    function messageDelete(queue,id) {
+    function messageDelete(queue, id) {
         $.messager.confirm('确认', '您是否要删除当前的记录？', function (ret) {
             if (ret) {
                 parent.$.messager.progress({
@@ -114,7 +114,7 @@
                     interval: 100
                 });
                 $.ajax({
-                    url: 'message/' +queue+'/'+ id,
+                    url: 'message/' + queue + '/' + id,
                     data: {
                         _method: "DELETE"
                     },
@@ -142,7 +142,7 @@
     /**
      * 重发消息
      */
-    function messageResend(queue,id) {
+    function messageResend(queue, id) {
         $.messager.confirm('确认', '您是否要重发当前消息？', function (ret) {
             if (ret) {
                 parent.$.messager.progress({
@@ -150,7 +150,7 @@
                     interval: 100
                 });
                 $.ajax({
-                    url: 'message/' +queue+'/'+ id + "/resend",
+                    url: 'message/' + queue + '/' + id + "/resend",
                     type: "POST",//默认以get提交，使用get提交如果有中文后台会出现乱码
                     dataType: 'json',
                     success: function (rsp) {
@@ -176,7 +176,7 @@
      * 详情页
      */
     function message_showDetail(rowData) {
-    	console.info(rowData);
+        console.info(rowData);
         var dig = $('<div  />').dialog({
             href: 'page/message/detail',
             width: 850,
@@ -197,7 +197,7 @@
             },
             onLoad: function () {
                 //必须在窗体打开之前加载数据
-                getMessageDetail(rowData.consumerQueue,rowData.id);
+                getMessageDetail(rowData.consumerQueue, rowData.id);
             }
         });
     }
@@ -205,13 +205,13 @@
     /**
      * 获取消息详情
      */
-    function getMessageDetail(queue,messageId) {
+    function getMessageDetail(queue, messageId) {
         $.ajax({
             type: "GET",
             cache: false,
             dataType: "json",
             timeout: 15000,
-            url: "message/"+queue+"/"+messageId,
+            url: "message/" + queue + "/" + messageId,
             success: function (retObj, textStatus, XMLHttpRequest) {
                 if (0 === retObj.code) {
                     $('#message_detail_form').form('load', retObj.data);
@@ -227,8 +227,8 @@
 </script>
 
 <div class="easyui-layout" data-options="fit:true" style="margin:1px;">
-    <div data-options="region:'north',title:'查询条件'" style="height: 132px;padding: 1px;" >
-         <#include "search.ftl"/>
+    <div data-options="region:'north',title:'查询条件'" style="height: 132px;padding: 1px;">
+        <#include "search.ftl"/>
     </div>
     <div data-options="region:'center',fit:true" style="padding:1px;">
         <div id="message_datagrid"></div>

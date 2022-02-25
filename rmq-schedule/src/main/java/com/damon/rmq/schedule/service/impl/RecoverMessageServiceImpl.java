@@ -1,15 +1,6 @@
 package com.damon.rmq.schedule.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.ThreadPoolExecutor;
-
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.DubboService;
-import org.springframework.beans.factory.annotation.Autowired;
-
+import cn.hutool.json.JSONUtil;
 import com.damon.rmq.api.enums.AlreadyDeadEnum;
 import com.damon.rmq.api.enums.MessageStatusEnum;
 import com.damon.rmq.api.model.Constants;
@@ -20,18 +11,23 @@ import com.damon.rmq.api.service.IMessageService;
 import com.damon.rmq.api.utils.DateFormatUtils;
 import com.damon.rmq.schedule.config.RecoverTaskConfig;
 import com.github.pagehelper.Page;
-
-import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * 
  * 消息重复服务
- * 
+ * <p>
  * (重发发送失败的消息)
- * 
- * @author xianpinglu
  *
+ * @author xianpinglu
  */
 @Slf4j
 @DubboService
@@ -67,7 +63,7 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
         boolean countFlag = true;
         int totalPage = 0;
 
-        for (int pageNum = 1;; pageNum++) {
+        for (int pageNum = 1; ; pageNum++) {
             // 分页查询消息
             Page<Message> page = getPage(condition, pageNum, pageSize, countFlag);
             List<Message> messageList = page.getResult();
@@ -81,7 +77,7 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
                             recoverMessage(message);
                         } catch (Exception e) {
                             log.error("recover task Exception, queue: {}, messageId= {}, error:",
-                                message.getConsumerQueue(), message.getId(), e);
+                                    message.getConsumerQueue(), message.getId(), e);
                         } finally {
                             latch.countDown();
                         }
@@ -137,7 +133,7 @@ public class RecoverMessageServiceImpl implements IRecoverMessageService {
         // 消息未死亡
         condition.setAlreadyDead(AlreadyDeadEnum.NO.getValue());
         // 重发次数
-        condition.setResendTimes((short)resendTimes);
+        condition.setResendTimes((short) resendTimes);
         // 排序字段
         condition.setOrderBy(Constants.ORDER_BY_CONFIRM_TIME);
 

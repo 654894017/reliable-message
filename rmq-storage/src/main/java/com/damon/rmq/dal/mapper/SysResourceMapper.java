@@ -1,13 +1,12 @@
 package com.damon.rmq.dal.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.damon.rmq.api.admin.model.dto.system.SysResourceDTO;
 import com.damon.rmq.api.admin.model.po.SysResource;
+import org.apache.ibatis.annotations.Param;
 
-public interface SysResourceMapper extends BaseMapper<SysResource,String>{
+import java.util.List;
+
+public interface SysResourceMapper extends BaseMapper<SysResource, String> {
     /**
      * <p>根据查询条件获取资源分页</p>
      *

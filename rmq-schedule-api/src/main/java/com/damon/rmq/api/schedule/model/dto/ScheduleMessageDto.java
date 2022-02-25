@@ -1,8 +1,7 @@
 package com.damon.rmq.api.schedule.model.dto;
 
-import com.damon.rmq.api.model.po.Message;
-
 import cn.hutool.json.JSONUtil;
+import com.damon.rmq.api.model.po.Message;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class ScheduleMessageDto extends Message {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -2783490154261815300L;
     /**

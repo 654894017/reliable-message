@@ -5,10 +5,10 @@
     function searchMessage() {
         var searchform = $('#message_searchform');
         if (searchform.form('validate')) {
-      		$('#message_datagrid').datagrid({
-      			url: 'message/page',
-      			queryParams:serializeObject($('#message_searchform'))
-      		});
+            $('#message_datagrid').datagrid({
+                url: 'message/page',
+                queryParams: serializeObject($('#message_searchform'))
+            });
         }
     }
 
@@ -20,7 +20,7 @@
         $('#message_datagrid').datagrid('load', {}); // 重新加载
     }
 
-   $.ajax({
+    $.ajax({
         type: "GET",
         cache: false,
         dataType: "json",
@@ -28,14 +28,14 @@
         url: "queue/page?page=1&rows=1000",
         success: function (retObj, textStatus, XMLHttpRequest) {
             $('#consumerQueue').combobox({
-			    valueField:'consumerQueue',
-			    textField:'businessName',
-			    required:true,
-			    data : retObj.rows
-			});
+                valueField: 'consumerQueue',
+                textField: 'businessName',
+                required: true,
+                data: retObj.rows
+            });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-       		$.messager.alert('错误提示', '加载数据异常', 'error');
+            $.messager.alert('错误提示', '加载数据异常', 'error');
         }
     });
 </script>
@@ -43,14 +43,14 @@
 <form id="message_searchform" class="field-form">
     <table>
         <tr>
-        	 <td>消费队列</td>
+            <td>消费队列</td>
             <td><input id="consumerQueue" name="consumerQueue"/></td>
             <td>消息ID</td>
             <td><input name="id" class="easyui-validatebox"/></td>
             <td>消息状态</td>
             <td>
                 <select name="status" class="easyui-combobox" style="width: 165px;"
-                        data-options="panelHeight:'auto', editable:false" >
+                        data-options="panelHeight:'auto', editable:false">
                     <option value="" selected="selected">全部</option>
                     <option value="0">待确认</option>
                     <option value="1">发送中</option>
@@ -61,7 +61,7 @@
             <td>是否死亡</td>
             <td>
                 <select name="alreadyDead" class="easyui-combobox" style="width: 165px;"
-                        data-options="panelHeight:'auto', editable:false" >
+                        data-options="panelHeight:'auto', editable:false">
                     <option value="" selected="selected">全部</option>
                     <option value="0">未死亡</option>
                     <option value="1">已死亡</option>
@@ -76,8 +76,9 @@
         </tr>
         <tr>
             <td style="text-align:right" colspan="6">
-          		<a onclick="searchMessage()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
-                <a onclick="clearSearchMessageForm()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">重置</a>
+                <a onclick="searchMessage()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+                <a onclick="clearSearchMessageForm()" class="easyui-linkbutton"
+                   data-options="iconCls:'icon-cancel'">重置</a>
             </td>
         </tr>
     </table>

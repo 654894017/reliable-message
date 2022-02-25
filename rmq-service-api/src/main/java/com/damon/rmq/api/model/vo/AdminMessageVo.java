@@ -1,20 +1,19 @@
 package com.damon.rmq.api.model.vo;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import com.damon.rmq.api.enums.AlreadyDeadEnum;
 import com.damon.rmq.api.enums.MessageStatusEnum;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @SuppressWarnings("unused")
 public class AdminMessageVo implements Serializable {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 8321689092538900877L;
 

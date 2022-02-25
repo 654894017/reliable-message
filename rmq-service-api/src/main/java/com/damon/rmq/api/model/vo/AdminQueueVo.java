@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 public class AdminQueueVo implements Serializable {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -2980819442660824776L;
 

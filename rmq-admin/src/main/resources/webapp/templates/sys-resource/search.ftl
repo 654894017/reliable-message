@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
     /**
      * 查询
@@ -23,7 +22,8 @@
             <td><input name="name" class="easyui-validatebox"/></td>
             <td>类型</td>
             <td>
-                <select name="type" class="easyui-combobox" data-options="panelHeight:'auto',editable:false" style="width: 165px;height: 22px">
+                <select name="type" class="easyui-combobox" data-options="panelHeight:'auto',editable:false"
+                        style="width: 165px;height: 22px">
                     <option value="">全部</option>
                     <option value=0>菜单</option>
                     <option value=1>按钮</option>
@@ -37,7 +37,8 @@
                 <a onclick="searchResources()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
             </td>
             <td>
-                <a onclick="clearSearchResourceForm()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">清空</a>
+                <a onclick="clearSearchResourceForm()" class="easyui-linkbutton"
+                   data-options="iconCls:'icon-cancel'">清空</a>
             </td>
         </tr>
     </table>

@@ -5,14 +5,11 @@ package com.damon.rmq.api.admin.enums;
  */
 public enum SysResourceTypeEnum {
     // 菜单
-    MENU((byte)0),
+    MENU((byte) 0),
     // 按钮
     BUTTON((byte) 1);
 
     private byte code;
-    public byte getValue() {
-        return code;
-    }
 
     SysResourceTypeEnum(byte code) {
         this.code = code;
@@ -31,5 +28,9 @@ public enum SysResourceTypeEnum {
             }
         }
         return null;
+    }
+
+    public byte getValue() {
+        return code;
     }
 }

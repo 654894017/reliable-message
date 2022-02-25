@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class CheckException extends RuntimeException {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 6005969376941549930L;
     private int code = 1;

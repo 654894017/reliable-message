@@ -1,18 +1,16 @@
 package com.damon.rmq.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
+import cn.hutool.core.bean.BeanUtil;
 import com.damon.rmq.api.model.Constants;
 import com.damon.rmq.dal.mapper.BaseMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import cn.hutool.core.bean.BeanUtil;
+import java.util.List;
+import java.util.Map;
 
-@SuppressWarnings({ "unchecked", "rawtypes" })
+@SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class BaseServiceImpl<M extends BaseMapper, T, PK> {
 
     @Autowired
@@ -21,7 +19,7 @@ public abstract class BaseServiceImpl<M extends BaseMapper, T, PK> {
     public int deleteByPrimaryKey(PK id) {
         return mapper.deleteByPrimaryKey(id);
     }
-    
+
     public int delete(T record) {
         return mapper.delete(record);
     }

@@ -2,9 +2,8 @@ package com.damon.rmq.api.schedule.service;
 
 /**
  * 消息确认子系统服务接口
- * 
- * @author xianping_lu
  *
+ * @author xianping_lu
  */
 public interface ICheckMessageService {
     /**
