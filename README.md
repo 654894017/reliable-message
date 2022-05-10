@@ -4,7 +4,7 @@
 
 **reliable-message**是基于可靠消息的**最终一致性**的分布式事务解决方案（需要MQ），同时也提供了Tcc事务模型解决方案，基于事务消息半提交原理，结合消息的回查机制（不依赖MQ的情况）。
 
-- RMQ不同于seata、tcc-transaction、Hmily等类似框架，需要在相同的协议下比如都是dubbo、spring cloud下才能够使用。RMQ给予用户最灵活的选择，不局限于dubbo、spring
+- RMQ不同于seata、tcc-transaction、Hmily等类似框架。RMQ给予用户最灵活的选择，不局限于dubbo、spring
   cloud，对方接口可以是grpc、thrift、http等类似接口。只要业务方接口提供类似Try、Commit、Cancel接口，或Commit、Cancel接口。我们在业务层面通过硬编码的形式实现类型TCC或CC的效果。
 
 ## 框架定位
