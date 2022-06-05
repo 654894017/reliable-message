@@ -4,7 +4,7 @@
             border: false,
             fit: true,
             striped: true,
-            url: 'message/page',
+            // url: 'message/page',
             method: 'get',
             pagination: true,//显示分页
             fitColumns: true,//自动计算列的宽度
@@ -230,7 +230,7 @@
     <div data-options="region:'north',title:'查询条件'" style="height: 132px;padding: 1px;">
         <#include "search.ftl"/>
     </div>
-    <div data-options="region:'center',fit:true" style="padding:1px;">
+    <div data-options="region:'center'" style="padding:1px;">
         <div id="message_datagrid"></div>
     </div>
 </div>

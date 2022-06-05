@@ -2,7 +2,7 @@ package com.damon.order.application;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.damon.integra.api.IIntegralApplicationService;
+import com.damon.user_points.api.IIntegralApplicationService;
 import com.damon.inventory.application.GoodsInventoryDedcutionDTO;
 import com.damon.inventory.application.IGoodsInventoryApplicationService;
 import com.damon.order.api.IOrderApplicationService;
@@ -11,7 +11,6 @@ import com.damon.order.api.OrderMessageDTO;
 import com.damon.order.application.assembler.OrderAssembler;
 import com.damon.order.domain.order.aggregate.OrderDO;
 import com.damon.order.domain.order.po.Order;
-import com.damon.order.domain.order.po.OrderItem;
 import com.damon.order.domain.order.service.IOrderDomainService;
 import com.damon.order.domain.order.service.OrderDomainService;
 import com.damon.rmq.api.service.IReliableMessageService;

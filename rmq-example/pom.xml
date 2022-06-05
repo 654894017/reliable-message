@@ -16,8 +16,8 @@
         <module>inventory-service</module>
         <module>coupon-service</module>
         <module>order-service</module>
-        <module>integral-service</module>
-        <module>integral-service-api</module>
+        <module>user-points-service</module>
+        <module>user-points-service-api</module>
         <module>inventory-service-api</module>
         <module>order-service-api</module>
     </modules>
