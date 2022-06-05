@@ -12,13 +12,215 @@
     <artifactId>rmq-example</artifactId>
     <name>rmq-example</name>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
     <modules>
         <module>inventory-service</module>
         <module>coupon-service</module>
-        <module>goods-service</module>
         <module>order-service</module>
+        <module>integral-service</module>
+        <module>integral-service-api</module>
+        <module>inventory-service-api</module>
+        <module>order-service-api</module>
     </modules>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- maven -->
+        <jdk.version>1.8</jdk.version>
+        <jdk.encoding>UTF-8</jdk.encoding>
+
+        <!--model-->
+        <rmq-account-api.version>1.0</rmq-account-api.version>
+
+        <!--spring boot-->
+        <spring-boot.version>2.6.8</spring-boot.version>
+        <mybatis-spring-boot-starter.version>2.2.2</mybatis-spring-boot-starter.version>
+        <spring-boot-starter-dubbo.version>1.0.0</spring-boot-starter-dubbo.version>
+        <mapper-spring-boot-starter.version>2.1.5</mapper-spring-boot-starter.version>
+        <tk-mybatis-mapper.version>4.1.5</tk-mybatis-mapper.version>
+
+        <!-- main -->
+        <mybatis-generator-core.version>1.3.7</mybatis-generator-core.version>
+        <mybatis-typehandlers.version>1.0.2</mybatis-typehandlers.version>
+        <mysql-connector-java.versioin>8.0.20</mysql-connector-java.versioin>
+        <lombok.versioin>1.18.24</lombok.versioin>
+        <hutool.version>4.5.1</hutool.version>
+
+        <!-- common tools-->
+        <commons-lang3.version>3.4</commons-lang3.version>
+        <swagger.version>2.9.2</swagger.version>
+
+        <!--json-->
+        <jackson.version>2.9.9.2</jackson.version>
+
+        <!--dubbo-->
+        <dubbo.version>2.7.12</dubbo.version>
+
+        <!--guava-->
+        <guava.version>27.0.1-jre</guava.version>
+
+        <!-- plugins -->
+        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+        <maven-jar-plugin.version>2.3.1</maven-jar-plugin.version>
+        <mybatis-generator-maven-plugin.version>1.3.7</mybatis-generator-maven-plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--rmq-->
+            <dependency>
+                <groupId>com.damon.rmq</groupId>
+                <artifactId>rmq-api</artifactId>
+                <version>1.0.1</version>
+            </dependency>
+
+            <!-- Spring Boot依赖配置-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- 参数校验 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-validation</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-spring-boot-starter</artifactId>
+                <version>2.7.11</version>
+            </dependency>
+
+            <!--mysql-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector-java.versioin}</version>
+            </dependency>
+
+            <!-- lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.versioin}</version>
+            </dependency>
+
+            <!--commons-->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <!-- swagger -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <!--guava-->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-clients</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>2.7.8</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.kafka</groupId>
+                <artifactId>kafka-streams</artifactId>
+                <version>3.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-x-discovery</artifactId>
+                <version>5.1.0</version>
+            </dependency>
+            <!-- 实现对 MyBatis Plus 的自动化配置 -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>3.5.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>2.3.31</version>
+            </dependency>
+            <dependency>
+                <groupId>ma.glasnost.orika</groupId>
+                <artifactId>orika-core</artifactId>
+                <version>1.5.4</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profileActive>dev</profileActive>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <encoding>${jdk.encoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
+                <configuration>
+                    <outputDirectory>target</outputDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

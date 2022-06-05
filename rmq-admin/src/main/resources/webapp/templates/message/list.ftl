@@ -4,7 +4,7 @@
             border: false,
             fit: true,
             striped: true,
-            //url: 'message/page',
+            url: 'message/page',
             method: 'get',
             pagination: true,//显示分页
             fitColumns: true,//自动计算列的宽度

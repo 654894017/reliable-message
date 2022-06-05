@@ -7,6 +7,9 @@
         if (searchform.form('validate')) {
             $('#message_datagrid').datagrid({
                 url: 'message/page',
+                pagination: true,//显示分页
+                pageSize: 10,//每页显示几条
+                pageList: [10, 20, 30, 40, 50],//页面设置几条数据
                 queryParams: serializeObject($('#message_searchform'))
             });
         }
