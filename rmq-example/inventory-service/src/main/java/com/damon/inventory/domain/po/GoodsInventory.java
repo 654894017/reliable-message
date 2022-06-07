@@ -1,4 +1,4 @@
-package com.damon.integral.entity;
+package com.damon.inventory.domain.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -18,8 +18,8 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-@TableName("integral_log")
-public class IntegralLog implements Serializable {
+@TableName("goods_inventory")
+public class GoodsInventory implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,17 +28,11 @@ public class IntegralLog implements Serializable {
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
+
     /**
-     * 用户积分
+     * 商品数量
      */
-    private Long orderId;
-
-    private String status;
-
-    private Long integral;
-
-    private Long placeOrderUserId;
-
+    private Long number;
 
 
 }

@@ -1,6 +1,4 @@
-
-
-import com.damon.inventory.application.GoodsInventoryDedcutionDTO;
+import com.damon.inventory.application.OrderGoodsInventoryDedcutionDTO;
 import com.damon.inventory.application.IGoodsInventoryApplicationService;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
@@ -20,13 +18,13 @@ public class InventoryConsumerTest {
         reference.setInterface(IGoodsInventoryApplicationService.class);
         reference.setVersion("1.0");
         IGoodsInventoryApplicationService service = reference.get();
-        GoodsInventoryDedcutionDTO dedcutionDTO = new GoodsInventoryDedcutionDTO();
+        OrderGoodsInventoryDedcutionDTO dedcutionDTO = new OrderGoodsInventoryDedcutionDTO();
         dedcutionDTO.setOrderId(1L);
-        List<GoodsInventoryDedcutionDTO.PlaceOrderGoods> goodsList = new ArrayList<>();
-        GoodsInventoryDedcutionDTO.PlaceOrderGoods goods1 = new GoodsInventoryDedcutionDTO.PlaceOrderGoods();
+        List<OrderGoodsInventoryDedcutionDTO.PlaceOrderGoods> goodsList = new ArrayList<>();
+        OrderGoodsInventoryDedcutionDTO.PlaceOrderGoods goods1 = new OrderGoodsInventoryDedcutionDTO.PlaceOrderGoods();
         goods1.setGoodsId(1L);
         goods1.setNumber(1);
-        GoodsInventoryDedcutionDTO.PlaceOrderGoods goods2 = new GoodsInventoryDedcutionDTO.PlaceOrderGoods();
+        OrderGoodsInventoryDedcutionDTO.PlaceOrderGoods goods2 = new OrderGoodsInventoryDedcutionDTO.PlaceOrderGoods();
         goods2.setGoodsId(2L);
         goods2.setNumber(1);
         goodsList.add(goods1);

@@ -1,7 +1,7 @@
 package com.damon.order.domain.order.service;
 
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.damon.order.domain.order.aggregate.OrderDO;
+import com.damon.order.domain.order.entity.OrderDO;
 import com.damon.order.domain.order.po.Order;
 import com.damon.order.domain.order.po.OrderItem;
 import com.damon.order.infrastructure.utils.BeanMapper;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderDomainService implements IOrderDomainService {

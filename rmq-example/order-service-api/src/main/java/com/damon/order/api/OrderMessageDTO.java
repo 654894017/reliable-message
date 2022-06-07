@@ -13,4 +13,5 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class OrderMessageDTO implements Serializable {
     private Long orderId;
+    private Long givePoints;
 }

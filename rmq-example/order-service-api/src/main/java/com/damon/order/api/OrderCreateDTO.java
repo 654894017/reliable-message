@@ -11,7 +11,7 @@ public class OrderCreateDTO implements Serializable {
     private Long userId;
     private List<OrderItemDTO> items;
     private Long deductionPoints;
-    private Long givePoints;
+    //private Long givePoints;
     @Data
     public static class OrderItemDTO implements Serializable{
         private Long goodsId;

@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan(basePackages = "com.damon.inventory.mapper")
+@MapperScan(basePackages = "com.damon.inventory.domain.mapper")
 public class InventoryServiceApplication {
 
     public static void main(String[] args) {

@@ -20,7 +20,7 @@ public class UserPointsDomainService implements IUserPointsDomainService {
 
     @Override
     @Transactional
-    public boolean deductionIntegral(Long userId, Long points, Long orderId) {
+    public boolean deductionUserPoints(Long userId, Long points, Long orderId) {
 
         UserPointsLog log = new UserPointsLog();
         log.setStatus(COMMITTED);
@@ -50,12 +50,12 @@ public class UserPointsDomainService implements IUserPointsDomainService {
 
     @Override
     @Transactional
-    public boolean rollbackDeductionIntegral(Long orderId) {
+    public boolean rollbackDeductionUserPoints(Long orderId) {
         LambdaQueryWrapper<UserPointsLog> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(UserPointsLog::getOrderId, orderId);
-        UserPointsLog userIntegralLog = userPointsLogService.getOne(queryWrapper);
+        UserPointsLog userPointsLog = userPointsLogService.getOne(queryWrapper);
         //如果不存在日志记录，记录一个回滚日志，防止悬挂，业务幂等使用
-        if (userIntegralLog == null) {
+        if (userPointsLog == null) {
             UserPointsLog log = new UserPointsLog();
             log.setStatus(ROLLBACK);
             log.setOrderId(orderId);
@@ -65,18 +65,18 @@ public class UserPointsDomainService implements IUserPointsDomainService {
             return Boolean.TRUE;
         }
 
-        if (ROLLBACK.equals(userIntegralLog.getStatus())) {
+        if (ROLLBACK.equals(userPointsLog.getStatus())) {
             return Boolean.TRUE;
         } else {
-            userIntegralLog.setStatus(ROLLBACK);
-            userPointsLogService.updateById(userIntegralLog);
+            userPointsLog.setStatus(ROLLBACK);
+            userPointsLogService.updateById(userPointsLog);
         }
 
         //回滚已被抵扣的积分到用户账号
         LambdaQueryWrapper<UserPoints> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(UserPoints::getUserId, userIntegralLog.getPlaceOrderUserId());
+        wrapper.eq(UserPoints::getUserId, userPointsLog.getPlaceOrderUserId());
         UserPoints userPoints = userPointsService.getOne(wrapper);
-        userPoints.setPoints(userPoints.getPoints() + userIntegralLog.getPoints());
+        userPoints.setPoints(userPoints.getPoints() + userPointsLog.getPoints());
         userPointsService.updateById(userPoints);
         return Boolean.TRUE;
     }

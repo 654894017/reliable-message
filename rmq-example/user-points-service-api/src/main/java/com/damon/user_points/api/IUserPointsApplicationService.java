@@ -1,8 +1,9 @@
-package com.damon.user_points.domain.user_points.service;
+package com.damon.user_points.api;
 
-public interface IUserPointsDomainService {
+public interface IUserPointsApplicationService {
 
     boolean deductionUserPoints(Long userId, Long points, Long orderId);
 
     boolean rollbackDeductionUserPoints(Long orderId);
+
 }
