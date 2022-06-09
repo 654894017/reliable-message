@@ -51,45 +51,60 @@ public class OrderApplicationService implements IOrderApplicationService {
         OrderMessageDTO orderMessageDTO = OrderMessageDTO.builder().orderId(orderId).build();
         //发送前置消息
         String messageId = reliableMessageService.createPreMessage(ORDER_QUEUE, JSONObject.toJSONString(orderMessageDTO));
+
         OrderDO orderDO = OrderAssembler.toDO(order);
         OrderGoodsInventoryDedcutionDTO goodsInventoryDedcutionDTO = OrderAssembler.toGoodsInventoryDedcutionDTO(order);
+
+        return CompletableFuture.runAsync(() -> {
+            //1.预创建订单
+            orderDomainService.preCreateOrder(orderDO);
+        }, ORDER_CREATE_THREAD_POOL).thenComposeAsync(__ -> {
+            CompletableFuture<Void> inventoryFuture = CompletableFuture.runAsync(() -> {
+                //2-1.扣减库存
+                inventoryApplicationService.deductionGoodsInventory(goodsInventoryDedcutionDTO);
+            }, ORDER_CREATE_THREAD_POOL);
+            CompletableFuture<Void> pointsFuture = CompletableFuture.runAsync(() -> {
+                //2-2.扣减积分
+                userPointsApplicationService.deductionUserPoints(order.getUserId(), order.getDeductionPoints(), orderId);
+            }, ORDER_CREATE_THREAD_POOL);
+            return CompletableFuture.allOf(inventoryFuture, pointsFuture);
+        }, ORDER_CREATE_THREAD_POOL).thenAcceptAsync(__ -> {
+            //3.更新订单状态创建成功
+            orderDomainService.updateOrderStatusToSucceeded(orderId);
+        }, ORDER_CREATE_THREAD_POOL).exceptionally(ex -> {
+            //异常执行业务回滚
+            log.error("用户:{},下单失败, 订单id：{}", order.getUserId(), order.getOrderId(), ex);
+            //2-A.回滚业务
+            asyncRollback(orderId, messageId);
+            throw new RuntimeException("用户下单失败，用户ID：" + order.getUserId() + "，订单ID：" + order.getOrderId(), ex);
+        }).thenApplyAsync(__ -> {
+            //4.异步确认订单消息
+            asyncConfirmOrderMessage(messageId);
+            return orderId;
+        }).join();
+    }
+
+    /**
+     * 异步回滚订单管理的业务数据
+     *
+     * @param orderId
+     * @param messageId
+     */
+    private void asyncRollback(Long orderId, String messageId) {
         try {
             CompletableFuture.runAsync(() -> {
-                //1.预创建订单
-                orderDomainService.preCreateOrder(orderDO);
-            }, ORDER_CREATE_THREAD_POOL).thenComposeAsync(__ -> {
-                CompletableFuture<Void> inventoryFuture = CompletableFuture.runAsync(() -> {
-                    //2-1.扣减库存
-                    inventoryApplicationService.deductionGoodsInventory(goodsInventoryDedcutionDTO);
-                }, ORDER_CREATE_THREAD_POOL);
-                CompletableFuture<Void> pointsFuture = CompletableFuture.runAsync(() -> {
-                    //2-2.扣减积分
-                    userPointsApplicationService.deductionUserPoints(order.getUserId(), order.getDeductionPoints(), orderId);
-                }, ORDER_CREATE_THREAD_POOL);
-                return CompletableFuture.allOf(inventoryFuture, pointsFuture);
-            }, ORDER_CREATE_THREAD_POOL).thenAcceptAsync(__ -> {
-                //3.更新订单状态创建成功
-                orderDomainService.updateOrderStatusToSucceeded(orderId);
-            }, ORDER_CREATE_THREAD_POOL).join();
-
-            CompletableFuture.runAsync(() -> {
-                //4.异步调用RMQ，确认发送消息(如果是当做分布式事务框架使用，不需要对外发送消息，则不需要进行消息confirm操作，直接调用deleteMessage删除事务消息即可)
-                reliableMessageService.confirmAndSendMessage(ORDER_QUEUE, messageId);
-            }, ORDER_CREATE_THREAD_POOL);
-            return orderId;
-        } catch (Throwable e) {
-            log.error("用户:{},下单失败, 订单id：{}", order.getUserId(), order.getOrderId(), e);
-            return CompletableFuture.supplyAsync(() -> {
                 rollabck(orderId);
                 // 失败回滚数据，并删除预发送的消息
                 reliableMessageService.deleteMessage(ORDER_QUEUE, messageId);
-                return orderId;
-            }, ORDER_CREATE_THREAD_POOL).join();
+            });
+        } catch (Exception e) {
+            log.error("回滚订单业务，订单ID:{}，队列:{}，消息ID:{}", orderId, ORDER_QUEUE, messageId, e);
         }
     }
 
     /**
      * 回滚下单资源
+     *
      * @param orderId
      */
     private void rollabck(Long orderId) {
@@ -100,6 +115,24 @@ public class OrderApplicationService implements IOrderApplicationService {
         //更新订单状态创建失败
         orderDomainService.updateOrderStatusToFailed(orderId);
     }
+
+
+    /**
+     * 异步确认订单消息
+     *
+     * @param messageId
+     */
+    private void asyncConfirmOrderMessage(String messageId) {
+        try {
+            CompletableFuture.runAsync(() -> {
+                //4.异步调用RMQ，确认发送消息(如果是当做分布式事务框架使用，不需要对外发送消息，则不需要进行消息confirm操作，直接调用deleteMessage删除事务消息即可)
+                reliableMessageService.confirmAndSendMessage(ORDER_QUEUE, messageId);
+            }, ORDER_CREATE_THREAD_POOL);
+        } catch (Exception e) {
+            log.error("确认订单事务消息失败，队列:{}, 消息ID:{}", ORDER_QUEUE, messageId, e);
+        }
+    }
+
 
     @Override
     public Integer callbackCheckOrderStatus(Long orderId) {

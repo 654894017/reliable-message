@@ -20,9 +20,7 @@ public class OrderConsumerTest {
         reference.setRetries(-1);
         IOrderApplicationService service = reference.get();
         OrderCreateDTO orderCreateDTO = new OrderCreateDTO();
-        orderCreateDTO.setOrderId(2L);
         orderCreateDTO.setDeductionPoints(10L);
-        //orderCreateDTO.setGivePoints(5L);
         orderCreateDTO.setUserId(2L);
 
         OrderCreateDTO.OrderItemDTO orderItemDTO = new OrderCreateDTO.OrderItemDTO();
